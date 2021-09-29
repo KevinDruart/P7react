@@ -54,6 +54,15 @@
     transform: scale(1.1);
   }
 
+  .linkLogin {
+    color: #fa4299;
+    text-decoration: none;
+  }
+
+  .linkLogin:hover {
+    color: #a445b2;
+  }
+
   .inscription, .login {
       background:-webkit-linear-gradient(left, #a445b2, #fa4299);
       height: calc(100vh - 70px);

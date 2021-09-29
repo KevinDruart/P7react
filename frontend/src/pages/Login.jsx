@@ -24,7 +24,7 @@ const Login = () => {
                         <input type="password" class="form-control" id="floatingPassword" placeholder="Mot de passe" />
 
                     </div>
-                    <p>Vous n'êtes pas encore membre? <span> Inscrivez vous</span></p>
+                    <p>Vous n'êtes pas encore membre? <a href="#" className={[Classes.linkLogin]}> Inscrivez vous</a></p>
 
                     <button className={["btn btn-lg", Classes.submit].join(' ')} type="submit">Me Connecter</button>
                 </form>
