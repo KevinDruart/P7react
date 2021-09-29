@@ -1,9 +1,10 @@
 import React from 'react';
 import Logo from '../../images/groupomania.png';
+import Classes from './header.module.css';
 
 const Header = () => {
     return (
-        <header class="p-3 mb-3 border-bottom no-gutters">
+        <header class={["p-3 mb-3 border-bottom no-gutters", Classes.header].join(' ')}>
         <div class="container">
             <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
                 <a href="#" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
