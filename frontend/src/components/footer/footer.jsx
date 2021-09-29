@@ -1,12 +1,14 @@
-import React from 'react'
-import './footer.scss';
+import React from 'react';
+import  Classes  from './footer.module.css';
 
-export default function Footer() {
+const Footer = () => {
     return (
-        <footer className="footer">
+        <footer className={[Classes.footer]}>
 
             <div className="copyright"> Groupomania ©2021 - All right reserved.</div>
 
         </footer>
-    )
-}
+    );
+};
+
+export default Footer;
