@@ -1,31 +1,39 @@
 import React from 'react';
 import Header from '../components/Header/Header';
-
+import Classes from './login/login.module.css';
 
 const Inscription = () => {
     return (
-        <div className="inscritpion">
+        <div className={[Classes.inscription]}>
             <Header />
-            <h1>Inscription</h1>
-            <form>
-                <div className="form-group">
-                    <label>Nom</label>
-                    <input type="text" className="form-control" placeholder="Nom" />
-                </div>
-                <div className="form-group">
-                    <label>Prenom</label>
-                    <input type="text" className="form-control" placeholder="Prènom" />
-                </div>
-                <div className="form-group">
-                    <label>adresse email</label>
-                    <input type="email" className="form-control" placeholder="adresse email" />
-                </div>
-                <div className="form-group">
-                    <label>Mot de passe</label>
-                    <input type="password" className="form-control" placeholder="mot de passe" />
-                </div>
-                <button>m'inscrire</button>
-            </form>
+
+            <main class={[Classes.form_signin]}>
+
+                <form className={[Classes.formLogin]}>
+                    <h1 className={["h3 mb-3 fw-normal", Classes.title].join(' ')}>Inscription</h1>
+                    <div class={[Classes.form_floating]}>
+                        <label for="floatingNameInput">Nom</label>
+                        <input type="text" class="form-control" id="floatingNameInput" placeholder="Nom" />
+
+                    </div>
+                    <div class={[Classes.form_floating]}>
+                        <label for="floatingFirstnameInput">Prénom</label>
+                        <input type="text" class="form-control" id="floatingFirstnameInput" placeholder="Prénom" />
+
+                    </div>
+                    <div class={[Classes.form_floating]}>
+                        <label for="floatingInput">Adresse email</label>
+                        <input type="email" class="form-control" id="floatingInput" placeholder="email@groupomania.fr" />
+
+                    </div>
+                    <div class={[Classes.form_floating]}>
+                        <label for="floatingInput">Mot de passe</label>
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Mot de passe" />
+
+                    </div>
+                    <button className={["btn btn-lg", Classes.submit].join(' ')} type="submit">m'inscrire</button>
+                </form>
+            </main>
         </div>
     );
 };
