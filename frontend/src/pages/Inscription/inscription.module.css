@@ -1,0 +1,70 @@
+.form_signin {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 80%;
+    text-align: center;
+  }
+
+.title {
+    font-family: 'Lobster', cursive;
+}
+  
+  .form_signin .checkbox {
+    font-weight: 400;
+  }
+  
+  .form_signin .form_floating:focus-within {
+    z-index: 2;
+  }
+  
+  .form_signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  
+  .form_signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .formLogin {
+
+        background-color: #fff;
+        padding: 10%;
+        BORDER: 1px solid grey;
+        border-radius: 10px;
+
+  }
+
+  .submit {
+      background: -webkit-linear-gradient(left, #a445b2, #fa4299);
+      color: #fff;
+  }
+
+  .submit:hover {
+    background: -webkit-linear-gradient(right, #a445b2, #fa4299);
+    color: #fff;
+    transform: scale(1.1);
+  }
+
+  .linkLogin {
+    color: #fa4299;
+    text-decoration: none;
+  }
+
+  .linkLogin:hover {
+    color: #a445b2;
+  }
+
+  .inscription, .login {
+      background:-webkit-linear-gradient(left, #a445b2, #fa4299);
+      height: calc(100vh - 70px);
+  }
+  
