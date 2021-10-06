@@ -1,6 +1,7 @@
 import React from 'react';
-import Classes from './login/login.module.css';
-import Header from '../components/Header/Header';
+import { NavLink } from 'react-router-dom';
+import Classes from './login.module.css';
+
 
 
 const Login = () => {
@@ -8,7 +9,7 @@ const Login = () => {
 
 
         <div className={[Classes.login]}>
-            <Header />
+     
             <main className={[Classes.form_signin]}>
                 <form className={[Classes.formLogin]}>
 
@@ -16,15 +17,15 @@ const Login = () => {
 
                     <div className={[Classes.form_floating]}>
                         <label for="floatingInput">Adresse email</label>
-                        <input type="email" class="form-control" id="floatingInput" placeholder="email@groupomania.fr" />
+                        <input type="email" className="form-control" id="floatingInput" placeholder="email@groupomania.fr" />
 
                     </div>
                     <div className={[Classes.form_floating]}>
                         <label for="floatingPassword">Mot de passe</label>
-                        <input type="password" class="form-control" id="floatingPassword" placeholder="Mot de passe" />
+                        <input type="password" className="form-control" id="floatingPassword" placeholder="Mot de passe" />
 
                     </div>
-                    <p>Vous n'êtes pas encore membre? <a href="#" className={[Classes.linkLogin]}> Inscrivez vous</a></p>
+                    <p>Vous n'êtes pas encore membre? <NavLink to="s-inscrire" exact className={[Classes.linkLogin]}> Inscrivez vous</NavLink></p>
 
                     <button className={["btn btn-lg", Classes.submit].join(' ')} type="submit">Me Connecter</button>
                 </form>
