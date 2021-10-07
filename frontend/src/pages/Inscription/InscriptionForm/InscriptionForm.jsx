@@ -107,24 +107,21 @@ export default withFormik({
     handleSubmit: (values, { props }) => {
         console.log(values);
 
-
-
-
-        axios.post(`http://localhost:3000/api/auth/signup`, {
-            firstName: values.prenom,
+        axios.post('http://localhost:3000/api/auth/signup', {
             name: values.nom,
+            firstName: values.prenom,
             email: values.email,
             password: values.password
         })
             .then(function (response) {
-                console.log(response);
+if (response.status === 200) {
+    console.log('Inscription reussi');
+}
 
             })
             .catch(function (error) {
                 console.log(error);
             });
-
-
 
     }
 })(Inscription);

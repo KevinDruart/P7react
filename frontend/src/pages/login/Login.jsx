@@ -1,38 +1,99 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import Classes from './login.module.css';
+
+import { withFormik } from 'formik';
+import * as Yup from "yup";
+import axios from "axios";
+
+
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Badge from "react-bootstrap/Badge";
+
+import { Route } from 'react-router';
+import Home from '../home/Home';
 
 
 
-const Login = () => {
+
+const Connexion = (props) => {
     return (
+        <div className="container">
+            <Form className="mt-5 d-flex flex-column content-center">
 
+                <Form.Group controlId="mail">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                        type="email"
+                        placeholder="Votre Email"
+                        name="email"
+                        onChange={props.handleChange}
+                        value={props.values.email}
+                        onBlur={props.handleBlur}
+                    />
+                    {
+                        props.touched.email && props.errors.email && <span style={{ color: "red" }}>{props.errors.email}</span>
+                    }
+                </Form.Group>
+                <Form.Group controlId="password">
+                    <Form.Label>Votre mot de passe</Form.Label><Badge variant="warning">(le mot de passe doit contenir:)</Badge>
+                    <Form.Control
+                        type="password"
+                        placeholder="Mot de passe"
+                        name="password"
+                        onChange={props.handleChange}
+                        value={props.values.password}
+                        onBlur={props.handleBlur}
+                    />
+                    {
+                        props.touched.password && props.errors.password && <span style={{ color: "red" }}>{props.errors.password}</span>
+                    }
+                </Form.Group>
+                <Button variant="primary" onClick={props.handleSubmit}>
+                    Valider
+                </Button>
+            </Form>
 
-        <div className={[Classes.login]}>
-     
-            <main className={[Classes.form_signin]}>
-                <form className={[Classes.formLogin]}>
-
-                    <h1 className={["h3 mb-3 fw-normal", Classes.title].join(' ')} >Connexion</h1>
-
-                    <div className={[Classes.form_floating]}>
-                        <label for="floatingInput">Adresse email</label>
-                        <input type="email" className="form-control" id="floatingInput" placeholder="email@groupomania.fr" />
-
-                    </div>
-                    <div className={[Classes.form_floating]}>
-                        <label for="floatingPassword">Mot de passe</label>
-                        <input type="password" className="form-control" id="floatingPassword" placeholder="Mot de passe" />
-
-                    </div>
-                    <p>Vous n'êtes pas encore membre? <NavLink to="s-inscrire" exact className={[Classes.linkLogin]}> Inscrivez vous</NavLink></p>
-
-                    <button className={["btn btn-lg", Classes.submit].join(' ')} type="submit">Me Connecter</button>
-                </form>
-            </main>
-        </div >
-
+        </div>
     );
 };
 
-export default Login;
+export default withFormik({
+    mapPropsToValues: () => ({
+        email: "",
+        password: ""
+    }),
+    validationSchema: Yup.object().shape({
+        email: Yup.string()
+            .email("L'email n'a pas le bon format")
+            .matches(/^[\w-ç\.]+@groupomania\.fr$/)
+            .required("L'email est obligatoire !"),
+        password: Yup.string()
+            .min(8, "Le message doit faire plus de 8 caractères")
+            .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)
+            .required("Le mot de passe est obligatoire !")
+    }),
+    handleSubmit: (values, { props }) => {
+        console.log(values);
+
+        axios.post('http://localhost:3000/api/auth/login', {
+
+            email: values.email,
+            password: values.password
+        })
+            .then(function (response) {
+                console.log(response);
+                if (response.status === 200) {
+                    <Route path="/home" exact component={Home} />
+                    console.log('vous etes connecter');
+                }
+                else {
+                    console.log('connexion impossible');
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
+})(Connexion);
