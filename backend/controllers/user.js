@@ -11,6 +11,19 @@ const bcrypt = require('bcrypt');
 //maskage email
 const maskData = require('../node_modules/maskdata/index');
 
+/*TEST */
+
+exports.test = (req, res, next) => {
+  console.log(req.body);
+}
+
+/*
+exports.signup = (req, res, next) => {
+  console.log(req.body);
+}*/
+
+
+
 /*-----------------------------------------SIGNUP--------------------------------------------*/
 // INSCRIPTION D'UN UTILISATEUR avec hashage MDP (BCRYPT) et maskage email(maskdata)
 // Promise
@@ -26,6 +39,8 @@ exports.signup = (req, res, next) => {
     maskAtTheRate: false
   };
 
+  console.log(req.body);
+
   //on recupére l'email présent dans le body
   let email = req.body.email;
 
@@ -33,41 +48,50 @@ exports.signup = (req, res, next) => {
   //nom
   let name = req.body.name;
   //prénom
-  let firstName = req.body.firstname;
+  let firstName = req.body.firstName;
   //mot de passe
   let password = req.body.password;
   //masquage email 
   let emailMasked = maskData.maskEmail2(req.body.email, emailMask2Options);
+
+  console.log(req.body.name + 'test signup1');
 
   //On attribue un nombre de tour au hashage et ou salage
   const saltRounds = 10;
 
   // On appelle la méthode hash de bcrypt
   bcrypt.hash(password, saltRounds, (error, hash) => {
+    console.log('je suis ici');
     //Verification récupération des données
-    
+
     //On vérifie si cet adresse email est deja enregistrer dans la BDD
     userModel.isExist(email)
       .then(resultat => {
+        console.log('recherche existant')
         if (resultat.nb > 0) {
+          console.log('deja existant')
           return res.status(400).json({
             error: "adresse email deja enregistré"
           });
         }
+        console.log('direction creation')
+        console.log(name + ' '+ firstName+ ' '+email + ' '+ hash );
         userModel.create(name, firstName, emailMasked, email, hash)
           .then(resultat => {
+            console.log('creation')
             return res.status(200).json({
               message: resultat
             });
           })
           .catch(error => {
+            console.log('catch1')
             return res.status(400).json({
               message: error
             });
           });
       })
       .catch(error => {
-        console.log(error);
+        console.log('catch2');
         return res.status(400).json({
           error: "Une erreur est survenue."
         });
