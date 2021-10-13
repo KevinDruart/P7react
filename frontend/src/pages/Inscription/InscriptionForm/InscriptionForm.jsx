@@ -114,9 +114,9 @@ export default withFormik({
             password: values.password
         })
             .then(function (response) {
-if (response.status === 200) {
-    console.log('Inscription reussi');
-}
+                if (response.status === 200) {
+                    console.log('Inscription reussi');
+                }
 
             })
             .catch(function (error) {
