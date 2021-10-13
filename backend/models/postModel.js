@@ -45,7 +45,7 @@ exports.getPosts = () => {
                 if (result === undefined) {
                     reject(`Affichage des posts impossible.`);
                 } else {
-                    resolve(`voici les posts`);
+                    resolve(result);
                 };
             });
         } catch (error) {

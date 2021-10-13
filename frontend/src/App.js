@@ -6,6 +6,7 @@ import Inscription from './pages/Inscription/Inscription';
 import Login from './pages/login/Login';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
+import Home from './pages/home/Home';
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" exact component={Index} />
           <Route path="/se-connecter" exact component={Login} />
           <Route path="/s-inscrire"  render={(props) => <Inscription {...props}/>} />
+          <Route path="/home" exact component={Home} />
           <Route component={Error404} />
         </Switch>
       </BrowserRouter>
