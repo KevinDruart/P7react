@@ -1,12 +1,12 @@
 import React from 'react';
-import Navigation from './Navigation/Navigation';
 import Classes from './header.module.css';
+import NavBar from './Navigation/NavBar';
 
 const Header = () => {
     return (
-        <header className={["mb-3 border-bottom no-gutters", Classes.header].join(' ')}>
-            <div className="container">
-                <Navigation />
+        <header className={["border-bottom no-gutters fixed-top", Classes.header].join(' ')}>
+            <div className={["container", Classes.containerHeader].join(' ')}>
+                <NavBar />
             </div>
         </header>
     );

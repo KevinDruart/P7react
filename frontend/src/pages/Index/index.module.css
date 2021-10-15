@@ -1,8 +1,39 @@
-.btnGroupomania {
+.index {
+    margin-top: 70px;
+}
+
+.title {
+    color:white;
+}
+
+.describe {
+    color:#ddd
+}
+
+.btnLogin {
     background-color: #fc2704;
+    color: white;
+}
+
+.btnLogin:hover {
+    background-color: #fc9984;
+    color: white;
+}
+
+.btnSignup {
+    background-color: white;
+    color: #fc2704;
+}
+
+.btnSignup:hover {
+    background-color: #fc9984;
     color: white;
 }
 
 .communication {
     margin-bottom: 5%;
+}
+
+.img {
+    margin-bottom: 1.1rem;
 }

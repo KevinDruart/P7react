@@ -38,7 +38,7 @@ exports.updatePost = (title, message, image) => {
 
 //chercher les post
 exports.getPosts = () => {
-    const sql = 'SELECT * FROM post';
+    const sql = 'SELECT numPost, title, content, image, time_post, firstname, name, id FROM post INNER JOIN user ON post.user_id = user.id ORDER BY time_post DESC';
     return new Promise((resolve, reject) => {
         try {
             db.query(sql, (error, result, fields) => {

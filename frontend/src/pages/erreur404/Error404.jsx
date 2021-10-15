@@ -1,13 +1,13 @@
 import React from 'react';
 import Header from '../../components/Header/Header';
+import classes from './erreur404.module.css';
 
 const Error404 = () => {
     return (
-        <div className="error404">
+        <div className={classes.erreur404}>
             <Header />
 
-            <h1>404 not found</h1>
-            <h2>Page introuvable</h2>
+            <img src="./images/erreur404.png"/>
         </div>
     );
 };

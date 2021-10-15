@@ -1,15 +1,14 @@
 import React from "react";
-import LoginForm from "./LoginForm";
+import SignupForm from "./SignupForm";
 import classes from "../StylesForm/form.module.css"
 
 
-
-const Login = (props) => (
+const Signup = (props) => (
     <div className={classes.formContainer}>
         <div className={classes.container}>
-            <h2 className={["text-center", classes.form_title].join(' ')}>Se connecter</h2>
+            <h2 className={["text-center", classes.form_title].join(' ')}>S'inscrire</h2>
             <div className="d-flex flex-column">
-                <LoginForm />
+                <SignupForm />
                 <div className={classes.drop1}></div>
                 <div className={classes.drop2}></div>
                 <div className={classes.drop3}></div>
@@ -19,4 +18,4 @@ const Login = (props) => (
     </div>
 );
 
-export default Login;
+export default Signup;
