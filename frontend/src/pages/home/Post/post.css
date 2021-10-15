@@ -1,8 +1,6 @@
  /*body*/
 
- body {
-  background: -webkit-linear-gradient(left, #a445b2, #fa4299);
-}
+
  
  /* avatar */
  .user__avatar {
@@ -105,19 +103,26 @@
     margin-right: 10px;
   }
   
+  .post__topInfo {
+    line-height: 0.5;
+  }
   .post__topInfo h3 {
     font-size: medium;
   }
   
   .post__topInfo p {
-    font-size: small;
     color: gray;
+  }
+
+  .post__topInfo_time {
+    font-size: 0.7em;
   }
   
   .post__bottom {
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 15px 25px;
+    text-align: center;
   }
   
   .post__options {

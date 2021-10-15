@@ -1,0 +1,26 @@
+.linkLogo {
+    width: 70%;
+}
+
+.logo {
+    width: 100%;
+}
+
+.menu {
+    background-color: white;
+    width: 800px;
+}
+
+
+
+.link:hover {
+    border-bottom: 2px solid #3f5efb;
+}
+
+
+/*MEDIA QUERIES*/
+@media screen and (min-width: 992px) {
+    .logo {
+        width: 80%;
+    }
+  }
