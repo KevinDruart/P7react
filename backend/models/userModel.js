@@ -19,11 +19,11 @@ exports.isExist = (email) => {
 };
 
 //recherche si un membre existe avec un id
-exports.isExistId = (id) => {
+exports.isExistId = (userId) => {
     const sql = 'SELECT count(*) as nb FROM user WHERE id = ?';
     return new Promise((resolve, reject) => {
         try {
-            db.query(sql, [id], (error, result, fields) => {
+            db.query(sql, [userId], (error, result, fields) => {
                 if (result === undefined || result === "") {
                     reject("Erreur Sql");
                 } else {

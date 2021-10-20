@@ -20,12 +20,15 @@ const NavBarOnline = () => {
                 <Navbar.Collapse id="basic-navbar-nav" className={classes.menu}>
                     <Nav className="mr-auto d-flex flex-column justify-content-center align-items-center">
                         <i className="fas fa-cogs"></i>
-                        <NavDropdown title="Parametre" id="basic-nav-dropdown">
-                            <LinkContainer exact to="home/profile">
+                        <NavDropdown title="Menu" id="basic-nav-dropdown">
+                        <LinkContainer exact to="home">
+                                <NavDropdown.Item>Accueil</NavDropdown.Item>
+                            </LinkContainer>
+                            <LinkContainer exact to="/profile">
                                 <NavDropdown.Item>Mon profil</NavDropdown.Item>
                             </LinkContainer>
                             <NavDropdown.Divider />
-                            <LinkContainer exact to="home/logout">
+                            <LinkContainer exact to="/logout">
                                 <NavDropdown.Item>Me déconnecter</NavDropdown.Item>
                             </LinkContainer>
                         </NavDropdown>

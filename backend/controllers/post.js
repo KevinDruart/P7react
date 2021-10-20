@@ -12,31 +12,36 @@ const mysql = require('mysql');
 
 /*------------------------------------CREATE POST------------------------------------- */
 exports.addPost = (req, res, next) => {
-  let id = req.body.userId;
-  userModel.isExistId(id)
-    .then(resultat => {
-      if (resultat.nb = 0) {
-        return res.status(400).json({
-          error: "Vous devez etre connecter pour poster"
-        });
-      }
-      postModel.createPost(userId, dateTime, title, message, image)
+  console.log(req.body);
 
-        .then(resultat => {
-          return res.status(200).json({
-            message: resultat
+  const postObject = JSON.parse(req.body.post);
+
+  const post = new postModel({
+    ...postObject,
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+  });
+
+  userModel.findOneById(userId)
+    .then(resultat => {
+      if (resultat.nb > 0) {
+        console.log('ok utilisateur')
+        postModel.createPost(post.userId, post.title, post.message, post.image)
+          .then(resultat => {
+            console.log('creation')
+            return res.status(200).json({
+              message: resultat
+            });
+          })
+          .catch(error => {
+            console.log('erreur post catch')
+            return res.status(400).json({
+              message: error
+            });
           });
-        })
-        .catch(error => {
-          return res.status(400).json({
-            message: error
-          });
-        });
+      }
     })
-    .catch(error => {
-      console.log(error);
-      return res.status(400).json({ error: "Une erreur est survenue." });
-    });
+
+
 };
 
 

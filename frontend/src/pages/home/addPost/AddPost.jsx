@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import classes from '../../StylesForm/form.module.css';
+import LoginContext from '../../../contextes/LoginContext';
 
 const validate = values => {
     const errors = {};
@@ -17,12 +18,8 @@ const validate = values => {
 };
 
 const AddPost = () => {
-    const userOnline = JSON.parse(localStorage.getItem("user"));
-    const UId = userOnline.userId;
-    const [userSession, setUserSession] = useState([]);
 
-    console.log(userOnline);
-
+    const { userId } = useContext(LoginContext);
 
     const formik = useFormik({
         initialValues: {
@@ -33,14 +30,21 @@ const AddPost = () => {
         validate,
 
         onSubmit: values => {
-            console.log(values+ " " +UId);
+            console.log(userId);
+            console.log(values);
             axios.post('http://localhost:3000/api/messages', {
-                userId: UId,
+                userId: userId,
                 title: values.addPostTitle,
                 message: values.addPostContent,
-
             })
+                .then(function (response) {
 
+                    console.log(response);
+
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         },
     });
     return (
