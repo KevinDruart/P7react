@@ -90,7 +90,6 @@ const AddPost = () => {
                         type="file"
                         id="myFile"
                         name="filename"
-
                     />
                     <button type="submit" className={classes.input}>
                         <i className="far fa-share-square"></i>
