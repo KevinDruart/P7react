@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from "react-router-dom";
 import { useFormik } from 'formik';
 import axios from 'axios';
 import classes from '../StylesForm/form.module.css';
@@ -24,6 +25,13 @@ const LoginForm = () => {
 
     const [userSession, setUserSession] = useState([]);
 
+
+    let history = useHistory();
+
+    const handleClick = () => {
+        history.push("/home");
+    }
+
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -43,7 +51,8 @@ const LoginForm = () => {
                         console.log('connexion reussi');
                         if (response.data.token) {
                             localStorage.setItem("user", JSON.stringify(response.data));
-                          }
+                            handleClick()
+                        }
                     }
                 })
                 .catch(function (error) {

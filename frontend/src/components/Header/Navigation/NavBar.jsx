@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { LinkContainer } from "react-router-bootstrap";
 import classes from "./navbar.module.css";
+import { set } from 'react-hook-form';
 
-const navBar = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const token = user.token;
+const NavBar = () => {
+    const userOnline = JSON.parse(localStorage.getItem("user"));
 
-    if (token === null || token === undefined) {
+    const [user, setUser] = useState([]);
+
+
+    useEffect(() => {
+        setUser(userOnline);
+    }, [])
+    
+    
+
+    if (user === null || user === undefined) {
         return (
             <div className="navigation d-flex align-items-center justify-content-center justify-content-lg-start">
                 <Navbar expand="lg">
@@ -53,7 +62,7 @@ const navBar = () => {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav" className={classes.menu}>
                         <Nav className="mr-auto d-flex flex-column justify-content-center align-items-center">
-                            <i class="fas fa-cogs"></i>
+                            <i className="fas fa-cogs"></i>
                             <NavDropdown title="Parametre" id="basic-nav-dropdown">
                                 <LinkContainer exact to="home/profile">
                                     <NavDropdown.Item>Mon profil</NavDropdown.Item>
@@ -74,4 +83,4 @@ const navBar = () => {
 
 
 }
-export default navBar;
+export default NavBar;
