@@ -1,4 +1,5 @@
 import './App.css';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Switch, Route, } from 'react-router-dom'
 import Index from './pages/Index/Index';
 import Error404 from './pages/erreur404/Error404';
@@ -14,11 +15,18 @@ import Login from './pages/login/Login';
 
 function App() {
 
-  const user = JSON.parse(localStorage.getItem("user")) ;
-  const token =  user.token;
+  const userOnline = JSON.parse(localStorage.getItem("user"));
 
+  const [user, setUser] = useState([]);
+console.log(user);
 
-  if (token === null || token === undefined) {
+  useEffect(() => {
+      setUser(userOnline);
+  }, [])
+  
+  
+
+  if (user === null || user === undefined) {
     return (
       <>
         <BrowserRouter>
