@@ -3,7 +3,7 @@ const fs = require('fs');
 
 //connexion a la bdd
 const db = require('../connect/dbConnect.js');
-
+const userModel = require('../models/userModel.js');
 //import postModel
 const postModel = require('../models/postModel.js');
 
@@ -21,6 +21,7 @@ exports.addPost = (req, res, next) => {
         });
       }
       postModel.createPost(userId, dateTime, title, message, image)
+
         .then(resultat => {
           return res.status(200).json({
             message: resultat

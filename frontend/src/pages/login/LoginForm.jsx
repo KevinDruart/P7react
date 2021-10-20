@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { useHistory } from "react-router-dom";
+import React, { useContext } from 'react';
+import { useHistory } from "react-router";
 import { useFormik } from 'formik';
 import axios from 'axios';
 import classes from '../StylesForm/form.module.css';
+
+import LoginContext from '../../contextes/LoginContext';
 
 const validate = values => {
     const errors = {};
@@ -23,14 +25,9 @@ const validate = values => {
 
 const LoginForm = () => {
 
-    const [userSession, setUserSession] = useState([]);
+    const { setIsAuthentificated, setUserId } = useContext(LoginContext);
 
-
-    let history = useHistory();
-
-    const handleClick = () => {
-        history.push("/home");
-    }
+    const history = useHistory();
 
     const formik = useFormik({
         initialValues: {
@@ -49,9 +46,12 @@ const LoginForm = () => {
                     if (response.status === 200) {
                         console.log(response);
                         console.log('connexion reussi');
-                        if (response.data.token) {
-                            localStorage.setItem("user", JSON.stringify(response.data));
-                            handleClick()
+                        if (response.data) {
+                            localStorage.setItem("authToken", JSON.stringify(response.data.token));
+                            localStorage.setItem("authId", JSON.stringify(response.data.userId));
+                            setIsAuthentificated(true);
+                            setUserId(response.data.userId);
+                            history.push("/home");
                         }
                     }
                 })

@@ -28,7 +28,6 @@ const validate = values => {
     } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/i.test(values.password)) {
         errors.password = "Le mot de passe doit contenir une majuscule, une minuscule, 1 chiffre au minimum et avoir 8 caractere minimum";
     }
-
     return errors;
 };
 
@@ -55,7 +54,6 @@ const SignupForm = () => {
                     if (response.status === 200) {
                         console.log(response);
                         console.log('inscription reussi');
-
                     }
                 })
                 .catch(function (error) {
@@ -129,6 +127,5 @@ const SignupForm = () => {
         </form>
     );
 };
-
 
 export default SignupForm;

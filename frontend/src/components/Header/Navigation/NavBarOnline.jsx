@@ -1,11 +1,11 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import { LinkContainer } from "react-router-bootstrap";
 import classes from "./navbar.module.css";
 
-
-const NavBar = () => {
+const NavBarOnline = () => {
 
     return (
         <div className="navigation d-flex align-items-center justify-content-center justify-content-lg-start">
@@ -18,24 +18,22 @@ const NavBar = () => {
                 </LinkContainer>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className={classes.menu}>
-                    <Nav className="mr-auto">
-                        <LinkContainer exact to="signup" className="d-flex flex-column align-items-center">
-                            <Nav.Link className={classes.link}>
-                                <i className="fas fa-user-plus"></i>
-                                M'inscrire
-                            </Nav.Link>
-                        </LinkContainer>
-                        <LinkContainer exact to="login" className="d-flex flex-column align-items-center">
-                            <Nav.Link className={classes.link}>
-                                <i className="fas fa-sign-in-alt"></i>
-                                Me Connecter
-                            </Nav.Link>
-                        </LinkContainer>
+                    <Nav className="mr-auto d-flex flex-column justify-content-center align-items-center">
+                        <i className="fas fa-cogs"></i>
+                        <NavDropdown title="Parametre" id="basic-nav-dropdown">
+                            <LinkContainer exact to="home/profile">
+                                <NavDropdown.Item>Mon profil</NavDropdown.Item>
+                            </LinkContainer>
+                            <NavDropdown.Divider />
+                            <LinkContainer exact to="home/logout">
+                                <NavDropdown.Item>Me déconnecter</NavDropdown.Item>
+                            </LinkContainer>
+                        </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
         </div>
     );
-
 }
-export default NavBar;
+
+export default NavBarOnline;

@@ -2,7 +2,6 @@ import React from "react";
 import SignupForm from "./SignupForm";
 import classes from "../StylesForm/form.module.css"
 
-
 const Signup = (props) => (
     <div className={classes.formContainer}>
         <div className={classes.container}>

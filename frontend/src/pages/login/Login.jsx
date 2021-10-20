@@ -2,8 +2,6 @@ import React from "react";
 import LoginForm from "./LoginForm";
 import classes from "../StylesForm/form.module.css"
 
-
-
 const Login = (props) => (
     <div className={classes.formContainer}>
         <div className={classes.container}>
