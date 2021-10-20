@@ -5,7 +5,7 @@ exports.createPost = (userId, title, message, image) => {
     const sql = 'INSERT INTO post(user_id, title, content, image) VALUES(?,?,?,?)';
     return new Promise((resolve, reject) => {
         try {
-            db.query(sql, [userId, title, message, image], (error, result, fields) => {
+            db.query(sql, [userId, title, content, image], (error, result, fields) => {
                 console.log(db.query);
                 if (result === undefined) {
                     reject(`Impossible de créer un nouveau post.`);
@@ -21,20 +21,7 @@ exports.createPost = (userId, title, message, image) => {
 
 //modifier un post
 exports.updatePost = (title, message, image) => {
-    const sql = 'UPDATE INTO post( title, content, image) VALUES(?,?,?)';
-    return new Promise((resolve, reject) => {
-        try {
-            db.query(sql, [title, message, image], (error, result, fields) => {
-                if (result === undefined) {
-                    reject(`Impossible de modifier le post.`);
-                } else {
-                    resolve(`post modifié`);
-                };
-            });
-        } catch (error) {
-            reject(error);
-        };
-    });
+  console.log("route modif post")
 };
 
 //chercher les post
