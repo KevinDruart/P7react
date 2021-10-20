@@ -12,21 +12,29 @@ const mysql = require('mysql');
 
 /*------------------------------------CREATE POST------------------------------------- */
 exports.addPost = (req, res, next) => {
-  const userId = req.userId;
+
+  const content = req.body.message;
+  const userId = req.body.userId;
+
+  if (req.file === undefined && content === "" ) { 
+    res.status(400).json({ message: "Impossible de creer un post sans contenu" });
+}
+else {
+  const title = req.body.title;
+  const imageUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+
   postModel.createPost({
-    UserId: userId,
-    title: req.body.title,
-    content: req.body.message,
-    image: req.file
-      ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
-      : null,
+    userId: userId,
+    title: title,
+    content: content,
+    image: imageUrl
   })
     .then(() => res.status(201).json({ message: "Post enregistré !" }))
     .catch((error) => {
       console.log(error.message);
       return res.status(400).json({ error });
     });
-
+  }
 };
 
 
