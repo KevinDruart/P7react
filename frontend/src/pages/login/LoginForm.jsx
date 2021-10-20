@@ -41,7 +41,9 @@ const LoginForm = () => {
                     if (response.status === 200) {
                         console.log(response);
                         console.log('connexion reussi');
-                        setUserSession(response.data);
+                        if (response.data.token) {
+                            localStorage.setItem("user", JSON.stringify(response.data));
+                          }
                     }
                 })
                 .catch(function (error) {

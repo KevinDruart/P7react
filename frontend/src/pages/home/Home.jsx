@@ -11,9 +11,11 @@ const Home = (props) => {
 
     const [posts, setPosts] = useState([]);
 
+
     useEffect(() => {
         getPosts();
     }, [])
+
 
     const getPosts = () => {
         axios.get("http://localhost:3000/api/messages")
@@ -22,6 +24,8 @@ const Home = (props) => {
             })
 
     }
+
+
 
     return (
         <Container id="home">
