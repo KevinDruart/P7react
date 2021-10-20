@@ -3,6 +3,7 @@ import axios from 'axios';
 import Container from "react-bootstrap/Container";
 
 import Post from './Post/Post';
+import AddPost from './addPost/AddPost';
 
 const Home = (props) => {
 
@@ -24,7 +25,7 @@ const Home = (props) => {
 
     return (
         <Container id="home">
-
+            <AddPost />
             {posts.map((post) => {
                 return (
                     <Post key={post.numPost} {...post} />

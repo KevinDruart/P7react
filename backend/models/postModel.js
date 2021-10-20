@@ -1,11 +1,12 @@
 const db = require('../connect/dbConnect.js');
 
 //creer un post
-exports.createPost = (userId, dateTime, title, message, image) => {
-    const sql = 'INSERT INTO post(user_id, time_post, title, content, image) VALUES(?,?,?,?,?)';
+exports.createPost = (userId, title, message, image) => {
+    const sql = 'INSERT INTO post(user_id, title, content, image) VALUES(?,?,?,?)';
     return new Promise((resolve, reject) => {
         try {
-            db.query(sql, [userId, dateTime, title, message, image], (error, result, fields) => {
+            db.query(sql, [userId, title, message, image], (error, result, fields) => {
+                console.log(db.query);
                 if (result === undefined) {
                     reject(`Impossible de créer un nouveau post.`);
                 } else {
