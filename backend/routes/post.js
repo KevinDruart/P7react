@@ -10,6 +10,8 @@ const postCtrl = require('../controllers/post');
 /*------------------------------------------------ENDPOINTS----------------------------------------------------*/
 //Get all posts
     router.get('/',  postCtrl.getAllPost);
+//Get all post d'un membre
+    router.get('/post/:id',postCtrl.getAllPostByIdMember);
 //Create post
     router.post('/',  multer, postCtrl.addPost);
 //Modify post

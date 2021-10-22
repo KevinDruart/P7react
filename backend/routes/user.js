@@ -1,13 +1,8 @@
 const express = require('express');
-
 const router = express.Router();
-
 const userCtrl = require('../controllers/user');
-
 const rateLimit = require("express-rate-limit");
-
 const verifyPassword = require('../middleware/verify-password');        // importation du middleware
-
 const verifyMail = require('../middleware/testMail');
 
 //limite de connexion

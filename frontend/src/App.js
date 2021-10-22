@@ -11,6 +11,7 @@ import Home from './pages/home/Home';
 
 import Signup from './pages/signup/Signup';
 import Login from './pages/login/Login';
+import Profile from './pages/profile/profile';
 
 import LoginContext from './contextes/LoginContext';
 import PrivateRoute from './components/Route/privateRoute/PrivateRoute';
@@ -43,6 +44,9 @@ const App = () => {
             <Route path="/" exact component={Index} />
             <PrivateRoute path="/home" exact>
               {isAuthentificated ? <Home /> : <Login />}
+            </PrivateRoute>
+            <PrivateRoute path="/profile" exact>
+              {isAuthentificated ? <Profile /> : <Login />}
             </PrivateRoute>
 
             <Route component={Error404} />

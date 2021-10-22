@@ -1,10 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import classes from '../../StylesForm/form.module.css';
 import LoginContext from '../../../contextes/LoginContext';
 
 const validate = values => {
+
     const errors = {};
 
     if (!values.addPostTitle) {
@@ -20,42 +21,61 @@ const validate = values => {
 const AddPost = () => {
 
     const { userId } = useContext(LoginContext);
+    const [image, setImage] = useState([]);
+    const [filename, setFilename] = useState([]);
+    const [title, setTitle] = useState([]);
+    const [content, setContent] = useState([])
 
     const formik = useFormik({
         initialValues: {
             addPostTitle: '',
             addPostContent: '',
-
         },
         validate,
 
         onSubmit: values => {
-            console.log(userId);
-            console.log(values);
-            axios.post('http://localhost:3000/api/messages', {
-                userId: userId,
-                title: values.addPostTitle,
-                message: values.addPostContent,
-            })
-                .then(function (response) {
-
-                    console.log(response);
-
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+            setTitle(values.addPostTitle);
+            setContent(values.addPostContent);
+            sendPost();
         },
     });
+
+    console.log(title);
+    console.log(content);
+    console.log(image);
+
+    const sendPost = () => {
+        const formData = new FormData();
+        formData.append('file', image[0]);
+        formData.append('upload', '');
+        axios.post(
+            ``, formData)
+            .then((response) => {
+                console.log(response);
+                setFilename = response.data;
+                axios.post("http://localhost:3000/messages", {
+                    title: title,
+                    content: content,
+                    image: filename,
+                    userId: userId,
+                })
+                    .then((response) => {
+                        console.log(response.status);
+                        console.log("post ajouter");
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            });
+    }
+
     return (
 
         <div className="messageSender">
-
             <div className="messageSender__top">
                 <img className="user__avatar" src="./images/user.png" alt="" />
                 <form onSubmit={formik.handleSubmit} className="addPost">
 
-                    <label htmlFor="addPostTitle" className={classes.label}>Adresse email</label>
                     <input
                         className={classes.input}
                         id="addPostTitle"
@@ -70,7 +90,6 @@ const AddPost = () => {
                         <div className={classes.error}>{formik.errors.addPostTitle}</div>
                     ) : null}
 
-                    <label htmlFor="addPostContent" className={classes.label}>Mot de passe</label>
                     <input
                         id="addPostContent"
                         className="messageSender__input"
@@ -84,12 +103,10 @@ const AddPost = () => {
                         <div className={classes.error}>{formik.errors.addPostContent}</div>
                     ) : null}
 
-                    <label htmlFor="password" className={classes.label}>Image</label>
                     <input
-                        className="input-AddPicture"
+                        className="Parcourir"
                         type="file"
-                        id="myFile"
-                        name="filename"
+                        onChange={(event) => {setImage(event.target.files)}}
                     />
                     <button type="submit" className={classes.input}>
                         <i className="far fa-share-square"></i>
@@ -100,6 +117,5 @@ const AddPost = () => {
         </div>
     );
 };
-
 
 export default AddPost;

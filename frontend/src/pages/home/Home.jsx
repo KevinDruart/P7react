@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Container from "react-bootstrap/Container";
-
 import Post from './Post/Post';
 import AddPost from './addPost/AddPost';
 

@@ -75,7 +75,7 @@ exports.signup = (req, res, next) => {
           });
         }
         console.log('direction creation')
-        console.log(name + ' '+ firstName+ ' '+email + ' '+ hash );
+        console.log(name + ' ' + firstName + ' ' + email + ' ' + hash);
         userModel.create(name, firstName, emailMasked, email, hash)
           .then(resultat => {
             console.log('creation')
@@ -105,9 +105,6 @@ exports.login = (req, res, next) => {
   //on recupére l'email présent dans le body
   let email = req.body.email;
 
-  //si l'email n'est pas une adresse email professionel
-  //testEmail(email, res);
-
   userModel.findOneBy(email)
     .then(user => {
       bcrypt.compare(req.body.password, user.password)
@@ -125,7 +122,6 @@ exports.login = (req, res, next) => {
             },
               // Clé d'encodage du token
               process.env.TOKEN,
-
               // expiration au bout de 24h
               {
                 expiresIn: '24h'
@@ -146,21 +142,12 @@ exports.login = (req, res, next) => {
 
 /*-------------------------------------- GET USER -------------------------------------*/
 exports.getUser = (req, res, next) => {
+  let userId = req.params.id;
 
-  userModel.findOneById(req.body.id)
+  userModel.findOneById(userId)
     //on a notre promesse
     .then(user => {
-      //on verifie si l'id du body est identique au req.userIdToken
-      if (req.body.id === req.userIdToken) {
-        //on appel la view du profile et lui passe l'user
-        res.status(200).json(user);
-      }
-      //sinon
-      else {
-        //on retourne un message d'erreur
-        res.status(400).json({ message: "Votre id est introuvable" });
-      }
-
+      return res.status(200).json(user);
     })
     //erreur promesse
     .catch(error => {

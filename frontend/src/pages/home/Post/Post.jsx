@@ -1,6 +1,7 @@
 import React from 'react';
 import Container from "react-bootstrap/Container";
 
+import classes from './post.module.css';
 import './post.css';
 
 
@@ -30,8 +31,7 @@ const Posts = (props) => {
                 </div>
 
                 <div className="post__bottom">
-                    
-                    <img src={props.image} alt={props.title}/>
+                    <img src={props.image} className={classes.imgPost} alt={props.title}/>
                     <p>{props.content}</p>
                 </div>
 

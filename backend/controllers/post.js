@@ -12,36 +12,28 @@ const mysql = require('mysql');
 
 /*------------------------------------CREATE POST------------------------------------- */
 exports.addPost = (req, res, next) => {
+  let userId = req.body.userId;
+  let title = req.body.title;
+  let content = req.body.content;
+  let image = `${req.protocol}://${req.get('host')}/media/${req.file.filename}`;
+  let dateSignup =  now();
 
-  const content = req.body.message;
-  const userId = req.body.userId;
+  console.log(image);
 
-  if (req.file === undefined && content === "" ) { 
-    res.status(400).json({ message: "Impossible de creer un post sans contenu" });
-}
-else {
-  const title = req.body.title;
-  const imageUrl = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
-
-  postModel.createPost({
-    userId: userId,
-    title: title,
-    content: content,
-    image: imageUrl
+  postModel.createPost(userId, title, content, image, dateSignup)
+  .then(response => {
+    console.log('post ajouter');
   })
-    .then(() => res.status(201).json({ message: "Post enregistré !" }))
-    .catch((error) => {
-      console.log(error.message);
-      return res.status(400).json({ error });
-    });
-  }
+  .catch(error => {
+    console.log(error);
+  })
 };
 
 
 /*---------------------------------READ ALL POST--------------------------------- */
 exports.getAllPost = (req, res, next) => {
 
-  postModel.getPosts(req.body.id)
+  postModel.getPosts()
     //on a notre promesse
     .then(posts => {
       res.status(200).json(posts);
@@ -52,7 +44,24 @@ exports.getAllPost = (req, res, next) => {
         message: error
       });
     });
+}
 
+
+//post par membre
+exports.getAllPostByIdMember = (req, res, next) => {
+  let userId = req.params.id;
+  console.log(userId);
+  postModel.getPostsByIdMember(userId)
+    //on a notre promesse
+    .then(posts => {
+      res.status(200).json(posts);
+    })
+    //erreur promesse
+    .catch(error => {
+      return res.status(401).json({
+        message: error
+      });
+    });
 }
 
 
