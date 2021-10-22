@@ -74,14 +74,14 @@ exports.create = (name, firstName, emailMasked, email, hash) => {
 
 //trouve un membre avec son id
 exports.findOneById = (id) => {
-    const sql = 'SELECT * FROM user WHERE id = ?';
+    const sql = 'SELECT name, firstname, email, dateSignup FROM user WHERE id = ?';
     return new Promise((resolve, reject) => {
         try {
             db.query(sql, [id], (error, result, fields) => {
                 if (result === undefined || result === "") {
-                    reject('Votre id est introuvable ou essayer de vous reconnecter !');
+                    reject('Id introuvable !');
                 } else {
-                    resolve(result[0]);
+                    resolve(result);
                 };
             });
         } catch (error) {
@@ -89,6 +89,7 @@ exports.findOneById = (id) => {
         };
     });
 };
+
 
 //modifier un membre
 exports.updateOne = (name, firstName, emailMasked, email, hash) => {

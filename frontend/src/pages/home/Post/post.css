@@ -24,7 +24,6 @@
 .messageSender__top {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #eff2f5;
   padding: 15px;
 }
 
@@ -88,7 +87,7 @@
     margin-right: auto;
   }
   
-  .post__image img {
+  .imgPost {
     width: 100%;
   }
   

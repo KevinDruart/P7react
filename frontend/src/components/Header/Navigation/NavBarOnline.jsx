@@ -7,6 +7,11 @@ import classes from "./navbar.module.css";
 
 const NavBarOnline = () => {
 
+    const handleLogout = () => {
+        alert("Vous êtes maintenant déconnecter");
+        localStorage.clear();  
+    }
+
     return (
         <div className="navigation d-flex align-items-center justify-content-center justify-content-lg-start">
             <Navbar expand="lg">
@@ -21,14 +26,14 @@ const NavBarOnline = () => {
                     <Nav className="mr-auto d-flex flex-column justify-content-center align-items-center">
                         <i className="fas fa-cogs"></i>
                         <NavDropdown title="Menu" id="basic-nav-dropdown">
-                        <LinkContainer exact to="home">
+                            <LinkContainer exact to="home">
                                 <NavDropdown.Item>Accueil</NavDropdown.Item>
                             </LinkContainer>
                             <LinkContainer exact to="/profile">
                                 <NavDropdown.Item>Mon profil</NavDropdown.Item>
                             </LinkContainer>
                             <NavDropdown.Divider />
-                            <LinkContainer exact to="/logout">
+                            <LinkContainer exact to="/" onClick={handleLogout}>
                                 <NavDropdown.Item>Me déconnecter</NavDropdown.Item>
                             </LinkContainer>
                         </NavDropdown>
