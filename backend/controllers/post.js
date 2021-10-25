@@ -16,16 +16,31 @@ exports.addPost = (req, res, next) => {
   let title = req.body.title;
   let content = req.body.content;
   let image = `${req.protocol}://${req.get('host')}/media/${req.file.filename}`;
-  let dateSignup =  now();
+      //recuperation de la date
+      let dateNow = new Date();
+      //transformation de la date actuel en date locale France
+      let dateSignup = dateNow.toLocaleString('fr-FR', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric'
+      });
 
   console.log(image);
+  console.log(title);
+  console.log(content);
+  console.log(userId);
+  console.log(dateSignup);
 
   postModel.createPost(userId, title, content, image, dateSignup)
   .then(response => {
-    console.log('post ajouter');
+    return res.status(201).json({ message: 'Post ajouté' })
   })
   .catch(error => {
-    console.log(error);
+    return res.status(400).json({ message: "impossible d'ajouté le post(catch)" })
   })
 };
 
