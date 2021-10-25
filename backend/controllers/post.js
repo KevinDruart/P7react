@@ -12,37 +12,57 @@ const mysql = require('mysql');
 
 /*------------------------------------CREATE POST------------------------------------- */
 exports.addPost = (req, res, next) => {
-  let userId = req.body.userId;
-  let title = req.body.title;
-  let content = req.body.content;
-  let image = `${req.protocol}://${req.get('host')}/media/${req.file.filename}`;
-      //recuperation de la date
-      let dateNow = new Date();
-      //transformation de la date actuel en date locale France
-      let dateSignup = dateNow.toLocaleString('fr-FR', {
-          weekday: 'long',
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-          second: 'numeric'
-      });
+  const postObject = JSON.parse(req.body.post);
 
-  console.log(image);
-  console.log(title);
-  console.log(content);
-  console.log(userId);
-  console.log(dateSignup);
+  const post = {
+    ...postObject,
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+  }
+  console.log(post);
+  postModel.createPost(post)
+    .then(() => res.status(201).json({ message: 'post enregistrée' }))
+    .catch(error => {
+      console.log(error);
+      res.status(400).json({ error: "le post ne peut pas etre ajouter" })
+    });
 
-  postModel.createPost(userId, title, content, image, dateSignup)
-  .then(response => {
-    return res.status(201).json({ message: 'Post ajouté' })
-  })
-  .catch(error => {
-    return res.status(400).json({ message: "impossible d'ajouté le post(catch)" })
-  })
-};
+}
+
+
+//exports.addPost2 = (req, res, next) => {
+//  let userId = req.body.userId;
+//  let title = req.body.title;
+//  let content = req.body.content;
+//  let image = `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`;
+//  //recuperation de la date
+//  let dateNow = new Date();
+//  //transformation de la date actuel en date locale France
+//  let dateSignup = dateNow.toLocaleString('fr-FR', {
+//    weekday: 'long',
+//    year: 'numeric',
+//    month: 'long',
+//    day: 'numeric',
+//    hour: 'numeric',
+//    minute: 'numeric',
+//    second: 'numeric'
+//  });
+
+//  console.log(image);
+//  console.log(title);
+//  console.log(content);
+//  console.log(userId);
+//  console.log(dateSignup);
+
+//  postModel.createPost(userId, title, content, image, dateSignup)
+//    .then(response => {
+//      console.log(response);
+//      return res.status(201).json({ message: 'Post ajouté' })
+//    })
+//    .catch(error => {
+//      console.log(error);
+//      return res.status(400).json({ message: "impossible d'ajouté le post(catch)" })
+//    })
+//};
 
 
 /*---------------------------------READ ALL POST--------------------------------- */
