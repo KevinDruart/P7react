@@ -3,19 +3,24 @@ const db = require('../connect/dbConnect.js');
 
 //creer un post
 exports.createPost = (userId, title, content, image, dateSignup) => {
-    const sql = `INSERT INTO post(user_id, title, content, image, time_post VALUES(?,?,?,?,?)`;
+    const sql = `INSERT INTO post(user_id, title, content, image, time_post) VALUES(?,?,?,?,?)`;
     return new Promise((resolve, reject) => {
         try {
+            console.log('execution dbquery');
             db.query(sql, [userId, title, content, image, dateSignup], (error, result, fields) => {
 
                 if (result === undefined) {
                     reject(`Impossible de créer un nouveau post.`);
+                    console.log(result);
+                    console.log('probleme requete sql');
                 } else {
-                    resolve(`post ajouté`);
+                    resolve(result);
+                    console.log('requete sql OK')
                 };
             });
         } catch (error) {
             reject(error);
+            console.log('erreur promesse requete sql');
         };
     });
 };
