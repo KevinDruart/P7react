@@ -22,7 +22,6 @@ const AddPost = () => {
 
     const { userId } = useContext(LoginContext);
     const [image, setImage] = useState([]);
-    const [filename, setFilename] = useState([]);
     const [title, setTitle] = useState([]);
     const [content, setContent] = useState([])
 
@@ -36,38 +35,32 @@ const AddPost = () => {
         onSubmit: values => {
             setTitle(values.addPostTitle);
             setContent(values.addPostContent);
-            sendPost();
+
+            const data = new FormData();
+            data.append('image', image);
+            data.append('title', title);
+            data.append('content', content);
+            data.append('userId', userId);
+
+            axios.post("http://localhost:3000/api/messages", data, {
+                method: 'POST',
+                body: data,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+                .then(response => {
+                    response.status(200).json({message : 'post ajouté'});
+                })
+                .catch((error) => {
+                    console.log('erreur ajout post');
+                });
         },
     });
 
     console.log(title);
     console.log(content);
     console.log(image);
-
-    const sendPost = () => {
-        const formData = new FormData();
-        formData.append('file', image[0]);
-        formData.append('upload', '');
-        axios.post(
-            ``, formData)
-            .then((response) => {
-                console.log(response);
-                setFilename = response.data;
-                axios.post("http://localhost:3000/messages", {
-                    title: title,
-                    content: content,
-                    image: filename,
-                    userId: userId,
-                })
-                    .then((response) => {
-                        console.log(response.status);
-                        console.log("post ajouter");
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    });
-            });
-    }
 
     return (
 
@@ -106,7 +99,7 @@ const AddPost = () => {
                     <input
                         className="Parcourir"
                         type="file"
-                        onChange={(event) => {setImage(event.target.files)}}
+                        onChange={(event) => { setImage(event.target.files) }}
                     />
                     <button type="submit" className={classes.input}>
                         <i className="far fa-share-square"></i>
