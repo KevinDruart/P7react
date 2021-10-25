@@ -42,6 +42,8 @@ const AddPost = () => {
             data.append('content', content);
             data.append('userId', userId);
 
+            console.log(data);
+
             axios.post("http://localhost:3000/api/messages", data, {
                 method: 'POST',
                 body: data,
@@ -50,6 +52,7 @@ const AddPost = () => {
                 },
             })
                 .then(response => {
+                    
                     response.status(200).json({message : 'post ajouté'});
                 })
                 .catch((error) => {
