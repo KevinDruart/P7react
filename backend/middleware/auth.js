@@ -10,7 +10,7 @@ module.exports = (req, res, next) => {
 
   } catch {
     res.status(401).json({
-      error:" Vous n'avez pas les autorisation: token invalide, expiré, ou vous n'etes pas proprietaire de cet sauce."
+      error:" Vous n'avez pas les autorisation: token invalide, expiré ou vous n'êtes pas connecter."
     });
   }
 };
