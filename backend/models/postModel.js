@@ -20,7 +20,7 @@ exports.createPost = (message) => {
             });
         } catch (error) {
             reject(error);
-            console.log(error, 'erreur promesse requete sql');
+            console.log(error,'erreur promesse requete sql');
         };
     });
 };
@@ -32,7 +32,7 @@ exports.updatePost = () => {
 
 //chercher les post
 exports.getPosts = () => {
-    const sql = 'SELECT post.id, title, content, image, time_post, firstname, name, user.id FROM post INNER JOIN user ON post.user_id = user.id ORDER BY time_post DESC';
+    const sql = 'SELECT post.id, title, content, image, time_post, firstname, name, user.id as userId FROM post INNER JOIN user ON post.user_id = user.id ORDER BY time_post DESC';
     return new Promise((resolve, reject) => {
         try {
             db.query(sql, (error, result, fields) => {
@@ -50,7 +50,7 @@ exports.getPosts = () => {
 
 //post par id membre
 exports.getPostsByIdMember = (id) => {
-    const sql = 'SELECT numPost, title, content, image, time_post, firstname, name, id FROM post INNER JOIN user ON post.user_id = user.id WHERE user.id = ? ORDER BY time_post DESC ';
+    const sql = 'SELECT post.id, title, content, image, time_post, firstname, name, user.id as userId FROM post INNER JOIN user ON post.user_id = user.id WHERE user.id = ? ORDER BY time_post DESC ';
     return new Promise((resolve, reject) => {
         try {
             db.query(sql,[id], (error, result, fields) => {

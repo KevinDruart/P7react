@@ -18,6 +18,7 @@ const Home = (props) => {
             headers: { Authorization: `Bearer ${token}`},
         })
             .then((response) => {
+                console.log(response);
                 setPosts(response.data);
             })
             .catch(error => {
@@ -27,7 +28,7 @@ const Home = (props) => {
 
     return (
         <Container id="home">
-            <AddPost token={token} handleRefreshPosts={getPosts} />
+            <AddPost token={token} handleRefreshPost={getPosts} />
             {posts.map((post) => {
                 return (
                     <Post key={post.id} post={post} />
