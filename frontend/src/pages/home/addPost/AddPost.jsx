@@ -50,13 +50,13 @@ const AddPost = ({ token, handleRefreshPost }) => {
                 headers: { Authorization: `Bearer ${token}` },
             })
                 .then(response => {
-
+                    handleRefreshPost();
                     setImage('');
                     setTitle('');
                     setContent('');
-                    values.addPostContent='';
-                    values.addPostTitle='';
-                    handleRefreshPost();
+                    values.addPostContent = '';
+                    values.addPostTitle = '';
+
                 })
                 .catch((error) => {
                     console.log('erreur ajout post');
