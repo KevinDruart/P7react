@@ -5,18 +5,8 @@ import classes from './post.module.css';
 import './post.css';
 
 
-const Posts = (props) => {
+const Posts = ({post}) => {
 
-    const datePost = new Date(props.time_post);
-    let postTime = datePost.toLocaleString('fr-FR', {
-        weekday: 'long',
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric'
-    });
 
     return (
         <Container className="Post">
@@ -24,15 +14,15 @@ const Posts = (props) => {
                 <div className="post__top">
                     <img className="user__avatar post__avatar" src="./images/user.png" alt="" />
                     <div className="post__topInfo">
-                        <h3>{props.name} {props.firstname}</h3>
-                        <p>{props.title}</p>
-                        <p className="post__topInfo_time">{postTime}</p>
+                        <h3>{post.name} {post.firstname}</h3>
+                        <p>{post.title}</p>
+                        <p className="post__topInfo_time"></p>
                     </div>
                 </div>
 
                 <div className="post__bottom">
-                    <img src={props.image} className={classes.imgPost} alt={props.title}/>
-                    <p>{props.content}</p>
+                    <img src={post.image} className={classes.imgPost} alt={post.title}/>
+                    <p>{post.content}</p>
                 </div>
 
                 <div className="post__options">

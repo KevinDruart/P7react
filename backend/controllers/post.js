@@ -2,27 +2,27 @@
 const fs = require('fs');
 
 //connexion a la bdd
-const db = require('../connect/dbConnect.js');
-const userModel = require('../models/userModel.js');
+//const db = require('../connect/dbConnect.js');
+//const userModel = require('../models/userModel.js');
 //import postModel
 const postModel = require('../models/postModel.js');
 
 //requete sql
-const mysql = require('mysql');
+//const mysql = require('mysql');
 
-/*------------------------------------CREATE POST------------------------------------- */
+/*------------------------------(controller post)CREATE POST------------------------------------- */
 exports.addPost = (req, res, next) => {
-  const postObject = JSON.parse(req.body.post);
+  let postObject = req.file ? 
+  { ...JSON.parse(req.body.post),  imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`}
+  : { ...req.body, imageUrl: null };
 
-  const post = {
-    ...postObject,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-  }
-  console.log(post);
-  postModel.createPost(post)
+  postObject = { ...postObject, userId: req.jwtToken.userId }; 
+
+  //console.log(post);
+  postModel.createPost(postObject)
     .then(() => res.status(201).json({ message: 'post enregistrée' }))
     .catch(error => {
-      console.log(error);
+      //console.log(error);
       res.status(400).json({ error: "le post ne peut pas etre ajouter" })
     });
 

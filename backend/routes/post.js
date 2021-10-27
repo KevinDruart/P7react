@@ -9,17 +9,17 @@ const postCtrl = require('../controllers/post');
 
 /*------------------------------------------------ENDPOINTS----------------------------------------------------*/
 //Get all posts
-    router.get('/',  postCtrl.getAllPost);
+    router.get('/',auth,  postCtrl.getAllPost);
 //Get all post d'un membre
-    router.get('/post/:id',postCtrl.getAllPostByIdMember);
+    router.get('/post/:id',auth, postCtrl.getAllPostByIdMember);
 //Create post
-    router.post('/',  multer, postCtrl.addPost);
+    router.post('/', auth, multer, postCtrl.addPost);
 //Modify post
-    router.put('/:id',  multer, postCtrl.modifyPost);
+    router.put('/:id', auth, multer, postCtrl.modifyPost);
 //delete post
-    router.delete('/:id',  postCtrl.deletePost); 
+    router.delete('/:id', auth, postCtrl.deletePost); 
 //endpoint ajout/annulation like ou dislike d'un post
-    router.post('/:id/like',  postCtrl.likeDislikePost);
+    router.post('/:id/like', auth, postCtrl.likeDislikePost);
 
 
     module.exports = router;

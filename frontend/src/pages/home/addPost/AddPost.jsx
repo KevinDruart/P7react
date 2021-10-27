@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import classes from '../../StylesForm/form.module.css';
-import LoginContext from '../../../contextes/LoginContext';
+
 
 const validate = values => {
 
@@ -18,9 +18,8 @@ const validate = values => {
     return errors;
 };
 
-const AddPost = () => {
+const AddPost = ({ token, handleRefreshPost }) => {
 
-    const { userId } = useContext(LoginContext);
     const [image, setImage] = useState([]);
     const [title, setTitle] = useState([]);
     const [content, setContent] = useState([])
@@ -36,34 +35,34 @@ const AddPost = () => {
             setTitle(values.addPostTitle);
             setContent(values.addPostContent);
 
+            const message = JSON.stringify({
+                title,
+                content
+            })
+
             const data = new FormData();
-            data.append('image', image);
-            data.append('title', title);
-            data.append('content', content);
-            data.append('userId', userId);
+            data.append('image', image[0]);
+            data.append('post', message);
 
             console.log(data);
 
             axios.post("http://localhost:3000/api/messages", data, {
-                method: 'POST',
-                body: data,
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
+                headers: { Authorization: `Bearer ${token}` },
             })
                 .then(response => {
-                    
-                    response.status(200).json({message : 'post ajouté'});
+
+                    setImage('');
+                    setTitle('');
+                    setContent('');
+                    values.addPostContent='';
+                    values.addPostTitle='';
+                    handleRefreshPost();
                 })
                 .catch((error) => {
                     console.log('erreur ajout post');
                 });
         },
     });
-
-    console.log(title);
-    console.log(content);
-    console.log(image);
 
     return (
 
@@ -75,7 +74,6 @@ const AddPost = () => {
                     <input
                         className={classes.input}
                         id="addPostTitle"
-                        className="messageSender__input"
                         placeholder="Titre de votre post"
                         type="text"
                         onChange={formik.handleChange}
