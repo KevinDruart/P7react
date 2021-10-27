@@ -16,7 +16,7 @@ const Posts = ({post}) => {
                     <div className="post__topInfo">
                         <h3>{post.name} {post.firstname}</h3>
                         <p>{post.title}</p>
-                        <p className="post__topInfo_time"></p>
+                        <p className="post__topInfo_time">{post.time_post}</p>
                     </div>
                 </div>
 

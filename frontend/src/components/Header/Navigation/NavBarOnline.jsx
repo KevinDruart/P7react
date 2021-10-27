@@ -9,7 +9,7 @@ const NavBarOnline = () => {
 
     const handleLogout = () => {
         alert("Vous êtes maintenant déconnecter");
-        localStorage.clear();  
+        localStorage.clear();
     }
 
     return (
@@ -23,20 +23,25 @@ const NavBarOnline = () => {
                 </LinkContainer>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav" className={classes.menu}>
-                    <Nav className="mr-auto d-flex flex-column justify-content-center align-items-center">
-                        <i className="fas fa-cogs"></i>
-                        <NavDropdown title="Menu" id="basic-nav-dropdown">
-                            <LinkContainer exact to="home">
-                                <NavDropdown.Item>Accueil</NavDropdown.Item>
-                            </LinkContainer>
-                            <LinkContainer exact to="/profile">
-                                <NavDropdown.Item>Mon profil</NavDropdown.Item>
-                            </LinkContainer>
-                            <NavDropdown.Divider />
-                            <LinkContainer exact to="/" onClick={handleLogout}>
-                                <NavDropdown.Item>Me déconnecter</NavDropdown.Item>
-                            </LinkContainer>
-                        </NavDropdown>
+                    <Nav className="mr-auto">
+                        <LinkContainer exact to="/home" className="d-flex flex-column align-items-center">
+                            <Nav.Link className={classes.link}>
+                                <i className="fas fa-home"></i>
+                                Accueil
+                            </Nav.Link>
+                        </LinkContainer>
+                        <LinkContainer exact to="/profile" className="d-flex flex-column align-items-center">
+                            <Nav.Link className={classes.link}>
+                                <i className="fas fa-user-alt"></i>
+                                Mon profil
+                            </Nav.Link>
+                        </LinkContainer>
+                        <LinkContainer exact to="/" onClick={handleLogout} className="d-flex flex-column align-items-center">
+                            <Nav.Link className={classes.link}>
+                            <i className="fas fa-sign-out-alt"></i>
+                                Me deconnecter
+                            </Nav.Link>
+                        </LinkContainer>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

@@ -12,7 +12,7 @@ import classes from './profil.module.css';
 
 const Profile = () => {
 
-    const { isAuthentificated } = useContext(LoginContext);
+    const token = localStorage.getItem('authToken');
     const { userId } = useContext(LoginContext);
 
     const [user, setUser] = useState([]);
@@ -25,7 +25,7 @@ const Profile = () => {
 
     const getPosts = () => {
         axios.get("http://localhost:3000/api/messages/post/" + userId, {
-            userId: userId
+            headers: { Authorization: `Bearer ${token}`},
         })
             .then((response) => {
                 setPosts(response.data);
@@ -38,7 +38,7 @@ const Profile = () => {
     const getProfile = () => {
         axios
             .get("http://localhost:3000/api/auth/" + userId, {
-                userId: userId
+                headers: { Authorization: `Bearer ${token}`},
             })
             .then((response) => {
                 console.log(response.data[0]);
@@ -77,7 +77,7 @@ const Profile = () => {
                             <Tab.Pane eventKey="second">
                                 {posts.map((post) => {
                                     return (
-                                        <Post key={post.numPost} {...post} />
+                                        <Post key={post.id} post={post} handleRefreshPost={getPosts}/>
                                     );
                                 })}
                             </Tab.Pane>
