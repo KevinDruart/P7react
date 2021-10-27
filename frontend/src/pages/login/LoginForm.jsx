@@ -25,7 +25,7 @@ const validate = values => {
 
 const LoginForm = () => {
 
-    const { setIsAuthentificated, setUserId } = useContext(LoginContext);
+    const { setIsAuthenticated, setUserId } = useContext(LoginContext);
 
     const history = useHistory();
 
@@ -49,7 +49,7 @@ const LoginForm = () => {
                         if (response.data) {
                             localStorage.setItem("authToken", response.data.token);
                             localStorage.setItem("authId", response.data.userId);
-                            setIsAuthentificated(true);
+                            setIsAuthenticated(true);
                             setUserId(response.data.userId);
                             history.push("/home");
                         }

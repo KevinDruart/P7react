@@ -72,7 +72,7 @@ const AddPost = ({ token, handleRefreshPost }) => {
                 <form onSubmit={formik.handleSubmit} className="addPost">
 
                     <input
-                        className={classes.input}
+
                         id="addPostTitle"
                         placeholder="Titre de votre post"
                         type="text"
@@ -86,9 +86,9 @@ const AddPost = ({ token, handleRefreshPost }) => {
 
                     <input
                         id="addPostContent"
-                        className="messageSender__input"
+
                         placeholder="Qu'avez vous envie de poster?"
-                        type="text"
+                        type="textarea"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.addPostContent}
@@ -102,7 +102,7 @@ const AddPost = ({ token, handleRefreshPost }) => {
                         type="file"
                         onChange={(event) => { setImage(event.target.files) }}
                     />
-                    <button type="submit" className={classes.input}>
+                    <button type="submit">
                         <i className="far fa-share-square"></i>
                         <h3>Partager</h3>
                     </button>

@@ -23,12 +23,12 @@ const App = () => {
   const haveToken = localStorage.getItem("authToken") !== null;
   const localUserId = localStorage.getItem("authId");
 
-  const [isAuthentificated, setIsAuthentificated] = useState(haveToken);
+  const [isAuthenticated, setIsAuthenticated] = useState(haveToken);
   const [userId, setUserId] = useState(localUserId);
 
   const contextValue = {
-    isAuthentificated,
-    setIsAuthentificated,
+    isAuthenticated,
+    setIsAuthenticated,
     userId,
     setUserId
   }
@@ -43,10 +43,10 @@ const App = () => {
             <Route path="/signup" exact component={Signup} />
             <Route path="/" exact component={Index} />
             <PrivateRoute path="/home" exact>
-              {isAuthentificated ? <Home /> : <Login />}
+              {isAuthenticated ? <Home /> : <Login />}
             </PrivateRoute>
             <PrivateRoute path="/profile" exact>
-              {isAuthentificated ? <Profile /> : <Login />}
+              {isAuthenticated ? <Profile /> : <Login />}
             </PrivateRoute>
 
             <Route component={Error404} />
