@@ -1,8 +1,8 @@
 import React from "react";
 
 export default React.createContext({
-    isAuthentificated: false, 
-    setIsAuthentificated: value => {},
+    isAuthenticated: false, 
+    setIsAuthenticated: value => {},
     userId: null, 
     setUserId: value => {},
 });
