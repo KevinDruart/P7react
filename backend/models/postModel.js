@@ -2,25 +2,25 @@
 const db = require('../connect/dbConnect.js');
 
 //creer un post
-exports.createPost = (userId, title, content, image, datePost) => {
-    const sql = `INSERT INTO post(user_id, title, content, image, time_post) VALUES(?,?,?,?,?)`;
+exports.createPost = (message) => {
+    const sql = `INSERT INTO post(user_id, title, content, image, time_post) VALUES(?,?,?,?,NOW())`;
     return new Promise((resolve, reject) => {
         try {
             console.log('execution dbquery');
-            db.query(sql, [userId, title, content, image, datePost], (error, result, fields) => {
+            db.query(sql, [message.userId, message.title, message.content, message.imageUrl], (error, result, fields) => {
 
                 if (result === undefined) {
-                    reject(`Impossible de créer un nouveau post.`);
-                    console.log(result);
-                    console.log('probleme requete sql');
+                    reject(result);
+
                 } else {
                     resolve(result);
+                    console.log(result)
                     console.log('requete sql OK')
                 };
             });
         } catch (error) {
             reject(error);
-            console.log('erreur promesse requete sql');
+            console.log(error, 'erreur promesse requete sql');
         };
     });
 };
@@ -32,7 +32,7 @@ exports.updatePost = () => {
 
 //chercher les post
 exports.getPosts = () => {
-    const sql = 'SELECT numPost, title, content, image, time_post, firstname, name, id FROM post INNER JOIN user ON post.user_id = user.id ORDER BY time_post DESC';
+    const sql = 'SELECT post.id, title, content, image, time_post, firstname, name, user.id FROM post INNER JOIN user ON post.user_id = user.id ORDER BY time_post DESC';
     return new Promise((resolve, reject) => {
         try {
             db.query(sql, (error, result, fields) => {

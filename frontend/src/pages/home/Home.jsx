@@ -7,13 +7,16 @@ import AddPost from './addPost/AddPost';
 const Home = (props) => {
 
     const [posts, setPosts] = useState([]);
+    const token = localStorage.getItem('authToken');
 
     useEffect(() => {
         getPosts();
     }, [])
 
     const getPosts = () => {
-        axios.get("http://localhost:3000/api/messages")
+        axios.get("http://localhost:3000/api/messages", {
+            headers: { Authorization: `Bearer ${token}`},
+        })
             .then((response) => {
                 setPosts(response.data);
             })
@@ -24,10 +27,10 @@ const Home = (props) => {
 
     return (
         <Container id="home">
-            <AddPost />
+            <AddPost token={token} handleRefreshPosts={getPosts} />
             {posts.map((post) => {
                 return (
-                    <Post key={post.numPost} {...post} />
+                    <Post key={post.id} post={post} />
                 );
             })}
         </Container>

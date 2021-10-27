@@ -47,8 +47,8 @@ const LoginForm = () => {
                         console.log(response);
                         console.log('connexion reussi');
                         if (response.data) {
-                            localStorage.setItem("authToken", JSON.stringify(response.data.token));
-                            localStorage.setItem("authId", JSON.stringify(response.data.userId));
+                            localStorage.setItem("authToken", response.data.token);
+                            localStorage.setItem("authId", response.data.userId);
                             setIsAuthentificated(true);
                             setUserId(response.data.userId);
                             history.push("/home");
