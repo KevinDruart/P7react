@@ -41,7 +41,9 @@ const App = () => {
           <Switch>
             <Route path="/login" exact component={Login} />
             <Route path="/signup" exact component={Signup} />
-            <Route path="/" exact component={Index} />
+            <Route path="/" exact>
+            {isAuthenticated ? <Home /> : <Index />}
+            </Route>
             <PrivateRoute path="/home" exact>
               {isAuthenticated ? <Home /> : <Login />}
             </PrivateRoute>
