@@ -1,19 +1,18 @@
-
-body {
-margin: 0;
-background: linear-gradient(45deg, #FC466B, #3F5EFB);
-display: flex;
-align-items: center;
-
-  }
-  
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
-  }
-
-  div#root {
-    width: 100%;
-    margin-top: 70px;
+body
+{
+	margin: 0;
+	background: linear-gradient(45deg, #FC466B, #3F5EFB);
+	display: flex;
+	align-items: center;
 }
 
+code
+{
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',monospace;
+}
+
+div#root
+{
+	width: 100%;
+	margin-top: 70px;
+}

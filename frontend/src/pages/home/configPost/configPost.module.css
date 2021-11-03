@@ -1,0 +1,6 @@
+.manageBtn {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    right: 32px;
+}
