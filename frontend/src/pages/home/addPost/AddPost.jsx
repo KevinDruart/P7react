@@ -17,10 +17,9 @@ const validate = values => {
     const errors = {};
 
     if (!values.addPostTitle) {
-        errors.addPostTitle = 'Titre requis';
-    }
-    if (!values.addPostContent) {
-        errors.addPostContent = 'message requis';
+        errors.addPostTitle = 'Titre Requis';
+    } else if (!/^.*(\s+([a-zA-Z]+\s+)+).*$/i.test(values.addPostTitle)) {
+        errors.addPostTitle = "Le titre ne doit pas contenir de caractere spéciale";
     }
 
     return errors;
@@ -47,33 +46,38 @@ const AddPost = ({ token, handleRefreshPost }) => {
             setTitle(values.addPostTitle);
             setContent(values.addPostContent);
 
-            const message = JSON.stringify({
-                title,
-                content
-            })
-
-            const data = new FormData();
-            data.append('image', image[0]);
-            data.append('post', message);
-
-            console.log(data);
-
-            axios.post("http://localhost:3000/api/messages", data, {
-                headers: { Authorization: `Bearer ${token}` },
-            })
-                .then(response => {
-                    handleRefreshPost();
-                    setImage('');
-                    setTitle('');
-                    setContent('');
-                    values.addPostContent = '';
-                    values.addPostTitle = '';
-                    handleClose();
-
+            if (title === null && content === null || title === null && image === null) {
+                console.log('1 titre + 1 message ou 1 titre et 1 image sont necessaire');
+            }
+            else {
+                const message = JSON.stringify({
+                    title,
+                    content
                 })
-                .catch((error) => {
-                    console.log('erreur ajout post');
-                });
+
+                const data = new FormData();
+                data.append('image', image[0]);
+                data.append('post', message);
+
+                console.log(data);
+
+                axios.post("http://localhost:3000/api/messages", data, {
+                    headers: { Authorization: `Bearer ${token}` },
+                })
+                    .then(response => {
+                        handleRefreshPost();
+                        setImage('');
+                        setTitle('');
+                        setContent('');
+                        values.addPostContent = '';
+                        values.addPostTitle = '';
+                        handleClose();
+
+                    })
+                    .catch((error) => {
+                        console.log('erreur ajout post');
+                    });
+            }
         },
     });
 
@@ -119,9 +123,6 @@ const AddPost = ({ token, handleRefreshPost }) => {
                             onBlur={formik.handleBlur}
                             value={formik.values.addPostContent}
                         />
-                        {formik.touched.addPostContent && formik.errors.addPostContent ? (
-                            <div className={classes.error}>{formik.errors.addPostContent}</div>
-                        ) : null}
 
                         <input
                             className="form-control"
