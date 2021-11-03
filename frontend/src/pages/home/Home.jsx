@@ -1,21 +1,33 @@
+//import
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Container from "react-bootstrap/Container";
+
+//import elements
 import Post from './Post/Post';
+import ConfigPost from './configPost/ConfigPost';
 import AddPost from './addPost/AddPost';
+
+//import element react bootstrap
+import Container from "react-bootstrap/Container";
+
+//import classe css
+import classes from './home.module.css';
 
 const Home = (props) => {
 
     const [posts, setPosts] = useState([]);
+
+    //recuperation du token user
     const token = localStorage.getItem('authToken');
 
     useEffect(() => {
         getPosts();
     }, [])
 
+    //requete pour recuperer les posts
     const getPosts = () => {
         axios.get("http://localhost:3000/api/messages", {
-            headers: { Authorization: `Bearer ${token}`},
+            headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => {
                 console.log(response);
@@ -27,11 +39,13 @@ const Home = (props) => {
     }
 
     return (
-        <Container id="home">
+        <Container className={classes.home} id="home">
             <AddPost token={token} handleRefreshPost={getPosts} />
             {posts.map((post) => {
                 return (
-                    <Post key={post.id} post={post} />
+                    <div className={classes.cardPost} key={post.id}>
+                        <Post post={post} />
+                    </div>
                 );
             })}
         </Container>

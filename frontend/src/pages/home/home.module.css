@@ -1,0 +1,19 @@
+
+.cardPost {
+  display: flex;
+}
+
+
+/* >600px */
+@media screen and (min-width: 600px) {
+    .home {
+        margin-top: 30px;
+    }
+  }
+
+/* >980px */
+@media screen and (min-width: 980px) {
+    .home {
+        margin-top: 50px;
+    }
+  }
