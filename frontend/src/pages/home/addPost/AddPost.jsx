@@ -18,9 +18,10 @@ const validate = values => {
 
     if (!values.addPostTitle) {
         errors.addPostTitle = 'Titre Requis';
-    } else if (!/^.*(\s+([a-zA-Z]+\s+)+).*$/i.test(values.addPostTitle)) {
-        errors.addPostTitle = "Le titre ne doit pas contenir de caractere spéciale";
-    }
+    } 
+    if (!values.addPostContent && !values.addPostImage) {
+        errors.addPostTitle = '1 titre + 1 message ou 1 titre et 1 image sont necessaire';
+    } 
 
     return errors;
 };
@@ -28,8 +29,6 @@ const validate = values => {
 const AddPost = ({ token, handleRefreshPost }) => {
 
     const [image, setImage] = useState([]);
-    const [title, setTitle] = useState('');
-    const [content, setContent] = useState('')
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -39,20 +38,20 @@ const AddPost = ({ token, handleRefreshPost }) => {
         initialValues: {
             addPostTitle: '',
             addPostContent: '',
+            addPostImage: '',
         },
         validate,
 
         onSubmit: values => {
-            setTitle(values.addPostTitle);
-            setContent(values.addPostContent);
 
-            if (title === null && content === null || title === null && image === null) {
-                console.log('1 titre + 1 message ou 1 titre et 1 image sont necessaire');
-            }
-            else {
+
+            // if (valuetitle === null && content ==='' || title === null && image === '') {
+            //     console.log('1 titre + 1 message ou 1 titre et 1 image sont necessaire');
+            // }
+            // else {
                 const message = JSON.stringify({
-                    title,
-                    content
+                    title: values.addPostTitle,
+                    content: values.addPostContent
                 })
 
                 const data = new FormData();
@@ -67,8 +66,6 @@ const AddPost = ({ token, handleRefreshPost }) => {
                     .then(response => {
                         handleRefreshPost();
                         setImage('');
-                        setTitle('');
-                        setContent('');
                         values.addPostContent = '';
                         values.addPostTitle = '';
                         handleClose();
@@ -77,7 +74,7 @@ const AddPost = ({ token, handleRefreshPost }) => {
                     .catch((error) => {
                         console.log('erreur ajout post');
                     });
-            }
+           // }
         },
     });
 
@@ -114,20 +111,22 @@ const AddPost = ({ token, handleRefreshPost }) => {
                             <div className={classes.error}>{formik.errors.addPostTitle}</div>
                         ) : null}
 
-                        <input
+                        <textarea
                             id="addPostContent"
                             className={["form-control", classes.input].join(' ')}
                             placeholder="Qu'avez vous envie de poster?"
-                            type="textarea"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            value={formik.values.addPostContent}
-                        />
+                            
+                        >{formik.values.addPostContent}</textarea>
 
                         <input
                             className="form-control"
                             type="file"
-                            onChange={(event) => { setImage(event.target.files) }}
+                            onChange={(event) => { 
+                                setImage(event.target.files) 
+                                formik.values.addPostImage= event.target.files
+                                }}
                         />
                         <button type="submit" className="btn" >
                             <i className="far fa-share-square"></i>

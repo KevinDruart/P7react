@@ -4,3 +4,11 @@
     position: relative;
     right: 32px;
 }
+
+.btnUpdate {
+    color: orange;
+}
+
+.btnDelete {
+    color: red;
+}

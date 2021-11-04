@@ -14,7 +14,7 @@ exports.createPost = (message) => {
 
                 } else {
                     resolve(result);
-                    console.log(result)
+
                     console.log('requete sql OK')
                 };
             });
@@ -56,6 +56,23 @@ exports.getPostsByIdMember = (id) => {
             db.query(sql,[id], (error, result, fields) => {
                 if (result === undefined) {
                     reject(`Affichage des posts impossible.`);
+                } else {
+                    resolve(result);
+                };
+            });
+        } catch (error) {
+            reject(error);
+        };
+    });
+};
+
+exports.deletePostsById = (id) => {
+    const sql = 'DELETE  FROM `post` WHERE id = ? ';
+    return new Promise((resolve, reject) => {
+        try {
+            db.query(sql,[id], (error, result, fields) => {
+                if (result === undefined) {
+                    reject(`suppression du post impossible.`);
                 } else {
                     resolve(result);
                 };

@@ -1,69 +1,28 @@
-// Récupération du module 'file system' de Node permettant de gérer les images
+//Récupération du module 'file system' de Node permettant de gérer les images
 const fs = require('fs');
 
-//connexion a la bdd
-//const db = require('../connect/dbConnect.js');
-//const userModel = require('../models/userModel.js');
-//import postModel
+//modele post
 const postModel = require('../models/postModel.js');
 
-//requete sql
-//const mysql = require('mysql');
-
-/*------------------------------(controller post)CREATE POST------------------------------------- */
+/*------------------------------CREATE POST------------------------------------- */
 exports.addPost = (req, res, next) => {
-  let postObject = req.file ? 
-  { ...JSON.parse(req.body.post),  imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`}
-  : { ...req.body, imageUrl: null };
+  let postObject = req.file ?
+    { ...JSON.parse(req.body.post), imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` }
+    : { ...req.body, imageUrl: null };
 
-  postObject = { ...postObject, userId: req.jwtToken.userId }; 
+  postObject = { ...postObject, userId: req.jwtToken.userId };
 
-  //console.log(post);
   postModel.createPost(postObject)
-    .then(() => res.status(201).json({ message: 'post enregistrée' }))
+    //on a une promesse
+    .then(() => {
+      return res.status(201).json({ message: 'post enregistrée' })
+    })
+    //on a une erreur
     .catch(error => {
-      //console.log(error);
-      res.status(400).json({ error: "le post ne peut pas etre ajouter" })
+      return res.status(400).json({ error: "le post ne peut pas etre ajouter" })
     });
 
 }
-
-
-//exports.addPost2 = (req, res, next) => {
-//  let userId = req.body.userId;
-//  let title = req.body.title;
-//  let content = req.body.content;
-//  let image = `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`;
-//  //recuperation de la date
-//  let dateNow = new Date();
-//  //transformation de la date actuel en date locale France
-//  let dateSignup = dateNow.toLocaleString('fr-FR', {
-//    weekday: 'long',
-//    year: 'numeric',
-//    month: 'long',
-//    day: 'numeric',
-//    hour: 'numeric',
-//    minute: 'numeric',
-//    second: 'numeric'
-//  });
-
-//  console.log(image);
-//  console.log(title);
-//  console.log(content);
-//  console.log(userId);
-//  console.log(dateSignup);
-
-//  postModel.createPost(userId, title, content, image, dateSignup)
-//    .then(response => {
-//      console.log(response);
-//      return res.status(201).json({ message: 'Post ajouté' })
-//    })
-//    .catch(error => {
-//      console.log(error);
-//      return res.status(400).json({ message: "impossible d'ajouté le post(catch)" })
-//    })
-//};
-
 
 /*---------------------------------READ ALL POST--------------------------------- */
 exports.getAllPost = (req, res, next) => {
@@ -71,7 +30,7 @@ exports.getAllPost = (req, res, next) => {
   postModel.getPosts()
     //on a notre promesse
     .then(posts => {
-      res.status(200).json(posts);
+      return res.status(200).json(posts);
     })
     //erreur promesse
     .catch(error => {
@@ -81,11 +40,10 @@ exports.getAllPost = (req, res, next) => {
     });
 }
 
-
-//post par membre
+//Récuperer les post d'un membre
 exports.getAllPostByIdMember = (req, res, next) => {
   let userId = req.params.id;
-  console.log(userId);
+
   postModel.getPostsByIdMember(userId)
     //on a notre promesse
     .then(posts => {
@@ -99,9 +57,6 @@ exports.getAllPostByIdMember = (req, res, next) => {
     });
 }
 
-
-
-
 /*------------------------------------UPDATE POST------------------------------------- */
 exports.modifyPost = (req, res, next) => {
   res.status(200).json({ message: "route update post" });
@@ -110,8 +65,19 @@ exports.modifyPost = (req, res, next) => {
 
 /*------------------------------------DELETE POST------------------------------------- */
 exports.deletePost = (req, res, next) => {
-  res.status(200).json({ message: "route delete post" });
+  const postId = req.params.id;
 
+  postModel.deletePostsById(postId)
+    //on a notre promesse
+    .then(post => {
+      return res.status(200).json({message: 'post supprimer'});
+    })
+    //erreur promesse
+    .catch(error => {
+      return res.status(401).json({
+        message: error
+      });
+    });
 
 
 };

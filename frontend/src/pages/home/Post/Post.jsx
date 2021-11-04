@@ -1,16 +1,26 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
+//Import des elements react bootstrap
 import Container from "react-bootstrap/Container";
-import { Accordion } from 'react-bootstrap';
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Button from "react-bootstrap/Button";
+import Badge from "react-bootstrap/Badge";
+
+import LoginContext from '../../../contextes/LoginContext';
+
+//import des components 
 import ConfigPost from '../configPost/ConfigPost';
-import PostComments from '../postComments/PostComments';
+
+//import des classes css
 import classes from './post.module.css';
 import './post.css';
 
-
-
 const Posts = ({ post }) => {
 
+    const { userId, isAdmin } = useContext(LoginContext);
+
+
+    //Gestion de la date 
     const datePost = new Date(post.time_post);
     let postTime = datePost.toLocaleString('fr-FR', {
         weekday: 'long',
@@ -21,18 +31,20 @@ const Posts = ({ post }) => {
         minute: 'numeric',
         second: 'numeric'
     });
-    console.log(postTime);
 
+    //click like
     const handleClickLike = (e) => {
         e.preventDefault();
         console.log("j'aime");
     }
 
+    //click dislike
     const handleClickDislike = (e) => {
         e.preventDefault();
         console.log("je n'aime pas");
     }
 
+    //click commentaires
     const handleClickComments = (e) => {
         e.preventDefault();
         console.log("je veut commenter");
@@ -49,7 +61,8 @@ const Posts = ({ post }) => {
                             <p className="post__topInfo_time">{postTime}</p>
                         </div>
                     </div>
-                    <ConfigPost className={classes.right} postId={post.id} postUId={post.userId} />
+
+                    <ConfigPost className={classes.right} postId={post.id} postUserId={post.userId} userId= {userId} admin={isAdmin}/>
                 </div>
 
                 <div className="post__bottom">
@@ -58,30 +71,31 @@ const Posts = ({ post }) => {
                 </div>
 
                 <div className="post__options">
-                    <div className="post__option">
-                        <i className="fas fa-heart" onClick={handleClickLike}></i>
-                    </div>
-                    <div className="post__option">
+                    <ButtonGroup className="mb-2">
+                        <Button
+                            variant="success"
+                            title="J'aime"
+                            onClick={handleClickLike}
+                        >
+                            <i className="far fa-thumbs-up" ></i>
+                        </Button>
+                        <Button
+                            variant="danger"
+                            title="Je n'aime pas"
+                            onClick={handleClickDislike}
+                        >
+                            <i className="far fa-thumbs-down"></i>
+                        </Button>
+                        <Button
+                            variant="light"
+                            title="Commenter"
+                            onClick={handleClickComments}
+                        >
+                            <Badge bg="secondary">9</Badge>
+                            Commentaire
+                        </Button>
+                    </ButtonGroup>
 
-                        <i className="far fa-thumbs-down" onClick={handleClickDislike}>Je n'aime pas</i>
-                    </div>
-
-                    <div className="post__option">
-                        <div className="accordion" id="accordionExample">
-                            <div className="accordion-item">
-                                <h2 className="accordion-header" id="headingTwo">
-                                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        <i className="far fa-comments" >Commenter</i>
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" className="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                    <div className="accordion-body">
-                                        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </Container>

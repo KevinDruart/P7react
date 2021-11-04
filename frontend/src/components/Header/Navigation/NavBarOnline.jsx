@@ -1,17 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import { LinkContainer } from "react-router-bootstrap";
 import classes from "./navbar.module.css";
+import LoginContext from '../../../contextes/LoginContext';
+import AdminBtn from '../../../pages/panelAdmin/adminBtn/AdminBtn';
 
 const NavBarOnline = () => {
 
+    const { setIsAuthenticated, setUserId, isAdmin, setIsAdmin } = useContext(LoginContext);
+    const history = useHistory;
+
     const handleLogout = () => {
         alert("Vous êtes maintenant déconnecter");
-        localStorage.clear();
+        localStorage.removeItem('authId');
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('admin');
+        setIsAuthenticated(false);
+        setUserId(null);
+        setIsAdmin(false);
+        history.push('/');
     }
 
+    let displayAdminBtn;
+        if (isAdmin) {
+            displayAdminBtn = <AdminBtn />;
+        }
+    
     return (
         <div className="navigation d-flex align-items-center justify-content-center justify-content-lg-start">
             <Navbar expand="lg">
@@ -36,9 +52,12 @@ const NavBarOnline = () => {
                                 Mon profil
                             </Nav.Link>
                         </LinkContainer>
+
+                        {displayAdminBtn}
+
                         <LinkContainer exact to="/" onClick={handleLogout} className="d-flex flex-column align-items-center">
                             <Nav.Link className={classes.link}>
-                            <i className="fas fa-sign-out-alt"></i>
+                                <i className="fas fa-sign-out-alt"></i>
                                 Me deconnecter
                             </Nav.Link>
                         </LinkContainer>

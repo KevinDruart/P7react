@@ -1,0 +1,16 @@
+.PanelAdmin {
+    margin-top: 70px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.PanelAdmin_Top {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.PanelAdmin_Top_info {
+    display: flex;
+    justify-content: space-around;
+}

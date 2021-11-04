@@ -5,4 +5,6 @@ export default React.createContext({
     setIsAuthenticated: value => {},
     userId: null, 
     setUserId: value => {},
+    isAdmin:false,
+    setIsAdmin: value => {},
 });

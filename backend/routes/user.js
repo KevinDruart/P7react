@@ -20,6 +20,8 @@ router.post('/signup', userCtrl.signup);
 router.post('/login', verifyMail, createAccountLimiter, userCtrl.login); 
 //Endpoint get user (voir son profil)
 router.get('/:id', userCtrl.getUser);
+//Endpoint get pour recuperer tout les membres
+router.get('/admin/users', userCtrl.getAllUser);
 //Endpoint delete user
 router.delete('/:id', userCtrl.deleteUser);
 //Endpoint update user
