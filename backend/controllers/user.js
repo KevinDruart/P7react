@@ -61,37 +61,29 @@ exports.signup = (req, res, next) => {
 
   // On appelle la méthode hash de bcrypt
   bcrypt.hash(password, saltRounds, (error, hash) => {
-    console.log('je suis ici');
-    //Verification récupération des données
 
     //On vérifie si cet adresse email est deja enregistrer dans la BDD
     userModel.isExist(email)
       .then(resultat => {
-        console.log('recherche existant')
         if (resultat.nb > 0) {
-          console.log('deja existant')
           return res.status(400).json({
             error: "adresse email deja enregistré"
           });
         }
-        console.log('direction creation')
-        console.log(name + ' ' + firstName + ' ' + email + ' ' + hash);
         userModel.create(name, firstName, emailMasked, email, hash)
           .then(resultat => {
-            console.log('creation')
+
             return res.status(200).json({
               message: resultat
             });
           })
           .catch(error => {
-            console.log('catch1')
             return res.status(400).json({
               message: error
             });
           });
       })
       .catch(error => {
-        console.log('catch2');
         return res.status(400).json({
           error: "Une erreur est survenue."
         });
@@ -107,6 +99,7 @@ exports.login = (req, res, next) => {
 
   userModel.findOneBy(email)
     .then(user => {
+
       bcrypt.compare(req.body.password, user.password)
         .then(valid => {
           if (!valid) {
@@ -114,9 +107,9 @@ exports.login = (req, res, next) => {
               error: 'Adresse email et ou mot de passe incorrect !'
             });
           }
-          //console.log(user);
           return res.status(200).json({
             userId: user.id,
+            roles: user.roles,
             token: jwt.sign({
               userId: user.id
             },
@@ -145,6 +138,21 @@ exports.getUser = (req, res, next) => {
   let userId = req.params.id;
 
   userModel.findOneById(userId)
+    //on a notre promesse
+    .then(user => {
+      return res.status(200).json(user);
+    })
+    //erreur promesse
+    .catch(error => {
+      return res.status(401).json({
+        message: error
+      });
+    });
+};
+
+
+exports.getAllUser = (req, res, next) => {
+  userModel.findAll()
     //on a notre promesse
     .then(user => {
       return res.status(200).json(user);

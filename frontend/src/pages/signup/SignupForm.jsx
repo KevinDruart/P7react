@@ -1,21 +1,23 @@
 import React from 'react';
+import { useHistory } from 'react-router';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import classes from '../StylesForm/form.module.css';
 
 const validate = values => {
+
     const errors = {};
 
     if (!values.firstName) {
         errors.firstName = 'Nom requis';
     } else if (!/^[a-zA-ZéèçîïÉÈÎÏ]+([-'\s][a-zA-ZéèçîïÉÈÎÏ]+)?$/i.test(values.firstName)) {
-        errors.firstName = values.firstName + ' ' + "n'est pas un prénom valide!" + ' ' + "Le prénom ne peut pas contenir de caractere numerique et ou speciaux";
+        errors.firstName ="Le prénom ne peut pas contenir de caractere numerique et ou speciaux";
     }
 
     if (!values.lastName) {
         errors.lastName = 'Prenom requis';
     } else if (!/^[a-zA-ZéèçîïÉÈÎÏ]+([-'\s][a-zA-ZéèçîïÉÈÎÏ]+)?$/i.test(values.lastName)) {
-        errors.lastName = values.lastName + " " + "n'est pas un nom valide!" + " " + "Le nom ne peut pas contenir de caractere numerique et ou speciaux";
+        errors.lastName ="Le nom ne peut pas contenir de caractere numerique et ou speciaux";
     }
 
     if (!values.email) {
@@ -32,6 +34,7 @@ const validate = values => {
 };
 
 const SignupForm = () => {
+    const history = useHistory();
 
     const formik = useFormik({
         initialValues: {
@@ -43,7 +46,6 @@ const SignupForm = () => {
         validate,
 
         onSubmit: values => {
-            console.log(values.email + values.password);
             axios.post('http://localhost:3000/api/auth/signup', {
                 firstName: values.firstName,
                 name: values.lastName,
@@ -54,6 +56,7 @@ const SignupForm = () => {
                     if (response.status === 200) {
                         console.log(response);
                         console.log('inscription reussi');
+                        history.push('/login');
                     }
                 })
                 .catch(function (error) {

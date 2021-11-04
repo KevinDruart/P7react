@@ -1,128 +1,131 @@
 /*reset*/
 
 * {
-    margin:0;
+    margin: 0;
     padding: 0;
     outline: none;
 }
 
 /*container*/
-.formContainer {
-    
 
+.formContainer {
     display: flex;
+    height: 92vh;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
 }
 
 .container {
-    position:relative;
+    position: relative;
 }
 
 .form_title {
-color: white;
-font-weight: 500;
-opacity: .7;
-font-size: 1.4rem;
-margin-bottom: 40px;
-text-shadow: 10px 10px 4px rgba(0,0,0,.2);
+    color: white;
+    font-weight: 500;
+    opacity: .7;
+    font-size: 1.4rem;
+    margin-bottom: 40px;
+    text-shadow: 10px 10px 4px rgba(0, 0, 0, .2);
 }
 
 /*effet*/
 
-
-
-.drop1 {    
-    background: rgba(255,255,255,.3);
+.drop1 {
+    background: rgba(255, 255, 255, .3);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    -moz-backdrop-filter:blur(10px);
-    position:absolute;
-    border-left: 1px solid rgba(255,255,255,.3);
-    border-top:1px solid rgba(255,255,255,.3);
+    -moz-backdrop-filter: blur(10px);
+    position: absolute;
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
     border-radius: 10px;
-    box-shadow: 10px 10px 60px -8px rgb(0,0,0,.2);
-    height: 80px; width: 80px;
-    top:15px; left: -25px;
+    box-shadow: 10px 10px 60px -8px rgb(0, 0, 0, .2);
+    height: 80px;
+    width: 80px;
+    top: 15px;
+    left: -25px;
     z-index: -1;
 }
 
-.drop2 {    
-    background: rgba(255,255,255,.3);
+.drop2 {
+    background: rgba(255, 255, 255, .3);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    -moz-backdrop-filter:blur(10px);
-    position:absolute;
-    border-left: 1px solid rgba(255,255,255,.3);
-    border-top:1px solid rgba(255,255,255,.3);
+    -moz-backdrop-filter: blur(10px);
+    position: absolute;
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
     border-radius: 10px;
-    box-shadow: 10px 10px 60px -8px rgb(0,0,0,.2);
-    height: 80px; width: 80px;
-    bottom:-40px; right: -25px;
-
+    box-shadow: 10px 10px 60px -8px rgb(0, 0, 0, .2);
+    height: 80px;
+    width: 80px;
+    bottom: -40px;
+    right: -25px;
 }
 
-.drop3 {    
-    background: rgba(255,255,255,.3);
+.drop3 {
+    background: rgba(255, 255, 255, .3);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    -moz-backdrop-filter:blur(10px);
-    position:absolute;
-    border-left: 1px solid rgba(255,255,255,.3);
-    border-top:1px solid rgba(255,255,255,.3);
+    -moz-backdrop-filter: blur(10px);
+    position: absolute;
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
     border-radius: 10px;
-    box-shadow: 10px 10px 60px -8px rgb(0,0,0,.2);
-    height: 60px; width: 60px;
-    bottom:-200px; left: -25px;
-
+    box-shadow: 10px 10px 60px -8px rgb(0, 0, 0, .2);
+    height: 60px;
+    width: 60px;
+    bottom: -200px;
+    left: -25px;
 }
 
-.drop4 {    
-    background: rgba(255,255,255,.3);
+.drop4 {
+    background: rgba(255, 255, 255, .3);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    -moz-backdrop-filter:blur(10px);
-    position:absolute;
-    border-left: 1px solid rgba(255,255,255,.3);
-    border-top:1px solid rgba(255,255,255,.3);
+    -moz-backdrop-filter: blur(10px);
+    position: absolute;
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
     border-radius: 10px;
-    box-shadow: 10px 10px 60px -8px rgb(0,0,0,.2);
-    height: 60px; width: 60px;
-    top:-120px; right: -35px;
-
+    box-shadow: 10px 10px 60px -8px rgb(0, 0, 0, .2);
+    height: 60px;
+    width: 60px;
+    top: -120px;
+    right: -35px;
 }
-
-
 
 /*form*/
-.form{
-    background-color: rgba(255,255,255,.3);
+
+.form {
+    background-color: rgba(255, 255, 255, .3);
     padding: 2rem;
     height: 250px;
     width: 250px;
     border-radius: 20px;
-    border-left: 1px solid rgba(255,255,255,.3);
-    border-top:1px solid rgba(255,255,255,.3);
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
     display: flex;
     flex-direction: column;
     align-items: center;
     /*effet*/
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    -moz-backdrop-filter:blur(10px);
-    box-shadow: 20px 20px 40px -6px rgba(0,0,0,.2);
+    -moz-backdrop-filter: blur(10px);
+    box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, .2);
 }
 
-.formSignup{
-    background-color: rgba(255,255,255,.3);
+.formSignup {
+    background-color: rgba(255, 255, 255, .3);
     padding: 2rem;
     height: 500px;
     width: 250px;
     border-radius: 20px;
-    border-left: 1px solid rgba(255,255,255,.3);
-    border-top:1px solid rgba(255,255,255,.3);
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -130,8 +133,8 @@ text-shadow: 10px 10px 4px rgba(0,0,0,.2);
     /*effet*/
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    -moz-backdrop-filter:blur(10px);
-    box-shadow: 20px 20px 40px -6px rgba(0,0,0,.2);
+    -moz-backdrop-filter: blur(10px);
+    box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, .2);
 }
 
 .label {
@@ -141,26 +144,24 @@ text-shadow: 10px 10px 4px rgba(0,0,0,.2);
 .input {
     background: transparent;
     border: none;
-    border-left: 1px solid rgba(255,255,255,.3);
-    border-top: 1px solid rgba(255,255,255,.3);
+    border-left: 1px solid rgba(255, 255, 255, .3);
+    border-top: 1px solid rgba(255, 255, 255, .3);
     padding: 0.6rem;
     border-radius: 50px;
-        /*effet*/
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        -moz-backdrop-filter:blur(5px);
-    box-shadow: 4px 4px 60px rgba(0,0,0,.2);
+    /*effet*/
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    -moz-backdrop-filter: blur(5px);
+    box-shadow: 4px 4px 60px rgba(0, 0, 0, .2);
     color: white;
     font-weight: 500;
-    text-shadow: 2px 2px 4px rgba(0,0,0,.2);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, .2);
     transition: all .3s;
 }
 
-.input:hover,
-.input[type="email"]:focus,
-.input[type="password"]:focus {
-    background: rgba(255,255,255,.1);
-    box-shadow: 4px 4px 60px 8px rgba(0,0,0,.2);
+.input:hover, .input[type="email"]:focus, .input[type="password"]:focus {
+    background: rgba(255, 255, 255, .1);
+    box-shadow: 4px 4px 60px 8px rgba(0, 0, 0, .2);
 }
 
 .input[type="submit"] {
@@ -184,53 +185,55 @@ text-shadow: 10px 10px 4px rgba(0,0,0,.2);
 }
 
 .recoverPass:hover {
-    text-shadow:2px 2px 6px rgb(0,0,0)
+    text-shadow: 2px 2px 6px rgb(0, 0, 0)
 }
 
 .error {
-    color:red;
+    color: red;
     font-size: 0.8em;
 }
 
 .error::before {
     display: inline;
     content: "⚠ ";
-  }
+}
 
 /*MEDIA QUERIES*/
-  /*>600px*/
+
+/*>600px*/
+
 @media screen and (min-width: 601px) {
     .form_title {
         font-size: 2.4rem;
     }
     .formSignup, .form {
-width: 580px;
-height: 450px;
+        width: 580px;
+        height: 450px;
     }
     .form {
         display: flex;
-    justify-content: center;
+        justify-content: center;
     }
     .input {
         width: 450px;
     }
-  }
+}
 
 /*480px a 600px*/
-  @media screen and (min-width: 480px) and (max-width:600px) {
+
+@media screen and (min-width: 480px) and (max-width:600px) {
     .form_title {
         font-size: 2rem;
     }
-
     .formSignup, .form {
-width: 380px;
-height: 450px;
+        width: 380px;
+        height: 450px;
     }
     .form {
         display: flex;
-    justify-content: center;
+        justify-content: center;
     }
     .input {
         width: 300px;
     }
-  }
+}

@@ -90,6 +90,24 @@ exports.findOneById = (id) => {
     });
 };
 
+//recuperer tout les membres
+exports.findAll = () => {
+    const sql = 'SELECT `id`, `name`, `firstname`, `emailMasked`, `dateSignup`, `roles` FROM `user`';
+    return new Promise((resolve, reject) => {
+        try {
+            db.query(sql, (error, result, fields) => {
+                if (result === undefined) {
+                    reject(`Impossible de recuperer les utilisateurs.`);
+                } else {
+                    resolve(result);
+                };
+            });
+        } catch (error) {
+            reject(error);
+        };
+    });
+};
+
 
 //modifier un membre
 exports.updateOne = (name, firstName, emailMasked, email, hash) => {

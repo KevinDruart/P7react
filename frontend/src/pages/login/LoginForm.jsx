@@ -25,7 +25,7 @@ const validate = values => {
 
 const LoginForm = () => {
 
-    const { setIsAuthenticated, setUserId } = useContext(LoginContext);
+    const { setIsAuthenticated, setUserId, setIsAdmin } = useContext(LoginContext);
 
     const history = useHistory();
 
@@ -52,6 +52,14 @@ const LoginForm = () => {
                             setIsAuthenticated(true);
                             setUserId(response.data.userId);
                             history.push("/home");
+                            if (response.data.roles === 'admin') {
+                                setIsAdmin(true);
+                                localStorage.setItem("admin", true);
+                            }
+                            else {
+                                localStorage.setItem("admin", false);
+                                setIsAdmin(false);
+                            }
                         }
                     }
                 })
