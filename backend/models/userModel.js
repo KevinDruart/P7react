@@ -108,7 +108,6 @@ exports.findAll = () => {
     });
 };
 
-
 //modifier un membre
 exports.updateOne = (name, firstName, emailMasked, email, hash) => {
     const sql = 'UPDATE INTO user(name, firstname, emailMasked, email, password) VALUES(?,?,?,?,?)';
@@ -119,6 +118,24 @@ exports.updateOne = (name, firstName, emailMasked, email, hash) => {
                     reject(`Impossible de modifier utilisateur.`);
                 } else {
                     resolve(`utilisateur modifié`);
+                };
+            });
+        } catch (error) {
+            reject(error);
+        };
+    });
+};
+
+//supprimer un membre
+exports.deleteOne = (id) => {
+    const sql = 'DELETE  FROM `post` WHERE id = ?';
+    return new Promise((resolve, reject) => {
+        try {
+            db.query(sql, [id], (error, result, fields) => {
+                if (result === undefined) {
+                    reject(`Impossible de supprimer utilisateur.`);
+                } else {
+                    resolve(`utilisateur supprimé`);
                 };
             });
         } catch (error) {
