@@ -1,7 +1,7 @@
 
 const db = require('../connect/dbConnect.js');
 
-//creer un post
+//CREER UN POST
 exports.createPost = (message) => {
     const sql = `INSERT INTO post(user_id, title, content, image, time_post) VALUES(?,?,?,?,NOW())`;
     return new Promise((resolve, reject) => {
@@ -20,17 +20,17 @@ exports.createPost = (message) => {
             });
         } catch (error) {
             reject(error);
-            console.log(error,'erreur promesse requete sql');
+            console.log(error, 'erreur promesse requete sql');
         };
     });
 };
 
-//modifier un post
+//MODIFIER UN POST
 exports.updatePost = () => {
-  console.log("route modif post")
+    console.log("route modif post")
 };
 
-//chercher les post
+//RECUPERER TOUT LES POSTS
 exports.getPosts = () => {
     const sql = 'SELECT post.id, title, content, image, time_post, firstname, name, user.id as userId FROM post INNER JOIN user ON post.user_id = user.id ORDER BY time_post DESC';
     return new Promise((resolve, reject) => {
@@ -48,12 +48,12 @@ exports.getPosts = () => {
     });
 };
 
-//post par id membre
+//RECUPERER UN MEMBRE PAR SON ID
 exports.getPostsByIdMember = (id) => {
     const sql = 'SELECT post.id, title, content, image, time_post, firstname, name, user.id as userId FROM post INNER JOIN user ON post.user_id = user.id WHERE user.id = ? ORDER BY time_post DESC ';
     return new Promise((resolve, reject) => {
         try {
-            db.query(sql,[id], (error, result, fields) => {
+            db.query(sql, [id], (error, result, fields) => {
                 if (result === undefined) {
                     reject(`Affichage des posts impossible.`);
                 } else {
@@ -66,11 +66,12 @@ exports.getPostsByIdMember = (id) => {
     });
 };
 
+//SUPPRIMER UN POST
 exports.deletePostsById = (id) => {
     const sql = 'DELETE  FROM `post` WHERE id = ? ';
     return new Promise((resolve, reject) => {
         try {
-            db.query(sql,[id], (error, result, fields) => {
+            db.query(sql, [id], (error, result, fields) => {
                 if (result === undefined) {
                     reject(`suppression du post impossible.`);
                 } else {
@@ -82,3 +83,31 @@ exports.deletePostsById = (id) => {
         };
     });
 };
+
+//LIKE OU DISLIKE UN POST
+exports.likeOrDislike = (like) => {
+    const sql = 'INSERT INTO `likes`( `user_id`, `post_id`, `like`) VALUES(?,?,?)';
+    return new Promise((resolve, reject) => {
+        try {
+            console.log('execution dbquery');
+            console.log(like.userId);
+            console.log(like.postId);
+            console.log(like.iLike);
+            db.query(sql, [like.userId, like.postId, like.iLike], (error, result, fields) => {
+                console.log(result);
+                console.log('dbquery');
+                if (result === undefined) {
+                    reject(result);
+                    console.log('erreur requete')
+                } 
+                else {
+                    resolve(result);
+                    console.log('requete sql like OK')
+                };
+            });
+        } catch (error) {
+            reject(error);
+            console.log(error, 'erreur promesse requete sql like');
+        };
+    });
+}
