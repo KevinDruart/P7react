@@ -61,7 +61,7 @@ const PanelAdmin = () => {
                     <div>
                         <p>
                             Nombre de Membres:
-                            <span class="badge bg-success">
+                            <span className="badge bg-success">
                                 {nbUsers}
                             </span>
                         </p>
@@ -69,7 +69,7 @@ const PanelAdmin = () => {
                     <div>
                         <p>
                             Nombre de posts:
-                            <span class="badge bg-success">
+                            <span className="badge bg-success">
                                 {nbPosts}
                             </span>
                         </p>

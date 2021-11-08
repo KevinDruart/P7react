@@ -1,6 +1,6 @@
 const db = require('../connect/dbConnect.js');
 
-//recherche si un membre existe avec un email
+//RECHERCHER SI UN MEMBRE EXISTE AVEC SON EMAIL
 exports.isExist = (email) => {
     const sql = 'SELECT count(*) as nb FROM user WHERE email = ?';
     return new Promise((resolve, reject) => {
@@ -18,7 +18,7 @@ exports.isExist = (email) => {
     });
 };
 
-//recherche si un membre existe avec un id
+//RECHERCHER SI UN MEMBRE EXISTE AVEC SON ID
 exports.isExistId = (userId) => {
     const sql = 'SELECT count(*) as nb FROM user WHERE id = ?';
     return new Promise((resolve, reject) => {
@@ -36,7 +36,7 @@ exports.isExistId = (userId) => {
     });
 };
 
-//trouve un membre avec son email
+//TROUVER UN MEMBRE AVEC SON EMAIL
 exports.findOneBy = (email) => {
     const sql = 'SELECT * FROM user WHERE email = ?';
     return new Promise((resolve, reject) => {
@@ -54,7 +54,7 @@ exports.findOneBy = (email) => {
     });
 };
 
-//creer un nouveau membre
+//CREER UN NOUVEAU MEMBRE
 exports.create = (name, firstName, emailMasked, email, hash) => {
     const sql = 'INSERT INTO user(name, firstname, emailMasked, email, password) VALUES(?,?,?,?,?)';
     return new Promise((resolve, reject) => {
@@ -72,7 +72,7 @@ exports.create = (name, firstName, emailMasked, email, hash) => {
     });
 };
 
-//trouve un membre avec son id
+//TROUVER UN MEMBRE AVEC SON ID
 exports.findOneById = (id) => {
     const sql = 'SELECT name, firstname, email, dateSignup FROM user WHERE id = ?';
     return new Promise((resolve, reject) => {
@@ -90,7 +90,7 @@ exports.findOneById = (id) => {
     });
 };
 
-//recuperer tout les membres
+//RECUPERER TOUT LES MEMBRES
 exports.findAll = () => {
     const sql = 'SELECT `id`, `name`, `firstname`, `emailMasked`, `dateSignup`, `roles` FROM `user`';
     return new Promise((resolve, reject) => {
@@ -108,7 +108,7 @@ exports.findAll = () => {
     });
 };
 
-//modifier un membre
+//MODIFIER UN MEMBRE
 exports.updateOne = (name, firstName, emailMasked, email, hash) => {
     const sql = 'UPDATE INTO user(name, firstname, emailMasked, email, password) VALUES(?,?,?,?,?)';
     return new Promise((resolve, reject) => {
@@ -126,16 +126,16 @@ exports.updateOne = (name, firstName, emailMasked, email, hash) => {
     });
 };
 
-//supprimer un membre
+//SUPPRIMER UN MEMBRE
 exports.deleteOne = (id) => {
-    const sql = 'DELETE  FROM `post` WHERE id = ?';
+    const sql = 'DELETE  FROM `user` WHERE id = ? ';
     return new Promise((resolve, reject) => {
         try {
-            db.query(sql, [id], (error, result, fields) => {
+            db.query(sql,[id], (error, result, fields) => {
                 if (result === undefined) {
-                    reject(`Impossible de supprimer utilisateur.`);
+                    reject(`suppression du membre impossible.`);
                 } else {
-                    resolve(`utilisateur supprimé`);
+                    resolve(result);
                 };
             });
         } catch (error) {

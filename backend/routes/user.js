@@ -28,6 +28,6 @@ router.delete('/:id', userCtrl.deleteUser);
 router.put('/:id', userCtrl.modifyUser);
 
 
-router.post('/test', userCtrl.test);
+
 
 module.exports = router;

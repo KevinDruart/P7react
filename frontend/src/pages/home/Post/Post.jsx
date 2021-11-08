@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
+import axios from 'axios';
 
 //Import des elements react bootstrap
 import Container from "react-bootstrap/Container";
@@ -18,6 +19,8 @@ import './post.css';
 const Posts = ({ post }) => {
 
     const { userId, isAdmin } = useContext(LoginContext);
+    const token = localStorage.getItem('authToken');
+    const [likes, setLikes] = useState('');
 
 
     //Gestion de la date 
@@ -31,23 +34,52 @@ const Posts = ({ post }) => {
         minute: 'numeric',
         second: 'numeric'
     });
+    let like = {
+        userId: userId,
+        postId: post.id,
+        iLike: likes
+    };
+
+    console.log(like);
 
     //click like
     const handleClickLike = (e) => {
         e.preventDefault();
+        setLikes(1);
         console.log("j'aime");
+        console.log(post.id);
+        console.log(userId);
+        sendLike();
     }
 
     //click dislike
     const handleClickDislike = (e) => {
         e.preventDefault();
+        setLikes(-1);
         console.log("je n'aime pas");
+        console.log(post.id);
+        console.log(userId);
+        sendLike();
     }
 
     //click commentaires
     const handleClickComments = (e) => {
         e.preventDefault();
         console.log("je veut commenter");
+    }
+
+    //fonction d'envoie du like ou dislike
+    const sendLike = () => {
+        axios.post("http://localhost:3000/api/messages/" + post.id + "/like", like, {
+            headers: { Authorization: `Bearer ${token}` },
+        })
+            .then(response => {
+                console.log(response);
+
+            })
+            .catch((error) => {
+                console.log('erreur like ou dislike');
+            });
     }
     return (
         <Container className="Post">
@@ -62,7 +94,7 @@ const Posts = ({ post }) => {
                         </div>
                     </div>
 
-                    <ConfigPost className={classes.right} postId={post.id} postUserId={post.userId} userId= {userId} admin={isAdmin}/>
+                    <ConfigPost className={classes.right} postId={post.id} postUserId={post.userId} userId={userId} admin={isAdmin} />
                 </div>
 
                 <div className="post__bottom">

@@ -1,5 +1,4 @@
 //connexion a la bdd
-//const db = require('../connect/dbConnect.js'); // PROMISE à virer
 const userModel = require('../models/userModel.js');
 
 //securisation authentification avec un TOKEN genéré
@@ -11,22 +10,7 @@ const bcrypt = require('bcrypt');
 //maskage email
 const maskData = require('../node_modules/maskdata/index');
 
-/*TEST */
-
-exports.test = (req, res, next) => {
-  console.log(req.body);
-}
-
-/*
-exports.signup = (req, res, next) => {
-  console.log(req.body);
-}*/
-
-
-
 /*-----------------------------------------SIGNUP--------------------------------------------*/
-// INSCRIPTION D'UN UTILISATEUR avec hashage MDP (BCRYPT) et maskage email(maskdata)
-// Promise
 exports.signup = (req, res, next) => {
   //configuration du masquage email
   const emailMask2Options = {
@@ -92,7 +76,6 @@ exports.signup = (req, res, next) => {
 };
 
 /*-----------------------------------------LOGIN--------------------------------------------*/
-
 exports.login = (req, res, next) => {
   //on recupére l'email présent dans le body
   let email = req.body.email;
@@ -150,7 +133,6 @@ exports.getUser = (req, res, next) => {
     });
 };
 
-
 exports.getAllUser = (req, res, next) => {
   userModel.findAll()
     //on a notre promesse
@@ -205,15 +187,32 @@ exports.modifyUser = (req, res, next) => {
   }
 }
 
-
 /*------------------------------------DELETE USER------------------------------------- */
 exports.deleteUser = (req, res, next) => {
+
   let userId = req.params.id;
-  userModel.deleteOne(userId)
-    .then((res) => {
-      return res.status(200).json({ message: 'utilisateur supprimé' });
+
+  userModel.isExistId(userId)
+    //on a notre promesse
+    .then((response) => {
+      console.log(response);
+      userModel.deleteOne(userId)
+        .then((result) => {
+          console.log('then controller')
+          console.log(result);
+          return res.status(200).json({message: 'utilisateur supprimer'})
+        })
+        .catch((error) => {
+          console.log('catch controller')
+          return res.status(400).json({ message: "impossible de supprimer" });
+        })
     })
-    .catch((error) => {
-      return res.status(400).json({ message: error });
-    })
+    //erreur promesse
+    .catch(error => {
+      return res.status(401).json({
+        message: error
+      });
+    });
+
+
 };

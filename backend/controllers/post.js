@@ -70,7 +70,7 @@ exports.deletePost = (req, res, next) => {
   postModel.deletePostsById(postId)
     //on a notre promesse
     .then(post => {
-      return res.status(200).json({message: 'post supprimer'});
+      return res.status(200).json({ message: 'post supprimer' });
     })
     //erreur promesse
     .catch(error => {
@@ -86,6 +86,17 @@ exports.deletePost = (req, res, next) => {
 /*----------------------------------like and dislike post------------------------------------ */
 
 exports.likeDislikePost = (req, res, next) => {
-  res.status(200).json({ message: "route like post" })
-
+  let like = { ...req.body };
+  console.log(like);
+  postModel.likeOrDislike(like)
+    //on a notre promesse
+    .then(post => {
+      return res.status(200).json({ message: 'ok like' });
+    })
+    //erreur promesse
+    .catch(error => {
+      return res.status(401).json({
+        message: error
+      });
+    });
 };
