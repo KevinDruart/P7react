@@ -90,12 +90,7 @@ exports.likeOrDislike = (like) => {
     return new Promise((resolve, reject) => {
         try {
             console.log('execution dbquery');
-            console.log(like.userId);
-            console.log(like.postId);
-            console.log(like.iLike);
             db.query(sql, [like.userId, like.postId, like.iLike], (error, result, fields) => {
-                console.log(result);
-                console.log('dbquery');
                 if (result === undefined) {
                     reject(result);
                     console.log('erreur requete')
@@ -108,6 +103,42 @@ exports.likeOrDislike = (like) => {
         } catch (error) {
             reject(error);
             console.log(error, 'erreur promesse requete sql like');
+        };
+    });
+}
+
+//RECUPERER TOUT LES LIKE OU DISLIKE 
+exports.getLike = () => {
+    const sql = 'SELECT u.name , u.firstname ,u.id AS userId ,p.id AS postId , p.title , p.content ,p.image AS postImage ,l.like ,l.id FROM likes AS l INNER JOIN post AS p ON l.post_id = p.id INNER JOIN user AS u ON l.user_id = u.id ';
+    return new Promise((resolve, reject) => {
+        try {
+            db.query(sql, (error, result, fields) => {
+                if (result === undefined) {
+                    reject(`Affichage des posts impossible.`);
+                } else {
+                    resolve(result);
+                };
+            });
+        } catch (error) {
+            reject(error);
+        };
+    });
+}
+
+//RECUPERER LES LIKES D'UN POST AVEC SON ID
+exports.getOneLikeById = (postId) => {
+    const sql = 'SELECT u.name , u.firstname ,u.id AS userId ,p.id AS postId , p.title , p.content ,p.image AS postImage ,l.like ,l.id FROM likes AS l INNER JOIN post AS p ON l.post_id = p.id INNER JOIN user AS u ON l.user_id = u.id WHERE p.id=? ';
+    return new Promise((resolve, reject) => {
+        try {
+            db.query(sql, [postId], (error, result, fields) => {
+                if (result === undefined) {
+                    reject(`Affichage des posts impossible.`);
+                } else {
+                    resolve(result);
+                };
+            });
+        } catch (error) {
+            reject(error);
         };
     });
 }

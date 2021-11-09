@@ -82,7 +82,6 @@ exports.deletePost = (req, res, next) => {
 
 };
 
-
 /*----------------------------------like and dislike post------------------------------------ */
 
 exports.likeDislikePost = (req, res, next) => {
@@ -91,7 +90,7 @@ exports.likeDislikePost = (req, res, next) => {
   postModel.likeOrDislike(like)
     //on a notre promesse
     .then(post => {
-      return res.status(200).json({ message: 'ok like' });
+      return res.status(200).json({ message: 'ok like' }); 
     })
     //erreur promesse
     .catch(error => {
