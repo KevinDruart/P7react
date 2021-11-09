@@ -72,7 +72,14 @@ const Profile = () => {
                     <Col sm={9}>
                         <Tab.Content>
                             <Tab.Pane eventKey="first">
-                                <Account {...user} />
+                                <Account 
+                                userId={userId}
+                                authToken={token}
+                                name={user.name} 
+                                firstname={user.firstname} 
+                                email={user.emailMasked} 
+                                date={user.dateSignup}     
+                                />
                             </Tab.Pane>
                             <Tab.Pane eventKey="second">
                                 {posts.map((post) => {

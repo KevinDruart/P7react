@@ -149,42 +149,7 @@ exports.getAllUser = (req, res, next) => {
 
 /*------------------------------------UPDATE USER------------------------------------- */
 exports.modifyUser = (req, res, next) => {
-  //Récupération et sauvegarde dans une variable de l'userId
-  let user = req.userIdToken;
-  console.log(user);
-  //verification si userId = Sauce.userId (si l'utilisateur est propriètaire de la sauce)
-  let userObject = { ...req.body };
-
-
-  // Si la modification contient une image
-  userModel.findOneById({
-    _id: req.params.id
-  }).then((user) => {
-
-  }),
-
-    sauceObject = {
-      ...req.body
-    }
-
-  if (req.userIdToken === userObject.userId) {
-    userModel.updateOne(
-      // On applique les paramètre de sauceObject
-      {
-        _id: req.params.id
-      }, {
-      ...sauceObject,
-      _id: req.params.id
-    }
-    )
-      .then(() => res.status(200).json({ message: 'profil modifiée !' })
-      )
-      .catch((error) => res.status(400).json({ error: 'profil est introuvable' })
-      )
-  }
-  else {
-    res.status(401).json({ error: "Vous ne disposez pas des droits pour modifier ce profil !" });
-  }
+  console.log(req.body);
 }
 
 /*------------------------------------DELETE USER------------------------------------- */
@@ -200,7 +165,7 @@ exports.deleteUser = (req, res, next) => {
         .then((result) => {
           console.log('then controller')
           console.log(result);
-          return res.status(200).json({message: 'utilisateur supprimer'})
+          return res.status(200).json({ message: 'utilisateur supprimer' })
         })
         .catch((error) => {
           console.log('catch controller')

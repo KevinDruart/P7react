@@ -74,7 +74,7 @@ exports.create = (name, firstName, emailMasked, email, hash) => {
 
 //TROUVER UN MEMBRE AVEC SON ID
 exports.findOneById = (id) => {
-    const sql = 'SELECT name, firstname, email, dateSignup FROM user WHERE id = ?';
+    const sql = 'SELECT name, firstname, emailMasked, dateSignup FROM user WHERE id = ?';
     return new Promise((resolve, reject) => {
         try {
             db.query(sql, [id], (error, result, fields) => {
@@ -109,15 +109,15 @@ exports.findAll = () => {
 };
 
 //MODIFIER UN MEMBRE
-exports.updateOne = (name, firstName, emailMasked, email, hash) => {
-    const sql = 'UPDATE INTO user(name, firstname, emailMasked, email, password) VALUES(?,?,?,?,?)';
+exports.updateOneName = () => {
+    const sql = `UPDATE user SET name, firstname, email VALUES(?,?,?) WHERE id = ?`;
     return new Promise((resolve, reject) => {
         try {
-            db.query(sql, [name, firstName, emailMasked, email, hash], (error, result, fields) => {
+            db.query(sql, [name, firstname, email, id], (error, result, fields) => {
                 if (result === undefined) {
                     reject(`Impossible de modifier utilisateur.`);
                 } else {
-                    resolve(`utilisateur modifié`);
+                    resolve(result);
                 };
             });
         } catch (error) {
@@ -131,7 +131,7 @@ exports.deleteOne = (id) => {
     const sql = 'DELETE  FROM `user` WHERE id = ? ';
     return new Promise((resolve, reject) => {
         try {
-            db.query(sql,[id], (error, result, fields) => {
+            db.query(sql, [id], (error, result, fields) => {
                 if (result === undefined) {
                     reject(`suppression du membre impossible.`);
                 } else {
