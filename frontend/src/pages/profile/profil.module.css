@@ -6,3 +6,11 @@
 .titleProfil {
     margin-top: 50px;
 }
+
+.tabs {
+    color:#fff;
+}
+
+.tabs:active {
+    background-color: #fc2e07;
+}

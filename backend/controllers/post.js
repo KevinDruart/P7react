@@ -59,7 +59,50 @@ exports.getAllPostByIdMember = (req, res, next) => {
 
 /*------------------------------------UPDATE POST------------------------------------- */
 exports.modifyPost = (req, res, next) => {
-  res.status(200).json({ message: "route update post" });
+  //Récupération et sauvegarde dans une variable de l'userId
+  let user = req.userIdToken;
+  console.log(user);
+
+  let postObject = {};
+  req.file ?
+    (
+      // Si la modification contient une image
+      postModel.find({
+        id: req.params.id
+      }).then((post) => {
+        // On supprime l'ancienne image du serveur
+        const filename = post.imageUrl.split('/images/')[1]
+        fs.unlinkSync(`images/${filename}`)
+      }),
+      postObject = {
+        // On modifie les données et on ajoute la nouvelle image
+        ...JSON.parse(req.body.post),
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+      }
+    ) : (
+      // Si la modification ne contient pas de nouvelle image
+      postObject = {
+        ...req.body
+      }
+    )
+  if (req.userIdToken === postObject.userId) {
+    postModel.update(
+      // On applique les paramètre de sauceObject
+      {
+        id: req.params.id
+      }, {
+      ...postObject,
+      id: req.params.id
+    }
+    )
+      .then(() => res.status(200).json({ message: 'Post modifiée !' })
+      )
+      .catch((error) => res.status(400).json({ error: 'le Post est introuvable' })
+      )
+  }
+  else {
+    res.status(401).json({ error: "Vous ne disposez pas des droits pour modifier ce Post !" });
+  }
 }
 
 /*------------------------------------DELETE POST------------------------------------- */

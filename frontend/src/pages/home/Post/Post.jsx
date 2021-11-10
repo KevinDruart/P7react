@@ -10,7 +10,7 @@ import Badge from "react-bootstrap/Badge";
 import LoginContext from '../../../contextes/LoginContext';
 
 //import des components 
-import ConfigPost from '../configPost/ConfigPost';
+import UpdatePost from '../updatePost/UpdatePost';
 
 //import des classes css
 import classes from './post.module.css';
@@ -40,8 +40,6 @@ const Posts = ({ post }) => {
         iLike: likes
     };
 
-    console.log(like);
-
     //click like
     const handleClickLike = (e) => {
         e.preventDefault();
@@ -70,7 +68,7 @@ const Posts = ({ post }) => {
 
     //fonction d'envoie du like ou dislike
     const sendLike = () => {
-        axios.post("http://localhost:3000/api/likes/" + post.id , like, {
+        axios.post("http://localhost:3000/api/likes/" + post.id, like, {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then(response => {
@@ -93,7 +91,15 @@ const Posts = ({ post }) => {
                         </div>
                     </div>
 
-                    <ConfigPost className={classes.right} postId={post.id} postUserId={post.userId} userId={userId} admin={isAdmin} />
+                    <UpdatePost
+                        className={classes.right}
+                        postId={post.id}
+                        postTitle={post.title}
+                        postContent={post.content}
+                        postImg={post.image}
+                        postUserId={post.userId}
+                        userId={userId}
+                        admin={isAdmin} />
                 </div>
 
                 <div className="post__bottom">

@@ -62,10 +62,10 @@ const Profile = () => {
                     <Col sm={3}>
                         <Nav variant="pills" className="flex-column">
                             <Nav.Item>
-                                <Nav.Link eventKey="first">Mon compte</Nav.Link>
+                                <Nav.Link className={classes.tabs} eventKey="first">Mon compte</Nav.Link>
                             </Nav.Item>
                             <Nav.Item>
-                                <Nav.Link eventKey="second">Mes posts</Nav.Link>
+                                <Nav.Link className={classes.tabs} eventKey="second">Mes posts</Nav.Link>
                             </Nav.Item>
                         </Nav>
                     </Col>

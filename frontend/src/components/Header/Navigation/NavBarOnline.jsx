@@ -23,11 +23,6 @@ const NavBarOnline = () => {
         history.push('/');
     }
 
-    let displayAdminBtn;
-        if (isAdmin) {
-            displayAdminBtn = <AdminBtn />;
-        }
-    
     return (
         <div className="navigation d-flex align-items-center justify-content-center justify-content-lg-start">
             <Navbar expand="lg">
@@ -53,7 +48,7 @@ const NavBarOnline = () => {
                             </Nav.Link>
                         </LinkContainer>
 
-                        {displayAdminBtn}
+                        {isAdmin ? <AdminBtn /> : null}
 
                         <LinkContainer exact to="/" onClick={handleLogout} className="d-flex flex-column align-items-center">
                             <Nav.Link className={classes.link}>

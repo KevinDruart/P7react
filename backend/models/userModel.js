@@ -109,11 +109,11 @@ exports.findAll = () => {
 };
 
 //MODIFIER UN MEMBRE
-exports.updateOneName = () => {
-    const sql = `UPDATE user SET name, firstname, email VALUES(?,?,?) WHERE id = ?`;
+exports.update = (name, firstname, email, emailMasked, userId) => {
+    const sql = 'UPDATE `user` SET `name`=?,`firstname`=?, `email`=?, `emailMasked`=? WHERE id=?';
     return new Promise((resolve, reject) => {
         try {
-            db.query(sql, [name, firstname, email, id], (error, result, fields) => {
+            db.query(sql, [name, firstname, email, emailMasked, userId], (error, result, fields) => {
                 if (result === undefined) {
                     reject(`Impossible de modifier utilisateur.`);
                 } else {

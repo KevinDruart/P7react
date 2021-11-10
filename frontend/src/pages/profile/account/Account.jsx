@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
-import axios from 'axios';
+
 import Card from 'react-bootstrap/Card';
 import Table from 'react-bootstrap/Table';
-import Button from 'react-bootstrap/Button';
+
 
 import LoginContext from '../../../contextes/LoginContext';
 import UpdateAccount from './updateAccount/UpdateAccount';
@@ -11,8 +11,8 @@ import UpdateAccount from './updateAccount/UpdateAccount';
 
 
 const Account = (props) => {
-    const { setUserId, setIsAdmin, setIsAuthenticated } = useContext(LoginContext);
-    const uId = localStorage.getItem('authId');
+    const { userId } = useContext(LoginContext);
+
 
     const history = useHistory;
 
@@ -27,32 +27,7 @@ const Account = (props) => {
         second: 'numeric'
     });
 
-    //SUPPRIMER LE COMPTE
-    const handleDeleteMyAccount = (e) => {
-        e.preventDefault();
-        console.log("supprimer mon compte");
-        if (props.userId === uId) {
-            axios.delete("http://localhost:3000/api/auth/" + props.userId, {
-                headers: { Authorization: `Bearer ${props.token}` },
-            })
-                .then(response => {
-                    alert("Votre compte a bien etait supprimer, vous allez etre redirigé.");
-                    localStorage.removeItem('authId');
-                    localStorage.removeItem('authToken');
-                    localStorage.removeItem('admin');
-                    setIsAuthenticated(false);
-                    setUserId(null);
-                    setIsAdmin(false);
-                    history.push('/');
-                })
-                .catch((error) => {
-                    console.log('erreur suppresion du compte');
-                });
-        }
-        else {
-            alert('vous ne pouvez pas supprimer votre compte, contacter un administrateur')
-        }
-    }
+
 
     return (
         <div>
@@ -82,11 +57,8 @@ const Account = (props) => {
                     </tbody>
                 </Table>
                 <Card.Body className="d-flex">
-                    <Button variant="danger" title="Supprimer mon compte" onClick={handleDeleteMyAccount}>
-                        <i className="fas fa-trash-alt"></i>
-                    </Button>
                     <UpdateAccount
-                        authId={uId}
+                        authId={userId}
                         authToken={props.token}
                         userId={props.userId}
                         oldName={props.name}
