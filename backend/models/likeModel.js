@@ -1,7 +1,7 @@
 const db = require('../connect/dbConnect.js');
 
 //LIKE OU DISLIKE UN POST
-exports.likeOrDislike = (like) => {
+exports.createNewLike = (like) => {
     const sql = 'INSERT INTO `likes`( `user_id`, `post_id`, `like`) VALUES(?,?,?)';
     return new Promise((resolve, reject) => {
         try {
@@ -48,6 +48,24 @@ exports.findOneLike = (like) => {
     return new Promise((resolve, reject) => {
         try {
             db.query(sql, [like.postId], (error, result, fields) => {
+                if (result === undefined || result === "") {
+                    reject("aucun like sur ce post");
+                } else {
+                    resolve(result[0]);
+                };
+            });
+        } catch (error) {
+            reject(error);
+        };
+    });
+}
+
+//MODIFIER UN LIKE
+exports.updateLike = (likeUser) => {
+    const sql = 'UPDATE `likes` SET `like`=? WHERE user_id=? AND post_id=?';
+    return new Promise((resolve, reject) => {
+        try {
+            db.query(sql, [likeUser.like, likeUser.userId, likeUser.postId], (error, result, fields) => {
                 if (result === undefined || result === "") {
                     reject("aucun like sur ce post");
                 } else {
