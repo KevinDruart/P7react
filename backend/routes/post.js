@@ -20,10 +20,4 @@ router.put('/:id', auth, multer, postCtrl.modifyPost);
 //delete post
 router.delete('/:id', auth, postCtrl.deletePost);
 
-/*******LIKE **********/
-//ajout/annulation like ou dislike d'un post
-router.post('/:id/like', auth, postCtrl.likeDislikePost);
-
-
-
 module.exports = router;
