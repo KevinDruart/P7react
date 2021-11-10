@@ -142,3 +142,21 @@ exports.getOneLikeById = (postId) => {
         };
     });
 }
+
+//VERIFICATION DES LIKES SUR UN POST
+exports.findOneLike = (like) => {
+    const sql = 'SELECT u.name , u.firstname ,u.id AS userId ,p.id AS postId , p.title , p.content ,p.image AS postImage ,l.like ,l.id FROM likes AS l INNER JOIN post AS p ON l.post_id = p.id INNER JOIN user AS u ON l.user_id = u.id WHERE u.id=? and p.id=?';
+    return new Promise((resolve, reject) => {
+        try {
+            db.query(sql, [like.userId, like.postId], (error, result, fields) => {
+                if (result === undefined || result === "") {
+                    reject("aucun like de ce membre sur ce post");
+                } else {
+                    resolve(result[0]);
+                };
+            });
+        } catch (error) {
+            reject(error);
+        };
+    });
+}
