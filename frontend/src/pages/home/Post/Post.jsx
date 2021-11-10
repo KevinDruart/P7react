@@ -20,7 +20,7 @@ const Posts = ({ post }) => {
 
     const { userId, isAdmin } = useContext(LoginContext);
     const token = localStorage.getItem('authToken');
-    const [likes, setLikes] = useState('');
+    const [likes, setLikes] = useState('0');
 
 
     //Gestion de la date 
@@ -75,7 +75,6 @@ const Posts = ({ post }) => {
         })
             .then(response => {
                 console.log(response);
-
             })
             .catch((error) => {
                 console.log('erreur like ou dislike');

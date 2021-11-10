@@ -23,10 +23,7 @@ router.delete('/:id', auth, postCtrl.deletePost);
 /*******LIKE **********/
 //ajout/annulation like ou dislike d'un post
 router.post('/:id/like', auth, postCtrl.likeDislikePost);
-//get all like
-router.get('/like', auth, postCtrl.getLike);
-//get one like
-router.get('/:id/like', auth, postCtrl.getOneLikeById);
+
 
 
 module.exports = router;
