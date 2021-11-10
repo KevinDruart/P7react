@@ -26,7 +26,7 @@ exports.createPost = (message) => {
 };
 
 //MODIFIER UN POST
-exports.updatePost = () => {
+exports.update = () => {
     console.log("route modif post")
 };
 
@@ -40,6 +40,24 @@ exports.getPosts = () => {
                     reject(`Affichage des posts impossible.`);
                 } else {
                     resolve(result);
+                };
+            });
+        } catch (error) {
+            reject(error);
+        };
+    });
+};
+
+//TROUVER UN POST 
+exports.find = (postId) => {
+    const sql = 'SELECT * FROM post WHERE id = ?';
+    return new Promise((resolve, reject) => {
+        try {
+            db.query(sql, [postId], (error, result, fields) => {
+                if (result === undefined || result === "") {
+                    reject('Adresse email et ou mot de passe incorrect !');
+                } else {
+                    resolve(result[0]);
                 };
             });
         } catch (error) {

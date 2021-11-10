@@ -4,4 +4,5 @@
 
 .left {
   display: flex;
+  margin-right: auto;
 }

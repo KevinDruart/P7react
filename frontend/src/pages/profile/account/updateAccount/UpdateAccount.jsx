@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 import { useFormik } from 'formik';
+import LoginContext from '../../../../contextes/LoginContext';
 
 //Import elements react bootstrap
 import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 
@@ -29,21 +31,19 @@ const validate = values => {
     } else if (!/^[\w-ç\.]+@groupomania\.fr$/i.test(values.email)) {
         errors.email = "L'adresse email doit être uniquement @groupomania.fr";
     }
-    if (!values.password) {
-        errors.password = 'Mot de passe requis';
-    } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/i.test(values.password)) {
-        errors.password = "Le mot de passe doit contenir une majuscule, une minuscule, 1 chiffre au minimum et avoir 8 caractere minimum";
-    }
     return errors;
 };
 
 const UpdateAccount = (props) => {
+    const { userId, setUserId, setIsAdmin, setIsAuthenticated } = useContext(LoginContext);
+
     const history = useHistory();
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    //VALIDATION ET REQUETE
     const formik = useFormik({
         initialValues: {
             firstName: '',
@@ -53,15 +53,25 @@ const UpdateAccount = (props) => {
         validate,
 
         onSubmit: values => {
-            axios.put("http://localhost:3000/api/auth/" + props.uId, {
-                firstName: values.firstName,
+
+            // const data = JSON.stringify({
+            //     firstname: values.firstName,
+            //     name: values.lastName,
+            //     email: values.email
+            // })
+            //console.log(data);
+            axios.put("http://localhost:3000/api/auth/" + props.authId, {
+                firstname: values.firstName,
                 name: values.lastName,
-                email: values.email,
+                email: values.email
             }, {
                 headers: { Authorization: `Bearer ${props.authToken}` },
             })
                 .then((response) => {
                     console.log(response.data);
+                    handleClose();
+                    alert('Vos informations on bien eté mise a jour.')
+                    history.push('/profile');
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -69,30 +79,60 @@ const UpdateAccount = (props) => {
         },
     });
 
+    //SUPPRIMER LE COMPTE
+    const handleDeleteMyAccount = (e) => {
+        e.preventDefault();
+        console.log("supprimer mon compte");
+        if (props.userId === userId) {
+            axios.delete("http://localhost:3000/api/auth/" + props.userId, {
+                headers: { Authorization: `Bearer ${props.token}` },
+            })
+                .then(response => {
+                    alert("Votre compte a bien etait supprimer, vous allez etre redirigé.");
+                    localStorage.removeItem('authId');
+                    localStorage.removeItem('authToken');
+                    localStorage.removeItem('admin');
+                    setIsAuthenticated(false);
+                    setUserId(null);
+                    setIsAdmin(false);
+                    history.push('/');
+                })
+                .catch((error) => {
+                    console.log('erreur suppresion du compte');
+                });
+        }
+        else {
+            alert('vous ne pouvez pas supprimer votre compte, contacter un administrateur')
+        }
+    }
+
     return (
         <Container className="messageSender__top">
-            <Button onClick={handleShow} title="Modifier mes informations">
-                <i className="fas fa-user-edit"></i>
-            </Button>
+            <ButtonGroup>
+                <Button onClick={handleShow} title="modifier mes informations">
+                    <i className="fas fa-user-edit"></i>
+                </Button>
+                <Button variant="danger" title="Supprimer mon compte" onClick={handleDeleteMyAccount}>
+                    <i className="fas fa-trash-alt"></i>
+                </Button>
+            </ButtonGroup>
 
             <Modal show={show} onHide={handleClose}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered>
                 <Modal.Header>
-                    <Modal.Title>Modifier mes données personnelle</Modal.Title>
+                    <Modal.Title>Modifier mes informations</Modal.Title>
                     <Button variant="danger" onClick={handleClose}>
                         <i className="fas fa-times-circle"></i>
                     </Button>
                 </Modal.Header>
                 <Modal.Body>
                     <form onSubmit={formik.handleSubmit}>
-                        <label htmlFor="lastName" className="form-label">Nom</label>
                         <input
+                            id="lastName"
                             className="form-control"
                             placeholder="Nom"
-                            id="lastName"
-                            name="lastName"
                             type="text"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -102,13 +142,10 @@ const UpdateAccount = (props) => {
                             <div>{formik.errors.lastName}</div>
                         ) : null}
 
-                        <label htmlFor="firstname" className="form-label">Prénom</label>
                         <input
-
-                            className="form-control"
-                            placeholder="Prénom"
                             id="firstName"
-                            name="firstName"
+                            className="form-control"
+                            placeholder="Prenom"
                             type="text"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -118,23 +155,22 @@ const UpdateAccount = (props) => {
                             <div>{formik.errors.firstName}</div>
                         ) : null}
 
-                        <label htmlFor="email" className="form-label">Email</label>
                         <input
-
-                            className="form-control"
-                            placeholder="Adresse email"
                             id="email"
-                            name="email"
+                            className="form-control"
+                            placeholder="email"
                             type="email"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.email}
                         />
                         {formik.touched.email && formik.errors.email ? (
-                            <div >{formik.errors.email}</div>
+                            <div>{formik.errors.email}</div>
                         ) : null}
 
-                        <Button variant="primary" type="submit" className="btn" >Valider</Button>
+                        <button type="submit" className="btn btn-primary">
+                            <h3>valider</h3>
+                        </button>
                     </form>
                 </Modal.Body>
             </Modal>

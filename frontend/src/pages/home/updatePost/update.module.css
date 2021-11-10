@@ -1,0 +1,12 @@
+.btnUpdate {
+    color: orange;
+}
+
+.btnDelete {
+    color: red;
+    
+}
+
+.modalBody {
+    justify-content: space-evenly;
+}

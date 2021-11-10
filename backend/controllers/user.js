@@ -24,10 +24,8 @@ exports.signup = (req, res, next) => {
   };
 
   console.log(req.body);
-
   //on recupére l'email présent dans le body
   let email = req.body.email;
-
   //on récupére le reste des données dans le body
   //nom
   let name = req.body.name;
@@ -150,6 +148,53 @@ exports.getAllUser = (req, res, next) => {
 /*------------------------------------UPDATE USER------------------------------------- */
 exports.modifyUser = (req, res, next) => {
   console.log(req.body);
+  const emailMask2Options = {
+    //caractere de masquage
+    maskWith: "*",
+    //nombre de caractere sans masque avant @
+    unmaskedStartCharactersBeforeAt: 3,
+    //nombre de caractere sans masque apres @
+    unmaskedEndCharactersAfterAt: 3,
+    maskAtTheRate: false
+  };
+  //on récupére le reste des données dans le body et params
+  let userId = req.params.id;
+  console.log(req.params.id);
+  //nom
+  let name = req.body.name;
+  //prénom
+  let firstname = req.body.firstname;
+
+  //email
+  let email = req.body.email;
+
+  //masquage email 
+  let emailMasked = maskData.maskEmail2(req.body.email, emailMask2Options);
+  userModel.isExistId(userId)
+    .then(resultat => {
+      if (resultat.nb === 1) {
+        userModel.update(name, firstname, email, emailMasked, userId)
+          .then(resultat => {
+            return res.status(200).json({
+              message: resultat
+            });
+          })
+          .catch(error => {
+            return res.status(400).json({
+              message: error
+            });
+          });
+      }
+      else {
+        return res.status(400).json({message: "utilisateur introuvable"});
+      }
+    })
+    .catch(error => {
+      return res.status(400).json({
+        error: "Une erreur est survenue."
+      });
+    });
+
 }
 
 /*------------------------------------DELETE USER------------------------------------- */
