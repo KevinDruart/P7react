@@ -70,7 +70,7 @@ const Posts = ({ post }) => {
 
     //fonction d'envoie du like ou dislike
     const sendLike = () => {
-        axios.post("http://localhost:3000/api/messages/" + post.id + "/like", like, {
+        axios.post("http://localhost:3000/api/likes/" + post.id , like, {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then(response => {
