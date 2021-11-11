@@ -78,6 +78,38 @@ const Posts = ({ post }) => {
                 console.log('erreur like ou dislike');
             });
     }
+
+    let postConfigButton;
+    console.log(userId);
+    console.log(post.userId);
+    console.log(userId === post.userId);
+    if (userId === post.UserId) {
+        postConfigButton =
+            <UpdatePost
+                className={classes.right}
+                postId={post.id}
+                postTitle={post.title}
+                postContent={post.content}
+                postImg={post.image}
+                postUserId={post.userId}
+                userId={userId}
+                admin={isAdmin} />;
+    } else if(isAdmin){
+        postConfigButton =
+        <UpdatePost
+            className={classes.right}
+            postId={post.id}
+            postTitle={post.title}
+            postContent={post.content}
+            postImg={post.image}
+            postUserId={post.userId}
+            userId={userId}
+            admin={isAdmin} />;
+    }
+    else {
+        postConfigButton = null;
+    }
+
     return (
         <Container className="Post">
             <div className="post">
@@ -91,15 +123,7 @@ const Posts = ({ post }) => {
                         </div>
                     </div>
 
-                    <UpdatePost
-                        className={classes.right}
-                        postId={post.id}
-                        postTitle={post.title}
-                        postContent={post.content}
-                        postImg={post.image}
-                        postUserId={post.userId}
-                        userId={userId}
-                        admin={isAdmin} />
+                    {postConfigButton}
                 </div>
 
                 <div className="post__bottom">

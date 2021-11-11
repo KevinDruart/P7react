@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { useFormik } from 'formik';
 import axios from 'axios';
 import { useHistory } from "react-router";
 
@@ -16,6 +17,7 @@ const UpdatePost = (props) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [image, setImage] = useState([]);
 
     const history = useHistory();
 
@@ -43,24 +45,75 @@ const UpdatePost = (props) => {
             });
     }
 
-    if (userId !== postUserId && admin === false) {
-        return null;
-    }
+    //fonction validate
+    const validate = values => {
+
+        const errors = {};
+
+        if (!values.addPostTitle) {
+            errors.addPostTitle = 'Titre Requis';
+        }
+        if (!values.addPostContent && !values.addPostImage) {
+            errors.addPostTitle = '1 titre + 1 message ou 1 titre et 1 image sont necessaire';
+        }
+
+        return errors;
+    };
+
+    const formik = useFormik({
+        initialValues: {
+            updatePostTitle: '',
+            updatePostContent: '',
+            updatePostImage: '',
+        },
+        validate,
+
+        onSubmit: values => {
+
+            const message = JSON.stringify({
+                title: values.updatePostTitle,
+                content: values.updatePostContent
+            })
+
+            const data = new FormData();
+            data.append('image', image[0]);
+            data.append('post', message);
+
+            console.log(data);
+
+            axios.put("http://localhost:3000/api/messages", data, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+                .then(response => {
+                    setImage('');
+                    values.updatePostContent = '';
+                    values.updatePostTitle = '';
+                    handleClose();
+
+                })
+                .catch((error) => {
+                    console.log('erreur ajout post');
+                });
+            // }
+        },
+    });
+
+
     return (
         <div className="right">
             <ButtonGroup vertical>
-                <Button 
-                variant="Light"
-                className={classes.btnUpdate} 
-                onClick={handleShow} 
-                title="Modifier">
+                <Button
+                    variant="Light"
+                    className={classes.btnUpdate}
+                    onClick={handleShow}
+                    title="Modifier">
                     <i className="far fa-edit"></i>
                 </Button>
-                <Button 
-                variant="Light"
-                className={classes.btnDelete} 
-                title="Supprimer" 
-                onClick={handleClickDelete}>
+                <Button
+                    variant="Light"
+                    className={classes.btnDelete}
+                    title="Supprimer"
+                    onClick={handleClickDelete}>
                     <i className="fas fa-trash-alt"></i>
                 </Button>
             </ButtonGroup>
@@ -78,18 +131,35 @@ const UpdatePost = (props) => {
                 <Modal.Body>
                     <div className={["d-flex", classes.modalBody].join(' ')}>
                         <div className="left">
-                            <Form>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                                    <Form.Label>Titre du post</Form.Label>
-                                    <Form.Control type="text" placeholder="Titre du post" />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                                    <Form.Label>Message</Form.Label>
-                                    <Form.Control as="textarea" rows={3} placeholder="Message du post" />
-                                </Form.Group>
-                                <Form.Group controlId="formFile" className="mb-3">
-                                    <Form.Control type="file" />
-                                </Form.Group>
+                            <Form onSubmit={formik.handleSubmit}>
+                                <input
+                                    id="updatePostTitle"
+                                    className="form-control"
+                                    placeholder="Titre de votre post"
+                                    type="text"
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.addPostTitle}
+                                />
+                                {formik.touched.updatePostTitle && formik.errors.updatePostTitle ? (
+                                    <div className={classes.error}>{formik.errors.updatePostTitle}</div>
+                                ) : null}
+                                <textarea
+                                    id="updatePostContent"
+                                    className="form-control"
+                                    placeholder="Qu'avez vous envie de poster?"
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+
+                                >{formik.values.updatePostContent}</textarea>
+                                <input
+                                    className="form-control"
+                                    type="file"
+                                    onChange={(event) => {
+                                        setImage(event.target.files)
+                                        formik.values.updatePostImage = event.target.files
+                                    }}
+                                />
                                 <Button variant="success">Valider</Button>
                             </Form>
                         </div>
