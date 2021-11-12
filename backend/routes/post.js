@@ -16,7 +16,7 @@ router.get('/post/:id', auth, postCtrl.getAllPostByIdMember);
 //Create post
 router.post('/', auth, multer, postCtrl.addPost);
 //Modify post
-router.put('/:id', auth, multer, postCtrl.modifyPost);
+router.put('/:id', auth, multer, postCtrl.updatePost);
 //delete post
 router.delete('/:id', auth, postCtrl.deletePost);
 

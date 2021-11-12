@@ -50,11 +50,11 @@ const UpdatePost = (props) => {
 
         const errors = {};
 
-        if (!values.addPostTitle) {
-            errors.addPostTitle = 'Titre Requis';
+        if (!values.updatePostTitle) {
+            errors.updatePostTitle = 'Titre Requis';
         }
-        if (!values.addPostContent && !values.addPostImage) {
-            errors.addPostTitle = '1 titre + 1 message ou 1 titre et 1 image sont necessaire';
+        if (!values.updatePostContent && !values.updatePostImage) {
+            errors.updatePostTitle = '1 titre + 1 message ou 1 titre et 1 image sont necessaire';
         }
 
         return errors;
@@ -69,6 +69,7 @@ const UpdatePost = (props) => {
         validate,
 
         onSubmit: values => {
+            console.log('modification demander')
 
             const message = JSON.stringify({
                 title: values.updatePostTitle,
@@ -81,13 +82,15 @@ const UpdatePost = (props) => {
 
             console.log(data);
 
-            axios.put("http://localhost:3000/api/messages", data, {
+            axios.put("http://localhost:3000/api/messages/"+postId, data, {
                 headers: { Authorization: `Bearer ${token}` },
             })
                 .then(response => {
+                    console.log(response);
                     setImage('');
                     values.updatePostContent = '';
                     values.updatePostTitle = '';
+                    alert('Votre post à été modifier.')
                     handleClose();
 
                 })
@@ -131,7 +134,7 @@ const UpdatePost = (props) => {
                 <Modal.Body>
                     <div className={["d-flex", classes.modalBody].join(' ')}>
                         <div className="left">
-                            <Form onSubmit={formik.handleSubmit}>
+                            <form onSubmit={formik.handleSubmit}>
                                 <input
                                     id="updatePostTitle"
                                     className="form-control"
@@ -139,7 +142,7 @@ const UpdatePost = (props) => {
                                     type="text"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    value={formik.values.addPostTitle}
+                                    value={formik.values.updatePostTitle}
                                 />
                                 {formik.touched.updatePostTitle && formik.errors.updatePostTitle ? (
                                     <div className={classes.error}>{formik.errors.updatePostTitle}</div>
@@ -150,8 +153,9 @@ const UpdatePost = (props) => {
                                     placeholder="Qu'avez vous envie de poster?"
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
+                                    value={formik.values.updatePostContent}
 
-                                >{formik.values.updatePostContent}</textarea>
+                                ></textarea>
                                 <input
                                     className="form-control"
                                     type="file"
@@ -160,8 +164,8 @@ const UpdatePost = (props) => {
                                         formik.values.updatePostImage = event.target.files
                                     }}
                                 />
-                                <Button variant="success">Valider</Button>
-                            </Form>
+                                <Button variant="success" type="submit">Valider</Button>
+                            </form>
                         </div>
                         <div className="right">
                             <h4>Votre post actuel:</h4>
