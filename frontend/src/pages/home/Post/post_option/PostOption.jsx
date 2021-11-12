@@ -48,6 +48,7 @@ const PostOption = (props) => {
     const handleClickComments = (e) => {
         e.preventDefault();
         console.log("je veut commenter");
+        console.log(props.post.id);
 
     }
 
