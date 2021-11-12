@@ -26,8 +26,27 @@ exports.createPost = (message) => {
 };
 
 //MODIFIER UN POST
-exports.update = () => {
-    console.log("route modif post")
+exports.update = (postObject) => {
+    console.log(postObject);
+
+    const sql = 'UPDATE `post` SET  `title`=?,`content`=?,`image`=? WHERE `id`=? AND `user_id`=?';
+    return new Promise((resolve, reject) => {
+        try {
+            console.log('execution dbquery');
+            db.query(sql, [postObject.title, postObject.content, postObject.imageUrl, postObject.postId, postObject.userId], (error, result, fields) => {
+                console.log(result);
+                if (result === undefined) {
+                    reject(result);
+                } else {
+                    resolve(result);
+                    console.log('requete sql OK')
+                };
+            });
+        } catch (error) {
+            reject(error);
+            console.log(error, 'erreur promesse requete sql');
+        };
+    });
 };
 
 //RECUPERER TOUT LES POSTS
@@ -36,6 +55,7 @@ exports.getPosts = () => {
     return new Promise((resolve, reject) => {
         try {
             db.query(sql, (error, result, fields) => {
+                
                 if (result === undefined) {
                     reject(`Affichage des posts impossible.`);
                 } else {
@@ -55,7 +75,7 @@ exports.find = (postId) => {
         try {
             db.query(sql, [postId], (error, result, fields) => {
                 if (result === undefined || result === "") {
-                    reject('Adresse email et ou mot de passe incorrect !');
+                    reject('post introuvable !');
                 } else {
                     resolve(result[0]);
                 };
