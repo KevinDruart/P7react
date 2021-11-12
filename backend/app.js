@@ -18,6 +18,7 @@ require('dotenv').config();
 const userRoutes = require('./routes/user');
 const postRoutes = require('./routes/post');
 const likeRoutes = require('./routes/like');
+const commentsRoutes = require('./routes/comments');
 
 
 
@@ -40,12 +41,12 @@ app.use(helmet());
 
 //route users
 app.use('/api/auth', userRoutes);
-
 // route post
 app.use('/api/messages', postRoutes);
-
 // route like
 app.use('/api/likes', likeRoutes);
+//route comments
+app.use('/api/comments', commentsRoutes)
 
 //routes de stockage pour les images
 app.use('/images', express.static(path.join(__dirname, 'images')));

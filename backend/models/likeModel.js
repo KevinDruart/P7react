@@ -25,7 +25,7 @@ exports.createNewLike = (like) => {
 
 //RECUPERER TOUT LES LIKE OU DISLIKE 
 exports.getLike = () => {
-    const sql = 'SELECT u.name , u.firstname ,u.id AS userId ,p.id AS postId , p.title , p.content ,p.image AS postImage ,l.like ,l.id FROM likes AS l INNER JOIN post AS p ON l.post_id = p.id INNER JOIN user AS u ON l.user_id = u.id ';
+    const sql = 'SELECT u.name , u.firstname ,u.id AS userId , c.id, c.user_id AS commentUserId, c.comment, c.post_id AS postId FROM comment AS c INNER JOIN post AS p ON c.post_id = p.id INNER JOIN user AS u ON c.user_id = u.id ';
     return new Promise((resolve, reject) => {
         try {
             db.query(sql, (error, result, fields) => {
