@@ -1,22 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 
-import Comments from '../comments/Comments';
 import LoginContext from '../../../../contextes/LoginContext';
 
 const PostOption = (props) => {
     const [likes, setLikes] = useState('0');
     const [comments, setComments] = useState([]);
-    const { userId, isAdmin } = useContext(LoginContext);
+    const [text, setText] = useState([]);
+    const { userId } = useContext(LoginContext);
     const token = localStorage.getItem('authToken');
-
-    useEffect(() => {
-        getComments();
-    }, [])
-
 
     let like = {
         userId: userId,
@@ -28,9 +23,9 @@ const PostOption = (props) => {
     const handleClickLike = (e) => {
         e.preventDefault();
         setLikes(1);
-        console.log("j'aime");
-        console.log(props.post.id);
-        console.log(userId);
+        // console.log("j'aime");
+        // console.log(props.post.id);
+        // console.log(userId);
         sendLike();
     }
 
@@ -38,19 +33,24 @@ const PostOption = (props) => {
     const handleClickDislike = (e) => {
         e.preventDefault();
         setLikes(-1);
-        console.log("je n'aime pas");
-        console.log(props.post.id);
-        console.log(userId);
+        // console.log("je n'aime pas");
+        // console.log(props.post.id);
+        // console.log(userId);
         sendLike();
     }
 
     //click commentaires
     const handleClickComments = (e) => {
         e.preventDefault();
-        console.log("je veut commenter");
-        console.log(props.post.id);
-
+        getComments(props.post.id);
     }
+
+    //On submit ajout commentaire
+    const handleAddComment = (e) => {
+        e.preventDefault();
+        postComments(props.post.id);
+    }
+
 
     //fonction d'envoie du like ou dislike
     const sendLike = () => {
@@ -67,17 +67,51 @@ const PostOption = (props) => {
 
     //requete pour recuperer les Commentaires
     const getComments = () => {
-        axios.get("http://localhost:3000/api/comments/"+ props.post.id, {
+        const postId = props.post.id;
+        axios.get("http://localhost:3000/api/comments/post/" + postId, {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => {
-                console.log(response);
                 setComments(response.data);
             })
             .catch(error => {
                 console.log(error);
             })
     }
+
+    //requete pour ajouter un commentaire
+    const postComments = () => {
+        const postId = props.post.id;
+        console.log(postId);
+
+        const comment = {
+            postId: postId,
+            userId: userId,
+            comment: text
+        }
+        console.log(comment);
+        axios.post("http://localhost:3000/api/comments", comment, {
+            headers: { Authorization: `Bearer ${token}` },
+        })
+            .then((response) => {
+                console.log(response);
+                alert('Commentaires ajouté')
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    //requete pour recuperer le nombre de commentaires
+    axios.get("http://localhost:3000/api/Nb/", props.post.id, {
+            headers: { Authorization: `Bearer ${token}` },
+        })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     return (
         <div className="post__options">
             <ButtonGroup className="mb-2">
@@ -102,8 +136,10 @@ const PostOption = (props) => {
                     data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasBottom"
                     aria-controls="offcanvasBottom">
-
-                    Commentaire
+                    Commentaire<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                        99+
+                        <span class="visually-hidden">Commentaires</span>
+                    </span>
                 </Button>
             </ButtonGroup>
             <div className="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
@@ -115,13 +151,18 @@ const PostOption = (props) => {
 
                     <div className="comments">
                         <div className="top">
-                            <form className="card">
+                            <form className="card" onSubmit={handleAddComment}>
                                 <div className="card-header">
                                     Donner votre avis, exprimez vous!
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">Laisser un commentaire</h5>
-                                    <textarea className="card-text form-control"></textarea>
+                                    <textarea
+                                        className="card-text form-control"
+                                        onChange={(e) => setText(e.target.value)}
+                                        value={text}
+                                        placeholder="Laisser un commentaire"
+                                    ></textarea>
                                     <button className="btn btn-primary">commenter</button>
                                 </div>
                             </form>
@@ -129,12 +170,21 @@ const PostOption = (props) => {
                         {comments.map((comment) => {
                             return (
                                 <div className="bottom" key={comment.id}>
-                                    <Comments comment={comment} />
+                                    <div className="card" >
+                                        <div className="card-header">
+                                            {comment.name} {comment.firstname}
+                                        </div>
+                                        <div className="card-body">
+                                            <blockquote className="blockquote mb-0">
+                                                <p>{comment.comment}</p>
+                                                <footer className="blockquote-footer">{comment.time_comment}</footer>
+                                            </blockquote>
+                                        </div>
+                                    </div>
                                 </div>
                             );
                         })}
                     </div>
-
                 </div>
             </div>
         </div>
