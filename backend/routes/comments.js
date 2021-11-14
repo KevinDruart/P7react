@@ -11,8 +11,4 @@ router.post('/', auth, commentsCtrl.create);
 //recuperer les commentaires d'un post
 router.get('/post/:id', auth, commentsCtrl.getAll);
 
-//recuperer le nombre de commentaire sur un post
-router.get('/Nb/:id', auth, commentsCtrl.getNb);
-
-
 module.exports = router;
