@@ -1,31 +1,26 @@
 //modele post
 const commentsModel = require('../models/commentsModel.js');
-const userModel = require('../models/postModel');
+const userModel = require('../models/userModel');
 
 //AJOUTER UN COMMENTAIRE
 exports.create = (req, res, next) => {
-    console.log("commenter");
-    let userId = req.body.userId;
-    console.log(userId);
+    console.log(req.body);
 
+    let userId = req.body.userId;
     const comment = {
-        userId: userId,
-        postId: req.params.id,
+        userId: req.body.userId,
+        postId: req.params.postId,
         comment: req.body.comment
     }
     console.log(comment);
     userModel.isExistId(userId)
         .then(resultat => {
             if (resultat.nb > 0) {
-                console.log("j'ai un user");
                 commentsModel.createComment(comment)
                     .then(response => {
-                        console.log("create");
-                        console.log(response);
                         return res.status(200).json({ response });
                     })
                     .catch(error => {
-                        console.log("erreur catch");
                         return res.status(400).json({ message: "erreur ajout de commentaire" })
                     })
             }
@@ -41,6 +36,7 @@ exports.getAll = (req, res, next) => {
     commentsModel.getAllComment(postId)
         //on a notre promesse
         .then(comments => {
+            console.log(comments);
             return res.status(200).json(comments);
         })
         //erreur promesse
@@ -49,4 +45,17 @@ exports.getAll = (req, res, next) => {
                 message: error
             });
         });
+}
+
+//RECUPERER LE NOMBRE DE COMMENTAIRES
+exports.getNb = (req, res, next) => {
+    let postId = req.params.id;
+    console.log(postId);
+    commentsModel.getAllNb(postId)
+        .then(resultat => {
+            console.log(resultat);
+        })
+        .catch(error => {
+            console.log(error);
+        })
 }

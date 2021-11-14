@@ -1,17 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import React, { useContext } from 'react';
+
 
 //Import des elements react bootstrap
 import Container from "react-bootstrap/Container";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import Button from "react-bootstrap/Button";
-import Badge from "react-bootstrap/Badge";
 
 import LoginContext from '../../../contextes/LoginContext';
 
 //import des components 
 import UpdatePost from '../updatePost/UpdatePost';
-import Comments from './comments/Comments';
 
 //import des classes css
 import classes from './post.module.css';
@@ -85,8 +81,7 @@ const Posts = ({ post }) => {
                     <img src={post.image} className={classes.imgPost} alt={post.title} />
                     <p>{post.content}</p>
                 </div>
-                <PostOption post={post}/>
-
+                <PostOption post={post} />
             </div>
         </Container>
     );
