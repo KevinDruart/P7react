@@ -47,15 +47,3 @@ exports.getAll = (req, res, next) => {
         });
 }
 
-//RECUPERER LE NOMBRE DE COMMENTAIRES
-exports.getNb = (req, res, next) => {
-    let postId = req.params.id;
-    console.log(postId);
-    commentsModel.getAllNb(postId)
-        .then(resultat => {
-            console.log(resultat);
-        })
-        .catch(error => {
-            console.log(error);
-        })
-}

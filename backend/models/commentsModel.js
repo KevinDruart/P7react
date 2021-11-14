@@ -39,22 +39,5 @@ exports.getAllComment = (postId) => {
     });
 };
 
-//RECUPERER LE NOMBRE DE COMMENTAIRES SUR UN POST
-exports.getAllNb= (postId) => {
-    console.log(postId);
-    const sql = 'SELECT COUNT(*) AS nB FROM `comment`WHERE post_id=?';
-    return new Promise((resolve, reject) => {
-        try {
-            db.query(sql, [postId], (error, result, fields) => {
-                if (result === undefined || result === "") {
-                    reject("Erreur Sql");
-                } else {
-                    resolve(result[0]);
-                };
-            });
-        } catch (error) {
-            reject(error);
-        };
-    });
-};
+
 

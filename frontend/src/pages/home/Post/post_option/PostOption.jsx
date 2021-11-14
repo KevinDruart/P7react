@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
 import ButtonGroup from "react-bootstrap/ButtonGroup";
@@ -9,9 +9,14 @@ import LoginContext from '../../../../contextes/LoginContext';
 const PostOption = (props) => {
     const [likes, setLikes] = useState('0');
     const [comments, setComments] = useState([]);
+    const [nbComment, setNbComment] = useState([]);
     const [text, setText] = useState([]);
     const { userId } = useContext(LoginContext);
     const token = localStorage.getItem('authToken');
+
+    useEffect(() => {
+        getComments();
+    }, [])
 
     let like = {
         userId: userId,
@@ -40,10 +45,10 @@ const PostOption = (props) => {
     }
 
     //click commentaires
-    const handleClickComments = (e) => {
-        e.preventDefault();
-        getComments(props.post.id);
-    }
+    // const handleClickComments = (e) => {
+    //     e.preventDefault();
+    //     getComments(props.post.id);
+    // }
 
     //On submit ajout commentaire
     const handleAddComment = (e) => {
@@ -66,6 +71,9 @@ const PostOption = (props) => {
     }
 
     //requete pour recuperer les Commentaires
+    // const getComments = () => {
+
+    // }
     const getComments = () => {
         const postId = props.post.id;
         axios.get("http://localhost:3000/api/comments/post/" + postId, {
@@ -73,12 +81,12 @@ const PostOption = (props) => {
         })
             .then((response) => {
                 setComments(response.data);
+                setNbComment(response.data.length);
             })
             .catch(error => {
                 console.log(error);
             })
     }
-
     //requete pour ajouter un commentaire
     const postComments = () => {
         const postId = props.post.id;
@@ -102,16 +110,6 @@ const PostOption = (props) => {
             })
     }
 
-    //requete pour recuperer le nombre de commentaires
-    axios.get("http://localhost:3000/api/Nb/", props.post.id, {
-            headers: { Authorization: `Bearer ${token}` },
-        })
-            .then((response) => {
-                console.log(response);
-            })
-            .catch(error => {
-                console.log(error);
-            })
     return (
         <div className="post__options">
             <ButtonGroup className="mb-2">
@@ -132,12 +130,12 @@ const PostOption = (props) => {
                 <Button
                     variant="light"
                     title="Commenter"
-                    onClick={handleClickComments}
+                    // onClick={handleClickComments}
                     data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasBottom"
                     aria-controls="offcanvasBottom">
                     Commentaire<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        99+
+                        {nbComment}
                         <span class="visually-hidden">Commentaires</span>
                     </span>
                 </Button>
