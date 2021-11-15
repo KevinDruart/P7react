@@ -28,8 +28,10 @@ const NavBarOnline = () => {
             <Navbar expand="lg">
                 <LinkContainer exact to="/" className={["d-flex align-items-center mb-lg-0 text-dark text-decoration-none", classes.linkLogo].join(' ')}>
                     <Navbar.Brand>
-                    <div className={classes.imageLogo}><img src="./images/icon.png" alt="logo groupomania" className={classes.logo} /></div>
-                        
+                        <div className={classes.imageLogo}>
+                            <img src="./images/icon.png" alt="logo groupomania" className={classes.logo} />
+                        </div>
+
                         <h1 className={classes.name}>Groupomania</h1>
 
                     </Navbar.Brand>
