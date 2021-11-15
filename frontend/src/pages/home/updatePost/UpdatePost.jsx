@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
@@ -9,7 +8,6 @@ import classes from "./update.module.css";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 
@@ -22,9 +20,6 @@ const UpdatePost = (props) => {
     const history = useHistory();
 
     const postId = props.postId;
-    const postUserId = props.postUserId;
-    const admin = props.admin;
-    const userId = props.userId;
     const token = localStorage.getItem('authToken');
 
     //click supprimer

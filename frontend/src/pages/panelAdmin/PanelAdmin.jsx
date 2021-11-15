@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import Table from 'react-bootstrap/Table';
-import Badge from 'react-bootstrap/Badge';
+
 
 import ListPostAdmin from './listAdmin/ListPostAdmin';
 import ListUserAdmin from './listAdmin/ListUserAdmin';
