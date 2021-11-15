@@ -4,15 +4,15 @@ const userModel = require('../models/userModel');
 
 //AJOUTER UN COMMENTAIRE
 exports.create = (req, res, next) => {
-    console.log(req.body);
+    //console.log(req.body);
 
     let userId = req.body.userId;
     const comment = {
         userId: req.body.userId,
-        postId: req.params.postId,
+        postId: req.body.postId,
         comment: req.body.comment
     }
-    console.log(comment);
+    //console.log(comment);
     userModel.isExistId(userId)
         .then(resultat => {
             if (resultat.nb > 0) {
@@ -36,7 +36,6 @@ exports.getAll = (req, res, next) => {
     commentsModel.getAllComment(postId)
         //on a notre promesse
         .then(comments => {
-            console.log(comments);
             return res.status(200).json(comments);
         })
         //erreur promesse
