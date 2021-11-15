@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import classes from './comments.module.css';
+
 const Comments = (props) => {
     const [comments, setComments] = useState([]);
     const [nbComment, setNbComment] = useState([]);
@@ -53,44 +55,58 @@ const Comments = (props) => {
     }
     return (
 
-
-
         <div className="comments">
-            <div className="top">
-                <form className="card" onSubmit={handleAddComment}>
-                    <div className="card-header">
-                        Donner votre avis, exprimez vous!
-                    </div>
-                    <div className="card-body">
-                        <h5 className="card-title">Laisser un commentaire</h5>
-                        <textarea
-                            className="card-text form-control"
-                            onChange={(e) => setText(e.target.value)}
-                            value={text}
-                            placeholder="Laisser un commentaire"
-                        ></textarea>
-                        <button className="btn btn-primary">commenter</button>
-                    </div>
-                </form>
-            </div>
-            {comments.map((comment) => {
-                return (
-                    <div className="bottom" key={comment.id}>
-                        <div className="card" >
-                            <div className="card-header">
-                                {comment.name} {comment.firstname}
+            <div className={classes.top}>
+                {comments.map((comment) => {
+                    return (
+                        <div className="comments_body" key={comment.id}>
+                            <div className="card" >
+                                <div className="card-header">
+                                    {comment.name} {comment.firstname}
+                                </div>
+                                <div className="card-body">
+                                    <blockquote className="blockquote mb-0">
+                                        <p>{comment.comment}</p>
+                                        <footer className="blockquote-footer">{comment.time_comment}</footer>
+                                    </blockquote>
+                                </div>
                             </div>
+                        </div>
+                    );
+                })}
+            </div>
+            <div className="bottom" >
+                <form  onSubmit={handleAddComment}>
+                    <div className={classes.comments_option}>
+
+                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" title="Commenter">
+                            <i className="fas fa-comments"></i>
+                        </button>
+                    </div>
+                    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasBottomLabel">Laisser un commentaire</h5>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body small">
                             <div className="card-body">
-                                <blockquote className="blockquote mb-0">
-                                    <p>{comment.comment}</p>
-                                    <footer className="blockquote-footer">{comment.time_comment}</footer>
-                                </blockquote>
+                                <h5 className="card-title">Exprimez vous:</h5>
+                                <textarea
+                                    className="card-text form-control"
+                                    onChange={(e) => setText(e.target.value)}
+                                    value={text}
+                                    placeholder="Laisser un commentaire"
+                                ></textarea>
+                                <button className="btn btn-primary">commenter</button>
                             </div>
                         </div>
                     </div>
-                );
-            })}
+
+                </form>
+            </div>
+
         </div>
+
     );
 };
 

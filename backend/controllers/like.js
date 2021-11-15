@@ -1,10 +1,7 @@
-//Récupération du module 'file system' de Node permettant de gérer les images
-const fs = require('fs');
-
 //modele post
 const likeModel = require('../models/likeModel.js');
 
-/*creer un like*/
+/*like ou dislike*/
 exports.createLike = (req, res, next) => {
     let like = { ...req.body };
     console.log(like);
@@ -23,7 +20,7 @@ exports.createLike = (req, res, next) => {
                             message: error
                         });
                     });
-            }
+            } 
             else {
                 //on recupere les like sur le post 
                 likeModel.findOneLike(like)
@@ -58,12 +55,3 @@ exports.createLike = (req, res, next) => {
             return res.status(400).json({ error: error })
         })
 }
-
-
-/*rechercher les like*/
-
-
-/*modifier un like*/
-
-
-/*supprimer un like*/
