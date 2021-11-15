@@ -3,7 +3,6 @@ const db = require('../connect/dbConnect.js');
 //CREER UN COMMENTAIRE
 exports.createComment = (comment) => {
 
-    
     const sql = 'INSERT INTO `comment`(`user_id`, `comment`, `time_comment`, `post_id`) VALUES (?,?,NOW(),?)';
     return new Promise((resolve, reject) => {
         try {

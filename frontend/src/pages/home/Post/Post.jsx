@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 
-
 //Import des elements react bootstrap
 import Container from "react-bootstrap/Container";
 

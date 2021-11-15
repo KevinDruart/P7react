@@ -1,14 +1,7 @@
 .header {
     background-color: #fff;
-    height: 60px;
     display: flex;
     align-items: center;
+    height: 60px;
 }
 
-
-/*MEDIA QUERIES*/
-@media screen and (min-width: 992px) {
-    .header {
-        height: 90px;
-    }
-  }

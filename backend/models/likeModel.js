@@ -23,24 +23,6 @@ exports.createNewLike = (like) => {
     });
 }
 
-//RECUPERER TOUT LES LIKE OU DISLIKE 
-exports.getLike = () => {
-    const sql = 'SELECT u.name , u.firstname ,u.id AS userId , c.id, c.user_id AS commentUserId, c.comment, c.post_id AS postId FROM comment AS c INNER JOIN post AS p ON c.post_id = p.id INNER JOIN user AS u ON c.user_id = u.id ';
-    return new Promise((resolve, reject) => {
-        try {
-            db.query(sql, (error, result, fields) => {
-                if (result === undefined) {
-                    reject(`Affichage des posts impossible.`);
-                } else {
-                    resolve(result);
-                };
-            });
-        } catch (error) {
-            reject(error);
-        };
-    });
-}
-
 //FIND LIKE SUR LE POST
 exports.findOneLike = (like) => {
     console.log(like);
@@ -79,13 +61,12 @@ exports.findCountLike = (like) => {
     });
 }
 
-//VOIR SI LE MEMBRE A LIKER CE POST
-exports.findCountNbLike = (like) => {
-    console.log(like);
-    const sql = 'SELECT count(*) AS nb FROM likes WHERE post_id=? AND like=1';
+//MODIFIER UN LIKE
+exports.updateLike = (likeUser) => {
+    const sql = 'UPDATE `likes` SET `like`=? WHERE user_id=? AND post_id=?';
     return new Promise((resolve, reject) => {
         try {
-            db.query(sql, [like.postId], (error, result, fields) => {
+            db.query(sql, [likeUser.like, likeUser.user_id, likeUser.post_id], (error, result, fields) => {
                 if (result === undefined || result === "") {
                     reject("aucun like sur ce post");
                 } else {
@@ -98,12 +79,13 @@ exports.findCountNbLike = (like) => {
     });
 }
 
-//MODIFIER UN LIKE
-exports.updateLike = (likeUser) => {
-    const sql = 'UPDATE `likes` SET `like`=? WHERE user_id=? AND post_id=?';
+//VOIR SI LE MEMBRE A LIKER CE POST
+exports.findCountNbLike = (like) => {
+    console.log(like);
+    const sql = 'SELECT count(*) AS nb FROM likes WHERE post_id=? AND like=1';
     return new Promise((resolve, reject) => {
         try {
-            db.query(sql, [likeUser.like, likeUser.user_id, likeUser.post_id], (error, result, fields) => {
+            db.query(sql, [like.postId], (error, result, fields) => {
                 if (result === undefined || result === "") {
                     reject("aucun like sur ce post");
                 } else {

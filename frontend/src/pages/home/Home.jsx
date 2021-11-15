@@ -15,7 +15,6 @@ import classes from './home.module.css';
 const Home = (props) => {
 
     const [posts, setPosts] = useState([]);
-    const [comments, setComments] = useState([]);
 
     //recuperation du token user
     const token = localStorage.getItem('authToken');
@@ -37,8 +36,6 @@ const Home = (props) => {
                 console.log(error);
             })
     }
-
-      
 
     return (
         <Container className={classes.home} id="home">

@@ -2,8 +2,18 @@
     width: 70%;
 }
 
+.imageLogo {
+    height: 50px;
+    width: 50px;
+}
+
 .logo {
     width: 100%;
+}
+
+.name {
+    color: #fc2e07;
+    font-family: 'Nunito', sans-serif;
 }
 
 .menu {
