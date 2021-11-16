@@ -25,19 +25,38 @@ const UpdatePost = (props) => {
     //click supprimer
     const handleClickDelete = (e) => {
         e.preventDefault();
-        console.log("supprimer");
-        axios.delete("http://localhost:3000/api/messages/" + postId, {
-            headers: { Authorization: `Bearer ${token}` },
+        Swal.fire({
+            title: 'êtes vous sur?',
+            text: "Une fois supprimer le post ne sera definitivement plus disponible.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Annuler',
+            confirmButtonText: 'Oui, supprimer ce post!'
         })
-            .then(response => {
-                if (response.status === 200) {
-                    alert('le post a bien etait supprimer');
-                    history.push("/home");
+            .then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete("http://localhost:3000/api/messages/" + postId, {
+                        headers: { Authorization: `Bearer ${token}` },
+                    })
+                        .then(response => {
+                            if (response.status === 200) {
+                                Swal.fire(
+                                    'Post Supprimé!',
+                                    'Le post a bien eté supprimer.',
+                                    'success'
+                                )
+                                history.push("/home");
+                            }
+                        })
+                        .catch((error) => {
+                            console.log('erreur suppresion post');
+                        });
                 }
             })
-            .catch((error) => {
-                console.log('erreur suppresion post');
-            });
+
+
     }
 
     //fonction validate
@@ -83,31 +102,46 @@ const UpdatePost = (props) => {
                 data = message;
             }
 
-
-            console.log(data);
-            console.log(postId);
-            axios.put("http://localhost:3000/api/messages/" + postId, data, {
-                headers: { Authorization: `Bearer ${token}` },
-            })
-                .then(response => {
-                    console.log(response);
+            Swal.fire({
+                title: 'Voulez vous vraiment effectuer ces changements?',
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'enregistré',
+                denyButtonText: `Ne pas enregistré`,
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    axios.put("http://localhost:3000/api/messages/" + postId, data, {
+                        headers: { Authorization: `Bearer ${token}` },
+                    })
+                        .then(response => {
+                            console.log(response);
+                            setImage('');
+                            values.updatePostContent = '';
+                            values.updatePostTitle = '';
+                            handleClose();
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Le post a bien été modifié',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        })
+                        .catch((error) => {
+                            console.log('erreur ajout post');
+                        });
+                } else if (result.isDenied) {
                     setImage('');
                     values.updatePostContent = '';
                     values.updatePostTitle = '';
                     handleClose();
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Le post a bien été modifié',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
+                    Swal.fire('Aucun changement sauvegardé', '', 'info')
+                }
+            })
 
-                })
-                .catch((error) => {
-                    console.log('erreur ajout post');
-                });
-            // }
+
+
         },
     });
 
