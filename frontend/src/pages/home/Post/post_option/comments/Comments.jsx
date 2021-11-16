@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from "sweetalert2";
 
 import classes from './comments.module.css';
 
@@ -47,7 +48,13 @@ const Comments = (props) => {
         })
             .then((response) => {
                 console.log(response);
-                alert('Commentaires ajouté')
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Le commentaire a bien été publié',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
             })
             .catch(error => {
                 console.log(error);
