@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import Swal from "sweetalert2";
 
 //Import classes css
 import classes from './addPost.module.css';
@@ -44,11 +45,6 @@ const AddPost = ({ token, handleRefreshPost }) => {
 
         onSubmit: values => {
 
-
-            // if (valuetitle === null && content ==='' || title === null && image === '') {
-            //     console.log('1 titre + 1 message ou 1 titre et 1 image sont necessaire');
-            // }
-            // else {
                 const message = JSON.stringify({
                     title: values.addPostTitle,
                     content: values.addPostContent
@@ -69,6 +65,13 @@ const AddPost = ({ token, handleRefreshPost }) => {
                         values.addPostContent = '';
                         values.addPostTitle = '';
                         handleClose();
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Le post a bien été publié',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
 
                     })
                     .catch((error) => {

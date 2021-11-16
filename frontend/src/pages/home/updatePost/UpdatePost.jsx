@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useHistory } from "react-router";
-
+import Swal from "sweetalert2";
 import classes from "./update.module.css";
 
 import Card from 'react-bootstrap/Card';
@@ -65,19 +65,28 @@ const UpdatePost = (props) => {
 
         onSubmit: values => {
             console.log('modification demander')
+            let data = '';
 
             const message = JSON.stringify({
                 title: values.updatePostTitle,
                 content: values.updatePostContent
             })
 
-            const data = new FormData();
-            data.append('image', image[0]);
-            data.append('post', message);
+            if (image !== null && image !== '') {
+                console.log('jai une image');
+                data = new FormData();
+                data.append('image', image[0]);
+                data.append('post', message);
+            }
+            else {
+                console.log('pas image');
+                data = message;
+            }
+
 
             console.log(data);
-
-            axios.put("http://localhost:3000/api/messages/"+postId, data, {
+            console.log(postId);
+            axios.put("http://localhost:3000/api/messages/" + postId, data, {
                 headers: { Authorization: `Bearer ${token}` },
             })
                 .then(response => {
@@ -85,8 +94,14 @@ const UpdatePost = (props) => {
                     setImage('');
                     values.updatePostContent = '';
                     values.updatePostTitle = '';
-                    alert('Votre post à été modifier.')
                     handleClose();
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Le post a bien été modifié',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
 
                 })
                 .catch((error) => {
