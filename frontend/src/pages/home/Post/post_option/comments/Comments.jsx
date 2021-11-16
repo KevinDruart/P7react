@@ -76,11 +76,15 @@ const Comments = (props) => {
                 })}
             </div>
             <div className="bottom" >
-                <form  onSubmit={handleAddComment}>
+                <form onSubmit={handleAddComment}>
                     <div className={classes.comments_option}>
 
-                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" title="Commenter">
+                        <button className="btn btn-primary position-relative" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" title="Commenter">
                             <i className="fas fa-comments"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                {nbComment}
+                                <span class="visually-hidden">commentaires</span>
+                            </span>
                         </button>
                     </div>
                     <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
