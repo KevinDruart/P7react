@@ -1,0 +1,19 @@
+.top {
+    overflow: scroll;
+    height: 150px;
+}
+
+.comments_option {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.blocBtnComments {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.blockquote {
+    display: flex;
+}

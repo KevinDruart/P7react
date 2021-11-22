@@ -38,5 +38,41 @@ exports.getAllComment = (postId) => {
     });
 };
 
+//RECHERCHER UN COMMENTAIRE
+exports.getOneById = (id) => {
+    const sql = 'SELECT user_id AS userPosted FROM `comment` WHERE id = ?';
+    return new Promise((resolve, reject) => {
+        try {
+            db.query(sql, [id], (error, result, fields) => {
+                if (result === undefined || result === "") {
+                    reject('Id introuvable !');
+                } else {
+                    resolve(result);
+                };
+            });
+        } catch (error) {
+            reject(error);
+        };
+    });
+};
+
+//SUPPRIMER UN COMMENTAIRE
+exports.deleteOne = (id) => {
+    const sql = 'DELETE  FROM `comment` WHERE id = ? ';
+    return new Promise((resolve, reject) => {
+        try {
+            db.query(sql, [id], (error, result, fields) => {
+                if (result === undefined) {
+                    reject(`suppression du post impossible.`);
+                } else {
+                    resolve(result);
+                };
+            });
+        } catch (error) {
+            reject(error);
+        };
+    });
+}
+
 
 

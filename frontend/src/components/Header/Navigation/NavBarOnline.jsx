@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -6,21 +6,41 @@ import { LinkContainer } from "react-router-bootstrap";
 import classes from "./navbar.module.css";
 import LoginContext from '../../../contextes/LoginContext';
 import AdminBtn from '../../../pages/panelAdmin/adminBtn/AdminBtn';
+import Swal from 'sweetalert2';
 
 const NavBarOnline = () => {
 
     const { setIsAuthenticated, setUserId, isAdmin, setIsAdmin } = useContext(LoginContext);
+    const [isAnAdmin] = useState(isAdmin === true);
     const history = useHistory;
 
     const handleLogout = () => {
-        alert("Vous êtes maintenant déconnecter");
-        localStorage.removeItem('authId');
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('admin');
-        setIsAuthenticated(false);
-        setUserId(null);
-        setIsAdmin(false);
-        history.push('/');
+        Swal.fire({
+            title: 'êtes vous sur?',
+            text: "Vous êtes sur le point de vous deconnecter.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Oui, me deconnecter!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                localStorage.removeItem('authId');
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('admin');
+                setIsAuthenticated(false);
+                setUserId(null);
+                setIsAdmin(false);
+                history.push('/');
+                Swal.fire(
+                    'Deconnecté!',
+                    'Vous êtes maintenant déconnecter.',
+                    'success'
+                )
+
+            }
+        })
+
     }
 
     return (
@@ -52,7 +72,9 @@ const NavBarOnline = () => {
                             </Nav.Link>
                         </LinkContainer>
 
-                        {isAdmin ? <AdminBtn /> : null}
+                        {
+                            isAnAdmin && <AdminBtn />
+                        }
 
                         <LinkContainer exact to="/" onClick={handleLogout} className="d-flex flex-column align-items-center">
                             <Nav.Link className={classes.link}>

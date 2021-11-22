@@ -97,3 +97,37 @@ exports.findCountNbLike = (like) => {
         };
     });
 }
+
+exports.countLikeAndDislike = (postId) => {
+    const sql = 'SELECT (SELECT COUNT(*) FROM `likes` WHERE post_id=? AND likes.like >0) as liked, (SELECT COUNT(*) FROM `likes` WHERE post_id=? AND likes.like <0) as disliked from DUAL';
+    return new Promise((resolve, reject) => {
+        try {
+            db.query(sql, [postId, postId], (error, result, fields) => {
+                if (result === undefined || result === "") {
+                    reject("aucun like sur ce post");
+                } else {
+                    resolve(result[0]);
+                };
+            });
+        } catch (error) {
+            reject(error);
+        };
+    });
+}
+
+exports.iLikedOrDisliked = (postId) => {
+    const sql = 'SELECT user_id, post_id, likes.like FROM `likes` WHERE post_id=?';
+    return new Promise((resolve, reject) => {
+        try {
+            db.query(sql, [postId], (error, result, fields) => {
+                if (result === undefined || result === "") {
+                    reject("aucun like sur ce post");
+                } else {
+                    resolve(result);
+                };
+            });
+        } catch (error) {
+            reject(error);
+        };
+    });
+}

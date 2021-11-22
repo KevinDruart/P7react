@@ -60,8 +60,9 @@ exports.getAllPostByIdMember = (req, res, next) => {
 /*------------------------------------UPDATE POST------------------------------------- */
 exports.updatePost = (req, res, next) => {
   console.log('demande update')
+  console.log(req.body)
   let postId = req.params.id;
-  console.log(postId);
+  //console.log(postId);
 
   postModel.find(postId)
     .then(post => {

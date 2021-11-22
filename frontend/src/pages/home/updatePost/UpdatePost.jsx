@@ -83,7 +83,6 @@ const UpdatePost = (props) => {
         validate,
 
         onSubmit: values => {
-            console.log('modification demander')
             let data = '';
 
             const message = JSON.stringify({
@@ -91,17 +90,19 @@ const UpdatePost = (props) => {
                 content: values.updatePostContent
             })
 
-            if (image !== null && image !== '') {
-                console.log('jai une image');
+            if (image.length === 0) {
+                data = {
+                    title: values.updatePostTitle,
+                    content: values.updatePostContent,
+                    image: null
+                };
+            }
+            else {
                 data = new FormData();
                 data.append('image', image[0]);
                 data.append('post', message);
             }
-            else {
-                console.log('pas image');
-                data = message;
-            }
-
+            //message confirmation de modification
             Swal.fire({
                 title: 'Voulez vous vraiment effectuer ces changements?',
                 showDenyButton: true,
@@ -109,7 +110,7 @@ const UpdatePost = (props) => {
                 confirmButtonText: 'enregistré',
                 denyButtonText: `Ne pas enregistré`,
             }).then((result) => {
-                /* Read more about isConfirmed, isDenied below */
+                //modification confirmer
                 if (result.isConfirmed) {
                     axios.put("http://localhost:3000/api/messages/" + postId, data, {
                         headers: { Authorization: `Bearer ${token}` },
@@ -120,6 +121,7 @@ const UpdatePost = (props) => {
                             values.updatePostContent = '';
                             values.updatePostTitle = '';
                             handleClose();
+                            //message
                             Swal.fire({
                                 position: 'top-end',
                                 icon: 'success',
@@ -131,11 +133,14 @@ const UpdatePost = (props) => {
                         .catch((error) => {
                             console.log('erreur ajout post');
                         });
-                } else if (result.isDenied) {
+                }
+                //modification annuler
+                else if (result.isDenied) {
                     setImage('');
                     values.updatePostContent = '';
                     values.updatePostTitle = '';
                     handleClose();
+                    //message
                     Swal.fire('Aucun changement sauvegardé', '', 'info')
                 }
             })

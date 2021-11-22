@@ -1,8 +1,16 @@
 .imgPost {
   width: 100%;
+  HEIGHT: 550px;
+  object-fit: cover;
 }
 
 .left {
   display: flex;
   margin-right: auto;
 }
+
+.Post {
+  display: flex;
+  align-items: baseline;
+}
+
