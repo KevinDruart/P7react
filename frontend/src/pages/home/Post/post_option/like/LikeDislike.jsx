@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from "react-router";
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 
 const LikeDislike = (props) => {
-    const [likes, setLikes] = useState('0');
+    const [likes, setLikes] = useState('');
+    const [liked, setLiked] = useState([]);
+    const [disliked, setDisliked] = useState([]);
+    console.log(props);//props = postId, userId, token
+
+    const history = useHistory();
+
+    useEffect(() => {
+        getNbLikeOrDislike();
+        userLiked();
+    }, [likes])
 
     let like = {
         userId: props.userId,
@@ -17,9 +29,6 @@ const LikeDislike = (props) => {
     const handleClickLike = (e) => {
         e.preventDefault();
         setLikes(1);
-        // console.log("j'aime");
-        // console.log(props.post.id);
-        // console.log(userId);
         sendLike();
     }
 
@@ -27,9 +36,6 @@ const LikeDislike = (props) => {
     const handleClickDislike = (e) => {
         e.preventDefault();
         setLikes(-1);
-        // console.log("je n'aime pas");
-        // console.log(props.post.id);
-        // console.log(userId);
         sendLike();
     }
 
@@ -39,21 +45,58 @@ const LikeDislike = (props) => {
             headers: { Authorization: `Bearer ${props.token}` },
         })
             .then((response) => {
-                alert("Votre avis a été ajouter")
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Votre avis a été publier',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                //history.replace("/home");
+                window.location.reload();
             })
             .catch((error) => {
                 alert("Impossible d'ajouter votre avis, veuillez essayer a nouveau ultérieurement.")
             });
     }
 
+    //fonction pour recuperer le nombre de like et dislike sur un post
+    const getNbLikeOrDislike = () => {
+        axios.get("http://localhost:3000/api/likes/" + props.postId, {
+            headers: { Authorization: `Bearer ${props.token}` },
+        })
+            .then((response) => {
+                //console.log(response.data);//liked et disliked
+                setLiked(response.data.liked);
+                setDisliked(response.data.disliked);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    const userLiked = () => {
+        axios.get("http://localhost:3000/api/likes/post/" + props.postId, {
+            headers: { Authorization: `Bearer ${props.token}` },
+        })
+            .then((response) => {
+                console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+
     return (
-        <ButtonGroup className="mb-2">
+        <ButtonGroup vertical size="sm">
             <Button
                 variant="success"
                 title="J'aime"
                 onClick={handleClickLike}
             >
                 <i className="far fa-thumbs-up" ></i>
+                <span className="text-light">{liked}</span>
             </Button>
             <Button
                 variant="danger"
@@ -61,6 +104,7 @@ const LikeDislike = (props) => {
                 onClick={handleClickDislike}
             >
                 <i className="far fa-thumbs-down"></i>
+                <span className="text-light">{disliked}</span>
             </Button>
         </ButtonGroup>
     );

@@ -29,7 +29,6 @@ const Home = (props) => {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => {
-                console.log(response);
                 setPosts(response.data);
             })
             .catch(error => {
@@ -43,7 +42,7 @@ const Home = (props) => {
             {posts.map((post) => {
                 return (
                     <div className={classes.cardPost} key={post.id}>
-                        <Post post={post} />
+                        <Post post={post} token={token} />
                     </div>
                 );
             })}

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 
 //Import des elements react bootstrap
 import Container from "react-bootstrap/Container";
@@ -12,13 +12,15 @@ import UpdatePost from '../updatePost/UpdatePost';
 import classes from './post.module.css';
 import './post.css';
 import PostOption from './post_option/PostOption';
+import LikeDislike from './post_option/like/LikeDislike';
 
-const Posts = ({ post }) => {
+const Posts = (props) => {
 
     const { userId, isAdmin } = useContext(LoginContext);
+    const [isCanEditDelete] = useState(parseInt(userId) === props.post.userId || isAdmin === true);
 
     //Gestion de la date 
-    const datePost = new Date(post.time_post);
+    const datePost = new Date(props.post.time_post);
     let postTime = datePost.toLocaleString('fr-FR', {
         weekday: 'long',
         day: 'numeric',
@@ -29,59 +31,47 @@ const Posts = ({ post }) => {
         second: 'numeric'
     });
 
-    let postConfigButton;
-    console.log(userId);
-    console.log(post.userId);
-    console.log(userId === post.userId);
-    if (userId === post.UserId) {
-        postConfigButton =
-            <UpdatePost
-                className={classes.right}
-                postId={post.id}
-                postTitle={post.title}
-                postContent={post.content}
-                postImg={post.image}
-                postUserId={post.userId}
-                userId={userId}
-                admin={isAdmin} />;
-    } else if (isAdmin) {
-        postConfigButton =
-            <UpdatePost
-                className={classes.right}
-                postId={post.id}
-                postTitle={post.title}
-                postContent={post.content}
-                postImg={post.image}
-                postUserId={post.userId}
-                userId={userId}
-                admin={isAdmin} />;
-    }
-    else {
-        postConfigButton = null;
-    }
-
     return (
-        <Container className="Post">
+        <Container className={classes.Post}>
+
             <div className="post">
                 <div className="post__top">
                     <div className={classes.left}>
                         <img className="user__avatar post__avatar" src="./images/user.png" alt="" />
                         <div className="post__topInfo">
-                            <h3>{post.name} {post.firstname}</h3>
-                            <p>{post.title}</p>
+                            <h3>{props.post.name} {props.post.firstname}</h3>
+                            <p>{props.post.title}</p>
                             <p className="post__topInfo_time">{postTime}</p>
                         </div>
                     </div>
+                    {
+                        isCanEditDelete && <UpdatePost
+                            className={classes.right}
+                            postId={props.post.id}
+                            postTitle={props.post.title}
+                            postContent={props.post.content}
+                            postImg={props.post.image}
+                            postUserId={props.post.userId}
+                            userId={userId}
+                            admin={isAdmin} />
+                    }
 
-                    {postConfigButton}
                 </div>
 
                 <div className="post__bottom">
-                    <img src={post.image} className={classes.imgPost} alt={post.title} />
-                    <p>{post.content}</p>
+                    {
+                        props.post.image ?
+                            <img src={props.post.image} className={classes.imgPost} alt={props.post.title} /> : null
+                    }
+                    <p>{props.post.content}</p>
                 </div>
-                <PostOption post={post} />
+                <PostOption post={props.post} postId={props.post.id} />
             </div>
+            <LikeDislike
+                postId={props.post.id}
+                userId={userId}
+                token={props.token}
+            />
         </Container>
     );
 };

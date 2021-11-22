@@ -1,7 +1,7 @@
 //modele post
 const likeModel = require('../models/likeModel.js');
 
-/*like ou dislike*/
+/*liker ou disliker*/
 exports.createLike = (req, res, next) => {
     let like = { ...req.body };
     console.log(like);
@@ -20,7 +20,7 @@ exports.createLike = (req, res, next) => {
                             message: error
                         });
                     });
-            } 
+            }
             else {
                 //on recupere les like sur le post 
                 likeModel.findOneLike(like)
@@ -54,4 +54,41 @@ exports.createLike = (req, res, next) => {
         .catch(error => {
             return res.status(400).json({ error: error })
         })
+}
+
+/*Connaitre le nombre de like ou dislike */
+exports.countNb = (req, res, next) => {
+    let postId = req.params.id;
+    console.log(postId);
+
+    likeModel.countLikeAndDislike(postId)
+        //on a notre promesse
+        .then(nbLike => {
+            res.status(200).json(nbLike);
+        })
+        //erreur promesse
+        .catch(error => {
+            return res.status(401).json({
+                message: error
+            });
+        });
+}
+
+/*qui a liké*/
+exports.whoLike = (req, res, next) => {
+    let postId = req.params.id;
+    console.log('whoLike');
+    console.log(postId);
+
+    likeModel.iLikedOrDisliked(postId)
+        //on a notre promesse
+        .then(like => {
+            res.status(200).json(like);
+        })
+        //erreur promesse
+        .catch(error => {
+            return res.status(401).json({
+                message: error
+            });
+        });
 }

@@ -45,16 +45,27 @@ const AddPost = ({ token, handleRefreshPost }) => {
 
         onSubmit: values => {
 
-                const message = JSON.stringify({
-                    title: values.addPostTitle,
-                    content: values.addPostContent
-                })
+            let data = '';
 
-                const data = new FormData();
-                data.append('image', image[0]);
-                data.append('post', message);
+                console.log(image);
+                if (image.length === 0) {
+                    console.log('pas dimage');
+                    data = {
+                        title: values.addPostTitle,
+                        content: values.addPostContent
+                    };
+                }
+                else {
+                    console.log('image');
+                    const message = JSON.stringify({
+                        title: values.addPostTitle,
+                        content: values.addPostContent
+                    })
 
-                console.log(data);
+                    data = new FormData();
+                    data.append('image', image[0]);
+                    data.append('post', message);
+                }
 
                 axios.post("http://localhost:3000/api/messages", data, {
                     headers: { Authorization: `Bearer ${token}` },
@@ -120,8 +131,8 @@ const AddPost = ({ token, handleRefreshPost }) => {
                             placeholder="Qu'avez vous envie de poster?"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            
-                        >{formik.values.addPostContent}</textarea>
+                            value={formik.values.addPostContent}  
+                        ></textarea>
 
                         <input
                             className="form-control"
