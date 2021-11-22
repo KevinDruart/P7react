@@ -7,7 +7,7 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 
 const LikeDislike = (props) => {
-    const [likes, setLikes] = useState('');
+    const [likes, setLikes] = useState('0');
     const [liked, setLiked] = useState([]);
     const [disliked, setDisliked] = useState([]);
     console.log(props);//props = postId, userId, token
@@ -52,8 +52,7 @@ const LikeDislike = (props) => {
                     showConfirmButton: false,
                     timer: 1500
                 });
-                //history.replace("/home");
-                window.location.reload();
+                getNbLikeOrDislike();
             })
             .catch((error) => {
                 alert("Impossible d'ajouter votre avis, veuillez essayer a nouveau ultérieurement.")
