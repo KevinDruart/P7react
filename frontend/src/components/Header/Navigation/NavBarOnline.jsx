@@ -11,8 +11,9 @@ import Swal from 'sweetalert2';
 const NavBarOnline = () => {
 
     const { setIsAuthenticated, setUserId, isAdmin, setIsAdmin } = useContext(LoginContext);
-    const [isAnAdmin] = useState(isAdmin === true);
     const history = useHistory;
+    const [isAnAdmin] = useState(isAdmin);
+    console.log(isAdmin);
 
     const handleLogout = () => {
         Swal.fire({
@@ -25,22 +26,20 @@ const NavBarOnline = () => {
             confirmButtonText: 'Oui, me deconnecter!'
         }).then((result) => {
             if (result.isConfirmed) {
+                history.push('/');
                 localStorage.removeItem('authId');
                 localStorage.removeItem('authToken');
                 localStorage.removeItem('admin');
                 setIsAuthenticated(false);
                 setUserId(null);
                 setIsAdmin(false);
-                history.push('/');
                 Swal.fire(
                     'Deconnecté!',
                     'Vous êtes maintenant déconnecter.',
                     'success'
                 )
-
             }
         })
-
     }
 
     return (
@@ -72,9 +71,7 @@ const NavBarOnline = () => {
                             </Nav.Link>
                         </LinkContainer>
 
-                        {
-                            isAnAdmin && <AdminBtn />
-                        }
+                        { isAnAdmin && <AdminBtn />}
 
                         <LinkContainer exact to="/" onClick={handleLogout} className="d-flex flex-column align-items-center">
                             <Nav.Link className={classes.link}>
