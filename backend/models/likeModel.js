@@ -116,7 +116,7 @@ exports.countLikeAndDislike = (postId) => {
 }
 
 exports.iLikedOrDisliked = (postId) => {
-    const sql = 'SELECT user_id, post_id, likes.like FROM `likes` WHERE post_id=?';
+    const sql = 'SELECT user_id, post_id, likes.like FROM likes WHERE post_id=? and user_id = ?';
     return new Promise((resolve, reject) => {
         try {
             db.query(sql, [postId], (error, result, fields) => {
