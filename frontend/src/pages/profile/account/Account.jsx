@@ -1,12 +1,17 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router';
 
+//Import des elements bootstrap
 import Card from 'react-bootstrap/Card';
 import Table from 'react-bootstrap/Table';
-
+import Container from 'react-bootstrap/Container';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
 import LoginContext from '../../../contextes/LoginContext';
+
+//Import des components
 import UpdateAccount from './updateAccount/UpdateAccount';
+import DeleteAccount from './deleteAccount/DeleteAccount';
 
 
 
@@ -57,14 +62,23 @@ const Account = (props) => {
                     </tbody>
                 </Table>
                 <Card.Body className="d-flex">
-                    <UpdateAccount
-                        authId={userId}
-                        authToken={props.token}
-                        userId={props.userId}
-                        oldName={props.name}
-                        oldFirstname={props.firstname}
-                        oldEmail={props.email}
-                    />
+                    <Container className="messageSender__top">
+                        <ButtonGroup>
+                            <UpdateAccount
+                                authId={userId}
+                                authToken={props.token}
+                                userId={props.userId}
+                                oldName={props.name}
+                                oldFirstname={props.firstname}
+                                oldEmail={props.email}
+                            />
+                            <DeleteAccount
+                                authId={userId}
+                                authToken={props.token}
+                                userId={props.userId}
+                            />
+                        </ButtonGroup>
+                    </Container>
                 </Card.Body>
             </Card>
         </div>

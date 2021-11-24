@@ -1,16 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from "react-router";
 import Button from 'react-bootstrap/Button';
-import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Swal from "sweetalert2";
 import axios from 'axios';
 
-const UpdateOrDeleteComments = (props) => {
-
-    const handleUpdate = () => {
-        console.log('modifier');
-        console.log(props.commentId);
-
-    }
+const DeleteComment = (props) => {
+    const history = useHistory();
 
     const handleDelete = () => {
         console.log('supprimer');
@@ -37,11 +32,11 @@ const UpdateOrDeleteComments = (props) => {
                                     'Votre commentaire a bien eté supprimer.',
                                     'success'
                                 )
-
+                                history.push('/home');
                             }
                         })
                         .catch((error) => {
-                            console.log('erreur suppresion post');
+                            console.log('erreur suppresion commentaire');
                         });
                 }
             })
@@ -49,26 +44,15 @@ const UpdateOrDeleteComments = (props) => {
 
     }
 
-
-
     return (
-        <ButtonGroup>
-            <Button
-                variant="Light"
-                //className={classes.btnUpdate}
-                onClick={handleUpdate}
-                title="Modifier">
-                <i className="far fa-edit"></i>
-            </Button>
-            <Button
-                variant="Light"
-                //className={classes.btnDelete}
-                title="Supprimer"
-                onClick={handleDelete}>
-                <i className="fas fa-trash-alt"></i>
-            </Button>
-        </ButtonGroup>
+        <Button
+            variant="Light"
+            //className={classes.btnDelete}
+            title="Supprimer"
+            onClick={handleDelete}>
+            <i className="fas fa-trash-alt"></i>
+        </Button>
     );
 };
 
-export default UpdateOrDeleteComments;
+export default DeleteComment;

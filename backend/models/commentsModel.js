@@ -21,7 +21,7 @@ exports.createComment = (comment) => {
 
 //RECUPERER TOUT LES COMMENTAIRES SUR UN POST
 exports.getAllComment = (postId) => {
-    const sql = 'SELECT p.id AS postId, u.name, u.firstname,u.id AS userId, c.id, c.user_id AS commentUserId, c.time_comment, c.comment FROM comment AS c INNER JOIN post AS p ON c.post_id = p.id INNER JOIN user AS u ON c.user_id = u.id WHERE p.id = ? ORDER BY time_comment DESC';
+    const sql = 'SELECT p.id AS postId, u.name, u.firstname,u.id AS userId, c.id , c.user_id AS commentUserId, c.time_comment, c.comment FROM comment AS c INNER JOIN post AS p ON c.post_id = p.id INNER JOIN user AS u ON c.user_id = u.id WHERE p.id = ? ORDER BY time_comment DESC';
     return new Promise((resolve, reject) => {
         try {
             db.query(sql, [postId], (error, result, fields) => {
@@ -58,6 +58,8 @@ exports.getOneById = (id) => {
 
 //SUPPRIMER UN COMMENTAIRE
 exports.deleteOne = (id) => {
+    console.log('commentModel');
+    console.log(id);
     const sql = 'DELETE  FROM `comment` WHERE id = ? ';
     return new Promise((resolve, reject) => {
         try {

@@ -37,6 +37,7 @@ exports.getAll = (req, res, next) => {
     commentsModel.getAllComment(postId)
         //on a notre promesse
         .then(comments => {
+            console.log(comments.id);
             return res.status(200).json(comments);
         })
         //erreur promesse
@@ -62,6 +63,7 @@ exports.update = (req, res, next) => {
 //SUPPRIMER UN COMMENTAIRE
 exports.delete = (req, res, next) => {
     const id = req.params.id;
+    console.log(req.params.id);
 
     commentsModel.deleteOne(id)
         //on a notre promesse
