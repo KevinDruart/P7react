@@ -6,7 +6,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import classes from "./navbar.module.css";
 import LoginContext from '../../../contextes/LoginContext';
 import AdminBtn from '../../../pages/panelAdmin/adminBtn/AdminBtn';
-import Swal from 'sweetalert2';
+
 
 const NavBarOnline = () => {
 
@@ -16,73 +16,58 @@ const NavBarOnline = () => {
     console.log(isAdmin);
 
     const handleLogout = () => {
-        Swal.fire({
-            title: 'êtes vous sur?',
-            text: "Vous êtes sur le point de vous deconnecter.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Oui, me deconnecter!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                history.push('/');
-                localStorage.removeItem('authId');
-                localStorage.removeItem('authToken');
-                localStorage.removeItem('admin');
-                setIsAuthenticated(false);
-                setUserId(null);
-                setIsAdmin(false);
-                Swal.fire(
-                    'Deconnecté!',
-                    'Vous êtes maintenant déconnecter.',
-                    'success'
-                )
-            }
-        })
+        localStorage.removeItem('authId');
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('admin');
+        setIsAuthenticated(false);
+        setUserId(null);
+        setIsAdmin(false);
+        alert('Vous êtes désormais déconnecter.')
+        history.push('/');
     }
 
     return (
-        <div className="navigation d-flex align-items-center justify-content-center justify-content-lg-start">
-            <Navbar expand="lg">
-                <LinkContainer exact to="/" className={["d-flex align-items-center mb-lg-0 text-dark text-decoration-none", classes.linkLogo].join(' ')}>
-                    <Navbar.Brand>
-                        <div className={classes.imageLogo}>
-                            <img src="./images/icon.png" alt="logo groupomania" className={classes.logo} />
-                        </div>
+            <div className="navigation d-flex align-items-center justify-content-center justify-content-lg-start">
+                <Navbar expand="lg">
+                    <LinkContainer exact to="/" className={["d-flex align-items-center mb-lg-0 text-dark text-decoration-none", classes.linkLogo].join(' ')}>
+                        <Navbar.Brand>
+                            <div className={classes.imageLogo}>
+                                <img src="./images/icon.png" alt="logo groupomania" className={classes.logo} />
+                            </div>
 
-                        <h1 className={classes.name}>Groupomania</h1>
+                            <h1 className={classes.name}>Groupomania</h1>
 
-                    </Navbar.Brand>
-                </LinkContainer>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav" className={classes.menu}>
-                    <Nav className="mr-auto">
-                        <LinkContainer exact to="/home" className="d-flex flex-column align-items-center">
-                            <Nav.Link className={classes.link}>
-                                <i className="fas fa-home"></i>
-                                Accueil
-                            </Nav.Link>
-                        </LinkContainer>
-                        <LinkContainer exact to="/profile" className="d-flex flex-column align-items-center">
-                            <Nav.Link className={classes.link}>
-                                <i className="fas fa-user-alt"></i>
-                                Mon profil
-                            </Nav.Link>
-                        </LinkContainer>
+                        </Navbar.Brand>
+                    </LinkContainer>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                    <Navbar.Collapse id="basic-navbar-nav" className={classes.menu}>
+                        <Nav className="mr-auto">
+                            <LinkContainer exact to="/home" className="d-flex flex-column align-items-center">
+                                <Nav.Link className={classes.link}>
+                                    <i className="fas fa-home"></i>
+                                    Accueil
+                                </Nav.Link>
+                            </LinkContainer>
+                            <LinkContainer exact to="/profile" className="d-flex flex-column align-items-center">
+                                <Nav.Link className={classes.link}>
+                                    <i className="fas fa-user-alt"></i>
+                                    Mon profil
+                                </Nav.Link>
+                            </LinkContainer>
 
-                        { isAnAdmin && <AdminBtn />}
+                            {isAnAdmin && <AdminBtn />}
 
-                        <LinkContainer exact to="/" onClick={handleLogout} className="d-flex flex-column align-items-center">
-                            <Nav.Link className={classes.link}>
-                                <i className="fas fa-sign-out-alt"></i>
-                                Me deconnecter
-                            </Nav.Link>
-                        </LinkContainer>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
-        </div>
+                            <LinkContainer exact to="/" onClick={handleLogout} className="d-flex flex-column align-items-center">
+                                <Nav.Link className={classes.link}>
+                                    <i className="fas fa-sign-out-alt"></i>
+                                    Me deconnecter
+                                </Nav.Link>
+                            </LinkContainer>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Navbar>
+            </div>
+
     );
 }
 

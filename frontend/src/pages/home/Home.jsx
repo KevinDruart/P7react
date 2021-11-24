@@ -4,7 +4,7 @@ import axios from 'axios';
 
 //import elements
 import Post from './Post/Post';
-import AddPost from './addPost/AddPost';
+import AddPost from './Post/addPost/AddPost';
 
 //import element react bootstrap
 import Container from "react-bootstrap/Container";

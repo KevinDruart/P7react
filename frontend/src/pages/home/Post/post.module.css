@@ -1,3 +1,157 @@
+
+/* post */
+
+ .userAvatar {
+  border-radius: 50%;
+  width: 45px;
+} 
+
+/*addPost*/
+
+.messageSender {
+  display: flex;
+  margin-top: 30px;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0px 5px 7px -7px rgb(0 0 0 / 75%);
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.messageSenderTop {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+}
+
+.messageSenderTop form {
+  flex: 1;
+  display: flex;
+}
+
+.messageSenderTop form input {
+  flex: 1;
+  outline-width: 0;
+  border: none;
+  padding: 15px 20px;
+  margin: 0 10px;
+  border-radius: 999px;
+  background-color: #eff2f5;
+  margin-bottom: 2%;
+}
+
+.messageSenderBottom {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.messageSenderOption {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  color: gray;
+  margin: 5px;
+}
+
+.messageSenderOption h3 {
+  font-size: medium;
+  margin-left: 10px;
+}
+
+.messageSenderOption:hover {
+  cursor: pointer;
+  background-color: #fc9484;
+  color: white;
+  border-radius: 20px;
+}
+
+.input-AddPicture {
+  width: 75%;
+}
+
+/* post */
+
+.post {
+  width: 90%;
+  margin-top: 15px;
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0px 5px 7px -7px rgba(0, 0, 0, 0.75);
+}
+
+.imgPost {
+  width: 100%;
+}
+
+.postTop {
+  display: flex;
+  position: relative;
+  align-items: center;
+  padding: 15px;
+  justify-content: space-between;
+}
+
+.left {
+  display: flex;
+}
+
+.postAvatar {
+  margin-right: 10px;
+}
+
+.postTopInfo {
+  line-height: 0.5;
+}
+
+.postTopInfo h3 {
+  font-size: medium;
+}
+
+.postTopInfo p {
+  color: gray;
+}
+
+.postTopInfoTime {
+  font-size: 0.7em;
+}
+
+.postBottom {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 15px 25px;
+  text-align: center;
+}
+
+.postOptions {
+  padding-top: 10px;
+  border-top: 1px solid lightgray;
+  display: flex;
+  justify-content: space-evenly;
+  font-size: medium;
+  color: gray;
+  cursor: pointer;
+  padding: 15px;
+}
+
+.postOption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  flex: 1;
+}
+
+.postOption p {
+  margin-left: 10px;
+}
+
+.postOption:hover {
+  background-color: #eff2f5;
+  border-radius: 10px;
+}
+
 .imgPost {
   width: 100%;
   HEIGHT: 550px;
@@ -14,3 +168,16 @@
   align-items: baseline;
 }
 
+
+/* update, delete post */
+.btnUpdate {
+  color: orange;
+}
+
+.btnDelete {
+  color: red;
+}
+
+.modalBody {
+  justify-content: space-evenly;
+}

@@ -3,7 +3,6 @@ import { useHistory } from "react-router";
 import { useFormik } from 'formik';
 import axios from 'axios';
 import classes from '../StylesForm/form.module.css';
-import Swal from 'sweetalert2';
 
 import LoginContext from '../../contextes/LoginContext';
 
@@ -53,13 +52,6 @@ const LoginForm = () => {
                             setIsAuthenticated(true);
                             setUserId(response.data.userId);
                             history.replace('/home');
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: 'Vous êtes connecté',
-                                showConfirmButton: false,
-                                timer: 1000
-                            })
                             if (response.data.roles === 'admin') {
                                 setIsAdmin(true);
                                 localStorage.setItem("admin", true);

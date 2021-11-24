@@ -8,7 +8,7 @@ const commentsCtrl = require('../controllers/comments');
 router.post('/post/:id', auth, commentsCtrl.create);
 
 //recuperer les commentaires d'un post
-router.get('/post/:id', auth, commentsCtrl.getAll);
+router.get('/post/:id',  commentsCtrl.getAll);
 
 //modifier un commentaire
 router.put('/:id', auth, commentsCtrl.update);

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
-import Swal from "sweetalert2";
+import Messages from '../../../../components/message/Messages';
 
 //Import classes css
 import classes from './addPost.module.css';
@@ -19,10 +19,10 @@ const validate = values => {
 
     if (!values.addPostTitle) {
         errors.addPostTitle = 'Titre Requis';
-    } 
+    }
     if (!values.addPostContent && !values.addPostImage) {
         errors.addPostTitle = '1 titre + 1 message ou 1 titre et 1 image sont necessaire';
-    } 
+    }
 
     return errors;
 };
@@ -34,6 +34,8 @@ const AddPost = ({ token, handleRefreshPost }) => {
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    const [addPublish, setAddPublish] = useState(false);
 
     const formik = useFormik({
         initialValues: {
@@ -47,53 +49,51 @@ const AddPost = ({ token, handleRefreshPost }) => {
 
             let data = '';
 
-                console.log(image);
-                if (image.length === 0) {
-                    console.log('pas dimage');
-                    data = {
-                        title: values.addPostTitle,
-                        content: values.addPostContent
-                    };
-                }
-                else {
-                    console.log('image');
-                    const message = JSON.stringify({
-                        title: values.addPostTitle,
-                        content: values.addPostContent
-                    })
-
-                    data = new FormData();
-                    data.append('image', image[0]);
-                    data.append('post', message);
-                }
-
-                axios.post("http://localhost:3000/api/messages", data, {
-                    headers: { Authorization: `Bearer ${token}` },
+            console.log(image);
+            if (image.length === 0) {
+                console.log('pas dimage');
+                data = {
+                    title: values.addPostTitle,
+                    content: values.addPostContent
+                };
+            }
+            else {
+                console.log('image');
+                const message = JSON.stringify({
+                    title: values.addPostTitle,
+                    content: values.addPostContent
                 })
-                    .then(response => {
-                        handleRefreshPost();
-                        setImage('');
-                        values.addPostContent = '';
-                        values.addPostTitle = '';
-                        handleClose();
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'Le post a bien été publié',
-                            showConfirmButton: false,
-                            timer: 1500
-                        })
 
-                    })
-                    .catch((error) => {
-                        console.log('erreur ajout post');
-                    });
-           // }
+                data = new FormData();
+                data.append('image', image[0]);
+                data.append('post', message);
+            }
+
+            axios.post("http://localhost:3000/api/messages", data, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+                .then(response => {
+                    handleRefreshPost();
+                    setImage('');
+                    values.addPostContent = '';
+                    values.addPostTitle = '';
+                    handleClose();
+                    setAddPublish(true);
+                })
+                .catch((error) => {
+                    console.log('erreur ajout post');
+                });
         },
     });
 
     return (
         <Container className="messageSender__top">
+            {
+                addPublish && <Messages
+                    message="Le post a bien eté publier"
+                    typeColor="alert-success"
+                />
+            }
             <Button className={classes.addPostBtn} onClick={handleShow} title="ajouter un post">
                 <i className="fas fa-plus-circle"></i>
                 <p className={classes.titleBtn}>Ajouter un post</p>
@@ -131,16 +131,16 @@ const AddPost = ({ token, handleRefreshPost }) => {
                             placeholder="Qu'avez vous envie de poster?"
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
-                            value={formik.values.addPostContent}  
+                            value={formik.values.addPostContent}
                         ></textarea>
 
                         <input
                             className="form-control"
                             type="file"
-                            onChange={(event) => { 
-                                setImage(event.target.files) 
-                                formik.values.addPostImage= event.target.files
-                                }}
+                            onChange={(event) => {
+                                setImage(event.target.files)
+                                formik.values.addPostImage = event.target.files
+                            }}
                         />
                         <button type="submit" className="btn" >
                             <i className="far fa-share-square"></i>
