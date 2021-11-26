@@ -7,7 +7,7 @@ const Index = () => {
     return (
         <div className={Classes.index}>
             <div className="px-4 text-center">
-                <h1 className={["display-4 fw-bold", Classes.title].join(' ')}>La communauté Groupomania</h1>
+                <h1 className={["fw-bold", Classes.title].join(' ')}>La communauté Groupomania</h1>
                 <div className="col-lg-6 mx-auto">
                     <p className= {["lead mb-4", Classes.describe].join(' ')}>
                     Avec de bonnes relations professionnelles, le travail est plus agréable et nous sommes tous plus motivé et productif.<br />

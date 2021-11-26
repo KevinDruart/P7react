@@ -39,15 +39,15 @@ exports.getAllComment = (postId) => {
 };
 
 //RECHERCHER UN COMMENTAIRE
-exports.getOneById = (id) => {
-    const sql = 'SELECT user_id AS userPosted FROM `comment` WHERE id = ?';
+exports.getOneById = (commentId) => {
+    const sql = 'SELECT COUNT(*) as nb FROM `comment` WHERE id = ?';
     return new Promise((resolve, reject) => {
         try {
-            db.query(sql, [id], (error, result, fields) => {
+            db.query(sql, [commentId], (error, result, fields) => {
                 if (result === undefined || result === "") {
                     reject('Id introuvable !');
                 } else {
-                    resolve(result);
+                    resolve(result[0]);
                 };
             });
         } catch (error) {

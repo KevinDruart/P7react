@@ -1,10 +1,9 @@
 const express = require('express');
-
 const router = express.Router();
 const auth = require('../middleware/auth');
 const likeCtrl = require('../controllers/like');
 
-//ajout like ou dislike d'un post
+//CREATE
 router.post('/:id', auth, likeCtrl.createLike);
 
 //compter les like et dislike sur un post

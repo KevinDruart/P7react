@@ -1,12 +1,12 @@
 const db = require('../connect/dbConnect.js');
 
 //LIKE OU DISLIKE UN POST
-exports.createNewLike = (like) => {
+exports.createNewLike = (like, UId) => {
     const sql = 'INSERT INTO `likes`( `user_id`, `post_id`, `like`) VALUES(?,?,?)';
     return new Promise((resolve, reject) => {
         try {
             console.log('execution dbquery');
-            db.query(sql, [like.userId, like.postId, like.iLike], (error, result, fields) => {
+            db.query(sql, [UId, like.postId, like.iLike], (error, result, fields) => {
                 if (result === undefined) {
                     reject(result);
                     console.log('erreur requete')
@@ -115,11 +115,13 @@ exports.countLikeAndDislike = (postId) => {
     });
 }
 
-exports.iLikedOrDisliked = (postId) => {
-    const sql = 'SELECT user_id, post_id, likes.like FROM `likes` WHERE post_id=?';
+exports.iLikedOrDisliked = (postId, userId) => {
+    const sql = 'SELECT user_id, post_id, likes.like FROM likes WHERE post_id=? and user_id = ?';
     return new Promise((resolve, reject) => {
         try {
-            db.query(sql, [postId], (error, result, fields) => {
+            console.log(postId);
+            console.log(userId);
+            db.query(sql, [postId, userId], (error, result, fields) => {
                 if (result === undefined || result === "") {
                     reject("aucun like sur ce post");
                 } else {
@@ -130,4 +132,4 @@ exports.iLikedOrDisliked = (postId) => {
             reject(error);
         };
     });
-}
+} 

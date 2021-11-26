@@ -123,6 +123,7 @@ const SignupForm = () => {
                 value={formik.values.password}
             />
             {formik.touched.password && formik.errors.password ? (
+
                 <div className={classes.error}>{formik.errors.password}</div>
             ) : null}
 

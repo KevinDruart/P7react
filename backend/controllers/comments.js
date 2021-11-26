@@ -50,9 +50,20 @@ exports.getAll = (req, res, next) => {
 
 //MODIFIER UN COMMENTAIRE
 exports.update = (req, res, next) => {
-    commentsModel.getOneById(req.params.id)
-        .then(response => {
-            console.log(response);
+    const commentId = req.params.id;
+    //console.log(commentId);
+    commentsModel.getOneById(commentId)
+        .then(resultat => {
+            //console.log(resultat);
+            if (resultat.nb > 0) {
+                console.log('ok le commentaire existe');
+                //on verifie si l'utilisateur et bien l'auteur du commentaire
+                //si oui on modifie
+                //si non on bloque
+            }
+            else {
+                console.log('error commentaire inexistant');
+            }
 
         })
         .catch(error => {

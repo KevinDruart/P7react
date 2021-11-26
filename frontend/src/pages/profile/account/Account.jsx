@@ -7,6 +7,7 @@ import Table from 'react-bootstrap/Table';
 import Container from 'react-bootstrap/Container';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 
+
 import LoginContext from '../../../contextes/LoginContext';
 
 //Import des components
@@ -35,8 +36,8 @@ const Account = (props) => {
 
 
     return (
-        <div>
-            <Card style={{ width: '90%' }}>
+        <Container>
+            <Card>
                 <Card.Header>Mes informations</Card.Header>
                 <Card.Body>
                     <Card.Img variant="top" src="holder.js/100px180?text=Image cap" />
@@ -81,7 +82,7 @@ const Account = (props) => {
                     </Container>
                 </Card.Body>
             </Card>
-        </div>
+        </Container>
     );
 };
 

@@ -10,12 +10,11 @@
 
 .formContainer {
     display: flex;
-    height: 92vh;
+    height: 100vh;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     font-family: Arial, Helvetica, sans-serif;
-    overflow: hidden;
 }
 
 .container {
@@ -103,8 +102,8 @@
 .form {
     background-color: rgba(255, 255, 255, .3);
     padding: 2rem;
-    height: 250px;
-    width: 250px;
+    height: 300px;
+    width: 300px;
     border-radius: 20px;
     border-left: 1px solid rgba(255, 255, 255, .3);
     border-top: 1px solid rgba(255, 255, 255, .3);
@@ -148,6 +147,7 @@
     border-top: 1px solid rgba(255, 255, 255, .3);
     padding: 0.6rem;
     border-radius: 50px;
+    width: 90%;
     /*effet*/
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
@@ -190,7 +190,8 @@
 
 .error {
     color: red;
-    font-size: 0.8em;
+    font-size: 1em;
+    font-weight: 600;
 }
 
 .error::before {
@@ -203,37 +204,23 @@
 /*>600px*/
 
 @media screen and (min-width: 601px) {
-    .form_title {
-        font-size: 2.4rem;
-    }
-    .formSignup, .form {
-        width: 580px;
-        height: 450px;
-    }
     .form {
-        display: flex;
-        justify-content: center;
+        width: 350px;
     }
-    .input {
-        width: 450px;
+
+    .formSignup {
+        width: 350px;
     }
 }
 
 /*480px a 600px*/
 
-@media screen and (min-width: 480px) and (max-width:600px) {
-    .form_title {
-        font-size: 2rem;
-    }
-    .formSignup, .form {
-        width: 380px;
-        height: 450px;
-    }
+@media screen and (min-width: 1024px) {
     .form {
-        display: flex;
-        justify-content: center;
+        width: 550px;
     }
-    .input {
-        width: 300px;
+
+    .formSignup {
+        width: 550px;
     }
 }

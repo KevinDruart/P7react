@@ -28,13 +28,13 @@ const ListUserAdmin = (props) => {
   }
   return (
     <>
-      <td>{props.userId}</td>
-      <td>{props.name}</td>
-      <td>{props.firstname}</td>
-      <td>{props.email}</td>
-      <td>{props.time}</td>
-      <td>{props.roles}</td>
-      <td>
+      <td data-label="id">{props.userId}</td>
+      <td data-label="Nom">{props.name}</td>
+      <td data-label="Prénom">{props.firstname}</td>
+      <td data-label="email">{props.email}</td>
+      <td data-label="inscrit">{props.time}</td>
+      <td data-label="rôle">{props.roles}</td>
+      <td data-label="Action">
         <Button variant="danger" onClick={handleClickDelete} title="supprimer">
           <i className="fas fa-trash-alt"> </i>
         </Button>

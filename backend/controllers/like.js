@@ -3,13 +3,14 @@ const likeModel = require('../models/likeModel.js');
 
 /*liker ou disliker*/
 exports.createLike = (req, res, next) => {
+    let UId = req.jwtToken.userId;
     let like = { ...req.body };
-    console.log(like);
+    //console.log(like);
     likeModel.findCountLike(like)
         .then(resultat => {
             //console.log(resultat);
             if (resultat.nb === 0) {
-                likeModel.createNewLike(like)
+                likeModel.createNewLike(like, UId)
                     //on a notre promesse
                     .then(likes => {
                         return res.status(200).json({ message: 'ok like' });
@@ -26,14 +27,14 @@ exports.createLike = (req, res, next) => {
                 likeModel.findOneLike(like)
                     //promesse (j'ai un like sur ce post de ce membre)
                     .then(response => {
-                        console.log(response.like);
-                        console.log(like.iLike);
-                        console.log(response.like !== like.iLike)
+                        //console.log(response.like);
+                        //console.log(like.iLike);
+                        //console.log(response.like !== like.iLike)
                         if (response.like !== like.iLike) {
-                            console.log("update");
+                            //console.log("update");
                             let likeUser = response;
                             likeUser.like = like.iLike;
-                            console.log(likeUser);
+                            //console.log(likeUser);
                             //il faut dabord retirer le jaime ou le jaime pas avant de pouvoir like ou dislike
                             likeModel.updateLike(likeUser)
                                 .then(result => {
@@ -59,7 +60,7 @@ exports.createLike = (req, res, next) => {
 /*Connaitre le nombre de like ou dislike */
 exports.countNb = (req, res, next) => {
     let postId = req.params.id;
-    console.log(postId);
+    //console.log(postId);
 
     likeModel.countLikeAndDislike(postId)
         //on a notre promesse
@@ -74,13 +75,13 @@ exports.countNb = (req, res, next) => {
         });
 }
 
-/*qui a liké*/
+/*Afficher si j'ai like ou dislike*/
 exports.whoLike = (req, res, next) => {
     let postId = req.params.id;
-    console.log('whoLike');
-    console.log(postId);
+    //console.log('whoLike');
+    //console.log(postId);
 
-    likeModel.iLikedOrDisliked(postId)
+    likeModel.iLikedOrDisliked(postId, req.jwtToken.userId)
         //on a notre promesse
         .then(like => {
             res.status(200).json(like);

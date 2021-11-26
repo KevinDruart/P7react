@@ -18,7 +18,7 @@ import classes from './post.module.css';
 const Posts = (props) => {
 
     const { userId, isAdmin } = useContext(LoginContext);
-    const [isCanEditDelete] = useState(parseInt(userId) === props.post.userId || isAdmin === true);
+    const [isCanEditDelete] = useState(parseInt(userId) === props.post.userId || isAdmin);
 
     //Gestion de la date 
     const datePost = new Date(props.post.time_post);

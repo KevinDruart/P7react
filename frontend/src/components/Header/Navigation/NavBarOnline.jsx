@@ -21,13 +21,12 @@ const NavBarOnline = () => {
         localStorage.removeItem('admin');
         setIsAuthenticated(false);
         setUserId(null);
+        alert('Vous êtes désormais déconnecter.');
         setIsAdmin(false);
-        alert('Vous êtes désormais déconnecter.')
         history.push('/');
     }
 
     return (
-            <div className="navigation d-flex align-items-center justify-content-center justify-content-lg-start">
                 <Navbar expand="lg">
                     <LinkContainer exact to="/" className={["d-flex align-items-center mb-lg-0 text-dark text-decoration-none", classes.linkLogo].join(' ')}>
                         <Navbar.Brand>
@@ -66,8 +65,6 @@ const NavBarOnline = () => {
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-            </div>
-
     );
 }
 
