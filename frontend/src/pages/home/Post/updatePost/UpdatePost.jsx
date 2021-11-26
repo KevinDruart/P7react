@@ -17,9 +17,6 @@ const UpdatePost = (props) => {
 
     const history = useHistory();
 
-    const postId = props.postId;
-    const token = props.token;
-
     //fonction validate
     const validate = values => {
 
@@ -54,7 +51,7 @@ const UpdatePost = (props) => {
             if (image.length === 0) {
                 data = {
                     title: values.updatePostTitle,
-                    content: values.updatePostContent,
+                    content: values.updatePostContent
                 };
             }
             else {
@@ -72,8 +69,9 @@ const UpdatePost = (props) => {
             }).then((result) => {
                 //modification confirmer
                 if (result.isConfirmed) {
-                    axios.put("http://localhost:3000/api/messages/" + postId, data, {
-                        headers: { Authorization: `Bearer ${token}` },
+                    console.log('modification confirmé')
+                    axios.put("http://localhost:3000/api/messages/" + props.postId, data, {
+                        headers: { Authorization: `Bearer ${props.token}` },
                     })
                         .then(response => {
                             console.log(response);
@@ -96,6 +94,7 @@ const UpdatePost = (props) => {
                 }
                 //modification annuler
                 else if (result.isDenied) {
+                    console.log('modification annulé');
                     setImage('');
                     values.updatePostContent = '';
                     values.updatePostTitle = '';
@@ -106,7 +105,6 @@ const UpdatePost = (props) => {
             })
         },
     });
-
 
     return (
         <>

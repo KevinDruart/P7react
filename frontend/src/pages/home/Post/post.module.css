@@ -89,7 +89,7 @@
   display: flex;
   position: relative;
   align-items: center;
-  padding: 15px;
+  padding: 5px;
   justify-content: space-between;
 }
 
@@ -103,6 +103,8 @@
 
 .postTopInfo {
   line-height: 0.5;
+  margin-left: 5%;
+  WIDTH: 200PX;
 }
 
 .postTopInfo h3 {

@@ -5,13 +5,13 @@ import Button from 'react-bootstrap/Button';
 const ListPostAdmin = (props) => {
   return (
     <>
-      <td>{props.postId}</td>
-      <td>{props.name}</td>
-      <td>{props.firstname}</td>
-      <td>{props.title}</td>
-      <td>{props.content}</td>
-      <td>{props.time}</td>
-      <td>
+      <td  data-label="id">{props.postId}</td>
+      <td data-label="Nom">{props.name}</td>
+      <td data-label="Prénom">{props.firstname}</td>
+      <td data-label="Titre">{props.title}</td>
+      <td data-label="Contenu">{props.content}</td>
+      <td data-label="Publier">{props.time}</td>
+      <td data-label="Action">
         <ButtonGroup size="sm">
           <Button variant="warning">
             <i className="fas fa-edit" title="modifier"></i>

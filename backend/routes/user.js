@@ -1,33 +1,39 @@
 const express = require('express');
 const router = express.Router();
-const userCtrl = require('../controllers/user');
 const rateLimit = require("express-rate-limit");
-const verifyPassword = require('../middleware/verify-password');        // importation du middleware
-const verifyMail = require('../middleware/testMail');
 
-//limite de connexion
-const createAccountLimiter = rateLimit({
+//Controller USER
+const userCtrl = require('../controllers/user');
+//Control Mail
+const verifyMail = require('../middleware/testMail');
+//Control Password
+const verifyPassword = require('../middleware/verify-password');
+
+//LIMIT REQUEST
+const requestLimit = rateLimit({
     // 1 heure
     windowMs: 60 * 60 * 1000, 
-    // Blocage aprés 2 requetes
-    max: 25, 
+    // Blocage aprés 3 requetes
+    max: 3, 
     message:(JSON.stringify("Trop de tentative de connexion, compte bloquer pendant 1 heure"))
   });
 
-// Endpoint crée un nouvel utilisateur
-router.post('/signup', userCtrl.signup); 
-// Endpoint connexion d'un utilisateur
-router.post('/login', verifyMail, createAccountLimiter, userCtrl.login); 
-//Endpoint get user (voir son profil)
+//SIGNUP
+router.post('/signup', verifyMail, verifyPassword, userCtrl.signup);
+
+//LOGIN
+router.post('/login', verifyMail, verifyPassword, requestLimit, userCtrl.login); 
+
+//READ ONE
 router.get('/:id', userCtrl.getUser);
-//Endpoint get pour recuperer tout les membres(admin)
+
+//READ ALL
 router.get('/admin/users', userCtrl.getAllUser);
-//Endpoint delete user
-router.delete('/:id', userCtrl.deleteUser);
-//Endpoint update user
+
+//UPDATE
 router.put('/:id', userCtrl.modifyUser);
 
-
-
+//DELETE
+router.delete('/:id', userCtrl.deleteUser);
 
 module.exports = router;

@@ -54,7 +54,7 @@ const PanelAdmin = () => {
     console.log(users);
     return (
 
-        <Container className={classes.PanelAdmin}>
+        <div className={classes.PanelAdmin}>
             <div className={classes.PanelAdmin_Top}>
                 <h2>Informations rapide:</h2>
                 <div className={classes.PanelAdmin_Top_info}>
@@ -78,12 +78,12 @@ const PanelAdmin = () => {
             </div>
             <Tabs defaultActiveKey="Membres" id="uncontrolled-tab-example" className="mb-3">
                 <Tab eventKey="Posts" title="Posts">
-                    <Table striped bordered hover>
+                    <table className={classes.tableAdmin}>
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Nom</th>
-                                <th>Prenom</th>
+                                <th>Prenom</th >
                                 <th>Titre</th>
                                 <th>message</th>
                                 <th>posté le</th>
@@ -91,6 +91,7 @@ const PanelAdmin = () => {
                             </tr>
                         </thead>
                         <tbody>
+
                             {posts.map((post) => {
                                 return (
                                     <tr key={post.id}>
@@ -105,11 +106,12 @@ const PanelAdmin = () => {
                                     </tr>
                                 );
                             })}
+
                         </tbody>
-                    </Table>
+                    </table>
                 </Tab>
                 <Tab eventKey="Membres" title="Membres">
-                    <Table striped bordered hover>
+                    <table className={classes.tableAdmin}>
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -117,6 +119,7 @@ const PanelAdmin = () => {
                                 <th>Prenom</th>
                                 <th>email</th>
                                 <th>date d'inscription</th>
+                                <th>Rôle</th>
                                 <th>action</th>
                             </tr>
                         </thead>
@@ -135,12 +138,13 @@ const PanelAdmin = () => {
                                     </tr>
                                 );
                             })}
+
                         </tbody>
-                    </Table>
+                    </table>
                 </Tab>
 
             </Tabs>
-        </Container>
+        </div>
     );
 };
 

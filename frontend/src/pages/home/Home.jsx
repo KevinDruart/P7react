@@ -37,7 +37,7 @@ const Home = (props) => {
     }
 
     return (
-        <Container className={classes.home} id="home">
+        <Container className={classes.home}>
             <AddPost token={token} handleRefreshPost={getPosts} />
             {posts.map((post) => {
                 return (

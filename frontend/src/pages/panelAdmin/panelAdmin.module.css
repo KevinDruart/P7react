@@ -1,7 +1,10 @@
 .PanelAdmin {
-    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
     background-color: #fff;
     border-radius: 10px;
+    align-items: center;
 }
 
 .PanelAdmin_Top {
@@ -13,4 +16,65 @@
 .PanelAdmin_Top_info {
     display: flex;
     justify-content: space-around;
+}
+
+@media only screen and (max-width:600px) {
+    .tableAdmin table, 
+    .tableAdmin thead, 
+    .tableAdmin tbody, 
+    .tableAdmin tr, 
+    .tableAdmin th, 
+    .tableAdmin td {
+        display: block;
+    }
+
+    .tableAdmin thead {
+        display: none;
+    }
+
+    .tableAdmin td {
+        padding-left: 110px;
+        position: relative;
+        background: #fff;
+        margin-top: -1;
+    }
+
+    .tableAdmin td:nth-child(odd) {
+        background-color: #FC9984;
+    }
+
+    .tableAdmin td::before {
+        content: attr(data-label);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100px;
+        bottom: 0;
+        background-color: #FC2E07;
+        color: #fff;
+        display: flex;
+        align-items: center;
+    }
+
+    .tableAdmin tr {
+        margin-bottom: 1rem;
+    }
+
+}
+
+
+@media only screen and (min-width:600px) {
+    .PanelAdmin {
+        width: 800PX;
+    }
+    .tableAdmin th {
+        PADDING-LEFT: 2%;
+        background-color: #FC2E07;
+    }
+
+    .tableAdmin tr:nth-child(odd) {
+        background-color: #FC9984;
+    }
+
+
 }

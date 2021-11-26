@@ -1,19 +1,18 @@
 const express = require('express');
-
 const router = express.Router();
 const auth = require('../middleware/auth');
 const commentsCtrl = require('../controllers/comments');
 
-//ajout d'un commentaire
+//CREATE
 router.post('/post/:id', auth, commentsCtrl.create);
 
-//recuperer les commentaires d'un post
+//READ
 router.get('/post/:id',  commentsCtrl.getAll);
 
-//modifier un commentaire
+//UPDATE
 router.put('/:id', auth, commentsCtrl.update);
 
-//supprimer un commentaire
+//DELETE
 router.delete('/:id', auth, commentsCtrl.delete);
 
 module.exports = router;

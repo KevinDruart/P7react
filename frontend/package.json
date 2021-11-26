@@ -20,8 +20,7 @@
     "react-scripts": "4.0.3",
     "react-spinners-css": "^2.0.1",
     "sweetalert2": "^11.1.10",
-    "web-vitals": "^1.0.1",
-    "yup": "^0.32.9"
+    "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",

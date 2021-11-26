@@ -1,87 +1,65 @@
 import React, { useState } from 'react';
 import { useHistory } from "react-router";
-import { useFormik } from 'formik';
+import axios from 'axios';
+import Swal from "sweetalert2";
+
+//import des elements bootstrap
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Swal from "sweetalert2";
-import axios from 'axios';
 
 const UpdateComment = (props) => {
-    const [comments, setComments] = useState(props.message);
-    const [isClickUpdate, setIsClickUpdate] = useState(false);
+    const [text, setText] = useState([]);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const history = useHistory();
 
-    const handleUpdate = () => {
-        console.log('modifier');
-        console.log(props.commentId);
-        console.log(comments)
-        if (isClickUpdate === true) {
-            setIsClickUpdate(false);
-        }
-        else {
-            setIsClickUpdate(true);
-        }
+    console.log(props.commentId);
+
+    //On submit ajout commentaire
+    const handleUpdateComment = (e) => {
+        e.preventDefault();
+        sendComments(props.commentId);
     }
 
 
-    //fonction validate
-    const validate = values => {
-        const errors = {};
-
-        if (!values.commentContent === null) {
-            errors.commentContent = 'aucune modification en cours';
+    //requete pour envoyer le nouveau commentaire
+    const sendComments = () => {
+        const comment = {
+            commentId: props.commentId,
+            userId: props.userId,
+            comment: text
         }
-
-        return errors;
-    };
-
-    const formik = useFormik({
-        initialValues: {
-            commentContent: '',
-        },
-        validate,
-
-        onSubmit: values => {
-
-            //message confirmation de modification
-            Swal.fire({
-                title: 'Voulez vous vraiment effectuer ces changements?',
-                showDenyButton: true,
-                showCancelButton: true,
-                confirmButtonText: 'enregistré',
-                denyButtonText: `Ne pas enregistré`,
-            }).then((result) => {
-                //modification confirmer
-                if (result.isConfirmed) {
-                  console.log('modification OK');
-                }
-                //modification annuler
-                else if (result.isDenied) {
-                console.log('modification annuler');
-                }
+        console.log(props.commentId);
+        axios.put("http://localhost:3000/api/comments/" + props.commentId, comment, {
+            headers: { Authorization: `Bearer ${props.token}` },
+        })
+            .then((response) => {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Le commentaire a bien été modifié',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                //history.replace("/home");
+                window.location.reload();
             })
-
-
-
-        },
-    });
+            .catch(error => {
+                console.log(error);
+            })
+    }
 
     return (
         <>
-
-                <Button
-                    variant="Light"
-                    //className={classes.btnUpdate}
-                    onClick={handleShow}
-                    title="Modifier">
-                    <i className="far fa-edit"></i>
-                </Button>
-
-
+            <Button
+                variant="Light"
+                //className={classes.btnUpdate}
+                onClick={handleShow}
+                title="Modifier">
+                <i className="far fa-edit"></i>
+            </Button>
             <Modal show={show} onHide={handleClose}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
@@ -95,18 +73,14 @@ const UpdateComment = (props) => {
                 <Modal.Body>
                     <div >
                         <div className="left">
-                            <form onSubmit={formik.handleSubmit}>
+                            <form onSubmit={handleUpdateComment}>
                                 <textarea
-                                    id="updatePostContent"
-                                    className="form-control"
-                                    placeholder="Qu'avez vous envie de poster?"
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    value={formik.values.commentContent}
+                                    className="card-text form-control"
+                                    onChange={(e) => setText(e.target.value)}
+                                    value={text}
+                                    placeholder="Laisser un commentaire"
                                 ></textarea>
-                                {formik.touched.commentContent && formik.errors.commentContent ? (
-                                    <div >{formik.errors.commentContent}</div>
-                                ) : null}
+
                                 <Button variant="success" type="submit">Valider</Button>
                             </form>
                         </div>
