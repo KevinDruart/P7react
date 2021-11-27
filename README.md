@@ -41,11 +41,16 @@
 
 * Une fois installer modifier le nom du fichier modele.env en .env .
 
-* Modifier le .env :
+* Modifier le .env-dist en .env et modifier les informations comme indiquer :
 ```
-DB_URL="string de connexion à mongoDB sous la forme suivante ==> mongodb+srv://USERNAME:USERPASSWORD@CLUSTERNAME.vblzk.mongodb.net/DATABASENAME?retryWrites=true&w=majority"
+dbConnectHost = "host"
+dbConnectUser = "utilisateur"
+dbConnectPassword = "password"
+dbConnectPort = "port de la base de données"
+dbConnectDb = "nom de la base de données"
+
 TOKEN="clé de chiffrement aléatoire"
-COOKIESECRET="clé de chiffrement aléatoire"
+
 ```
 
 
