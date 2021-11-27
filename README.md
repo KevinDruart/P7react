@@ -43,9 +43,14 @@
 
 * Modifier le .env :
 ```
-DB_URL="string de connexion à mongoDB sous la forme suivante ==> mongodb+srv://USERNAME:USERPASSWORD@CLUSTERNAME.vblzk.mongodb.net/DATABASENAME?retryWrites=true&w=majority"
+dbConnectHost = "localhost"
+dbConnectUser = "root"
+dbConnectPassword = "root"
+dbConnectPort = "3307"
+dbConnectDb = "groupomania"
+
 TOKEN="clé de chiffrement aléatoire"
-COOKIESECRET="clé de chiffrement aléatoire"
+
 ```
 
 
