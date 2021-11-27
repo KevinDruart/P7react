@@ -1,4 +1,4 @@
-## Auteur
+# Auteur
 
 👤 &nbsp; **Druart Kevin** [Contactez moi](<k.druart2@gmail.com>)
 
@@ -23,24 +23,21 @@
 - Implémenter un stockage de données sécurisé en utilisant SQL
 
 
-### Contenus de ce repository et installation
+##### Contenus de ce repository et installation
 
 * Ce repo contient les 2 dossiers `frontend` et `backend`.
 
 
-* 
+### 1-Installation des serveurs et app
 
-### installation
-
-**BACKEND
-* Prérequis Vous aurez besoin d'avoir Node et npm installés localement sur votre machine.
+#### BACKEND
+> Prérequis: vous aurez besoin d'avoir Node et npm installés localement sur votre machine.
 
 ```sh
 cd backend
 npm i
 ```
 
-* Une fois installer modifier le nom du fichier modele.env en .env .
 
 * Modifier le .env-dist en .env et modifier les informations comme indiquer :
 ```
@@ -55,17 +52,17 @@ TOKEN="clé de chiffrement aléatoire"
 ```
 
 
-**FRONTEND 
-* Prérequis Vous aurez besoin d'avoir Node et npm installés localement sur votre machine.
+#### FRONTEND 
+> Prérequis Vous aurez besoin d'avoir Node et npm installés localement sur votre machine.
 
 ```sh
 cd frontend
 npm i
 ```
 
-> Un readme propre au frontend et disponible dans le dossier frontend.
+> Un readme propre au frontend est disponible dans le dossier frontend.
 
-### Pour démarrer les serveurs
+### 2-Pour démarrer les serveurs
 #### BACKEND
 ```sh
 cd backend
@@ -77,7 +74,7 @@ cd frontend
 npm start or yarn start
 ```  
 
-Veillez a bien démarrer le BACKEND avant le FRONTEND et veillez a démarrer la BDD avant le BACKEND.
+> ***Veillez a bien démarrer le BACKEND avant le FRONTEND et veillez a démarrer la BDD avant le BACKEND.***
 
 ***
 
@@ -93,12 +90,11 @@ Veillez a bien démarrer le BACKEND avant le FRONTEND et veillez a démarrer la 
 
 ***
 
-### Les livrables
-
-→ 
-
-→ 
-
-
-
 ***
+
+
+
+
+
+
+
