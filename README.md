@@ -29,7 +29,7 @@
 
 ### 1-Cloner le repository:
 
-* Lien du repository: (https://github.com/KevinDruart/P7react.git)
+* Lien du repository: [@P7](https://github.com/KevinDruart/P7react.git)
 
 
 ### 2-Installation des serveurs et app
