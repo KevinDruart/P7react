@@ -43,11 +43,11 @@
 
 * Modifier le .env :
 ```
-dbConnectHost = "localhost"
-dbConnectUser = "root"
-dbConnectPassword = "root"
-dbConnectPort = "3307"
-dbConnectDb = "groupomania"
+dbConnectHost = "host"
+dbConnectUser = "utilisateur"
+dbConnectPassword = "password"
+dbConnectPort = "port de la base de données"
+dbConnectDb = "nom de la base de données"
 
 TOKEN="clé de chiffrement aléatoire"
 
