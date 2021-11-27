@@ -41,7 +41,7 @@
 
 * Une fois installer modifier le nom du fichier modele.env en .env .
 
-* Modifier le .env :
+* Modifier le .env-dist en .env et modifier les informations comme indiquer :
 ```
 dbConnectHost = "host"
 dbConnectUser = "utilisateur"
