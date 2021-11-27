@@ -8,7 +8,6 @@ const AddComments = (props) => {
     const history = useHistory();
 
     const [text, setText] = useState([]);
-    console.log(props.postId);
 
     //On submit ajout commentaire
     const handleAddComment = (e) => {
@@ -24,7 +23,6 @@ const AddComments = (props) => {
             userId: props.userId,
             comment: text
         }
-        console.log(props.postId);
         axios.post("http://localhost:3000/api/comments/post/" + props.postId, comment, {
             headers: { Authorization: `Bearer ${props.token}` },
         })
@@ -40,7 +38,12 @@ const AddComments = (props) => {
                 window.location.reload();
             })
             .catch(error => {
-                console.log(error);
+                Swal.fire({
+                    icon: 'Une erreur ',
+                    title: "Une erreur s'est produite",
+                    text: "Oups.. Votre commentaire n'a pas pu être publier!",
+                    footer: 'Essayer a nouveau, si cela persiste <a href="">Contacter nous</a>'
+                })
             })
     }
     return (

@@ -43,7 +43,12 @@ const DeletePost = (props) => {
                             }
                         })
                         .catch((error) => {
-                            console.log('erreur suppresion post');
+                            Swal.fire({
+                                icon: 'Une erreur ',
+                                title: "Une erreur s'est produite",
+                                text: "Oups.. Votre poste n'a pas pu être supprimer!",
+                                footer: 'Essayer a nouveau, si cela persiste <a href="">Contacter nous</a>'
+                            })
                         });
                 }
             })

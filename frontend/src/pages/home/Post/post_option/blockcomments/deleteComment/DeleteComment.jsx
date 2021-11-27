@@ -8,8 +8,6 @@ const DeleteComment = (props) => {
     const history = useHistory();
 
     const handleDelete = () => {
-        console.log('supprimer');
-        console.log(props.commentId);
         Swal.fire({
             title: 'êtes vous sur?',
             text: "Une fois supprimer le commentaire ne sera definitivement plus disponible.",
@@ -36,7 +34,12 @@ const DeleteComment = (props) => {
                             }
                         })
                         .catch((error) => {
-                            console.log('erreur suppresion commentaire');
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: "Une erreur s'est produite de la suppresion",
+                                footer: 'Essayer a nouveau, si cela persiste <a href="">contacter nous</a>'
+                              })
                         });
                 }
             })

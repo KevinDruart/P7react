@@ -23,7 +23,6 @@ exports.signup = (req, res, next) => {
     maskAtTheRate: false
   };
 
-  console.log(req.body);
   //on recupére l'email présent dans le body
   let email = req.body.email;
   //on récupére le reste des données dans le body
@@ -36,7 +35,6 @@ exports.signup = (req, res, next) => {
   //masquage email 
   let emailMasked = maskData.maskEmail2(req.body.email, emailMask2Options);
 
-  console.log(req.body.name + 'test signup1');
 
   //On attribue un nombre de tour au hashage et ou salage
   const saltRounds = 10;
@@ -147,7 +145,6 @@ exports.getAllUser = (req, res, next) => {
 
 /*------------------------------------UPDATE USER------------------------------------- */
 exports.modifyUser = (req, res, next) => {
-  console.log(req.body);
   const emailMask2Options = {
     //caractere de masquage
     maskWith: "*",
@@ -159,7 +156,6 @@ exports.modifyUser = (req, res, next) => {
   };
   //on récupére le reste des données dans le body et params
   let userId = req.params.id;
-  console.log(req.params.id);
   //nom
   let name = req.body.name;
   //prénom
@@ -205,15 +201,11 @@ exports.deleteUser = (req, res, next) => {
   userModel.isExistId(userId)
     //on a notre promesse
     .then((response) => {
-      console.log(response);
       userModel.deleteOne(userId)
         .then((result) => {
-          console.log('then controller')
-          console.log(result);
           return res.status(200).json({ message: 'utilisateur supprimer' })
         })
         .catch((error) => {
-          console.log('catch controller')
           return res.status(400).json({ message: "impossible de supprimer" });
         })
     })

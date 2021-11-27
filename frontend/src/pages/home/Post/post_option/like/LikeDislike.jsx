@@ -3,16 +3,16 @@ import { useHistory } from "react-router";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
+//import des elements react-bootstrap
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Button from "react-bootstrap/Button";
 
 const LikeDislike = (props) => {
-    //const [likes, setLikes] = useState('0');
+
     const [liked, setLiked] = useState([]);
     const [disliked, setDisliked] = useState([]);
     const [userLikeIt, setUserLikeIt] = useState(0);
     const [userDislikeIt, setUserDislikeIt] = useState(0);
-    //console.log(props);//props = postId, userId, token
 
     const history = useHistory();
 
@@ -25,16 +25,16 @@ const LikeDislike = (props) => {
     const handleClickLike = (e) => {
         e.preventDefault();
         // setLikes(1);
-         sendLike(userLikeIt === 1 ? 0 : 1);
+        sendLike(userLikeIt === 1 ? 0 : 1);
         if (userLikeIt === 1) {
-            setLiked(liked -1)
+            setLiked(liked - 1)
         }
-        else if (userLikeIt === 0) { 
-            setLiked(liked +1)
+        else if (userLikeIt === 0) {
+            setLiked(liked + 1)
         }
 
         if (userDislikeIt === 1) {
-            setDisliked(disliked -1)
+            setDisliked(disliked - 1)
         }
         setUserDislikeIt(0);
         setUserLikeIt(userLikeIt === 1 ? 0 : 1);
@@ -47,14 +47,14 @@ const LikeDislike = (props) => {
         // sendLike();
         sendLike(userDislikeIt === 1 ? 0 : -1);
         if (userDislikeIt === 1) {
-            setDisliked(disliked -1)
+            setDisliked(disliked - 1)
         }
-        else if (userDislikeIt === 0) { 
-            setDisliked(disliked +1)
+        else if (userDislikeIt === 0) {
+            setDisliked(disliked + 1)
         }
 
         if (userLikeIt === 1) {
-            setLiked(liked -1)
+            setLiked(liked - 1)
         }
         setUserLikeIt(0);
         setUserDislikeIt(userDislikeIt === 1 ? 0 : 1);
@@ -62,10 +62,10 @@ const LikeDislike = (props) => {
 
     //fonction d'envoie du like ou dislike
     const sendLike = (likeValue) => {
-     const like = {
-         postId: props.postId,
-         iLike: likeValue
-     };
+        const like = {
+            postId: props.postId,
+            iLike: likeValue
+        };
 
         axios.post("http://localhost:3000/api/likes/" + props.postId, like, {
             headers: { Authorization: `Bearer ${props.token}` },
@@ -81,7 +81,12 @@ const LikeDislike = (props) => {
                 getNbLikeOrDislike();
             })
             .catch((error) => {
-                alert("Impossible d'ajouter votre avis, veuillez essayer a nouveau ultérieurement.")
+                Swal.fire({
+                    icon: 'Une erreur ',
+                    title: "Une erreur s'est produite",
+                    text: "Oups.. Votre avis n'a pas pu être ajouter!",
+                    footer: 'Essayer a nouveau, si cela persiste <a href="">Contacter nous</a>'
+                })
             });
     }
 
@@ -91,12 +96,11 @@ const LikeDislike = (props) => {
             headers: { Authorization: `Bearer ${props.token}` },
         })
             .then((response) => {
-                //console.log(response.data);//liked et disliked
                 setLiked(response.data.liked);
                 setDisliked(response.data.disliked);
             })
             .catch((error) => {
-                console.log(error);
+                return null;
             });
     }
 
@@ -106,8 +110,7 @@ const LikeDislike = (props) => {
             headers: { Authorization: `Bearer ${props.token}` },
         })
             .then((response) => {
-                console.log(response);
-                if (response.data[0] !== undefined ) {
+                if (response.data[0] !== undefined) {
                     if (response.data[0].like === 1) {
                         setUserLikeIt(1);
                         setUserDislikeIt(0);
@@ -119,7 +122,7 @@ const LikeDislike = (props) => {
                 }
             })
             .catch((error) => {
-                console.log(error);
+                return null;
             });
     }
 
@@ -130,7 +133,7 @@ const LikeDislike = (props) => {
                 title="J'aime"
                 onClick={handleClickLike}
             >
-            { userLikeIt ? <i className="fas fa-thumbs-up" ></i> : <i className="far fa-thumbs-up" ></i> }
+                {userLikeIt ? <i className="fas fa-thumbs-up" ></i> : <i className="far fa-thumbs-up" ></i>}
                 <span className="text-light">{liked}</span>
             </Button>
             <Button
@@ -138,7 +141,7 @@ const LikeDislike = (props) => {
                 title="Je n'aime pas"
                 onClick={handleClickDislike}
             >
-            { userDislikeIt ? <i className="fas fa-thumbs-down" ></i> : <i className="far fa-thumbs-down" ></i> }
+                {userDislikeIt ? <i className="fas fa-thumbs-down" ></i> : <i className="far fa-thumbs-down" ></i>}
 
                 <span className="text-light">{disliked}</span>
             </Button>

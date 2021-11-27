@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from "react-router";
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const ListUserAdmin = (props) => {
   const token = localStorage.getItem('authToken');
@@ -11,19 +12,26 @@ const ListUserAdmin = (props) => {
   //click supprimer
   const handleClickDelete = (e) => {
     e.preventDefault();
-    console.log("utilisateur supprimer");
-    console.log(userId);
     axios.delete("http://localhost:3000/api/auth/" + userId, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(response => {
-
-        alert("l'utilisateur a bien etait supprimer");
         history.push("/admin");
-
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Utilisateur supprimé',
+          showConfirmButton: false,
+          timer: 1500
+        })
       })
       .catch((error) => {
-        console.log('erreur suppresion post');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: "Une erreur s'est produite",
+          footer: 'Essayer a nouveau, si cela persiste <a href="">contacter nous</a>'
+        })
       });
   }
   return (
@@ -42,5 +50,5 @@ const ListUserAdmin = (props) => {
     </>
   );
 };
-
+ 
 export default ListUserAdmin;

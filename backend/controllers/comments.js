@@ -4,8 +4,6 @@ const userModel = require('../models/userModel');
 
 //AJOUTER UN COMMENTAIRE
 exports.create = (req, res, next) => {
-    //console.log(req.body);
-    console.log(req.body.postId);
 
     let userId = req.body.userId;
     const comment = {
@@ -13,7 +11,6 @@ exports.create = (req, res, next) => {
         postId: req.params.id,
         comment: req.body.comment
     }
-    //console.log(comment);
     userModel.isExistId(userId)
         .then(resultat => {
             if (resultat.nb > 0) {
@@ -37,7 +34,6 @@ exports.getAll = (req, res, next) => {
     commentsModel.getAllComment(postId)
         //on a notre promesse
         .then(comments => {
-            console.log(comments.id);
             return res.status(200).json(comments);
         })
         //erreur promesse
@@ -51,13 +47,13 @@ exports.getAll = (req, res, next) => {
 //MODIFIER UN COMMENTAIRE
 exports.update = (req, res, next) => {
     const commentId = req.params.id;
-    //console.log(commentId);
     commentsModel.getOneById(commentId)
         .then(resultat => {
             //console.log(resultat);
             if (resultat.nb > 0) {
                 console.log('ok le commentaire existe');
                 //on verifie si l'utilisateur et bien l'auteur du commentaire
+
                 //si oui on modifie
                 //si non on bloque
             }
@@ -74,8 +70,7 @@ exports.update = (req, res, next) => {
 //SUPPRIMER UN COMMENTAIRE
 exports.delete = (req, res, next) => {
     const id = req.params.id;
-    console.log(req.params.id);
-
+//verifier si le commentaire existe
     commentsModel.deleteOne(id)
         //on a notre promesse
         .then(comment => {

@@ -2,17 +2,20 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
-import Messages from '../../../../components/message/Messages';
-
-//Import classes css
-import classes from './addPost.module.css';
+import Swal from 'sweetalert2';
 
 //Import elements react bootstrap
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 
-//fonction validate
+//import des component
+import Messages from '../../../../components/message/Messages';
+
+//Import classes css
+import classes from './addPost.module.css';
+
+//fonction validate et leur message d'erreur
 const validate = values => {
 
     const errors = {};
@@ -49,16 +52,15 @@ const AddPost = ({ token, handleRefreshPost }) => {
 
             let data = '';
 
-            console.log(image);
+            //si on a une image
             if (image.length === 0) {
-                console.log('pas dimage');
                 data = {
                     title: values.addPostTitle,
                     content: values.addPostContent
                 };
             }
+            //si aucune image
             else {
-                console.log('image');
                 const message = JSON.stringify({
                     title: values.addPostTitle,
                     content: values.addPostContent
@@ -81,7 +83,12 @@ const AddPost = ({ token, handleRefreshPost }) => {
                     setAddPublish(true);
                 })
                 .catch((error) => {
-                    console.log('erreur ajout post');
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: "Une erreur s'est produite lors de la publication",
+                        footer: 'Essayer a nouveau, si cela persiste <a href="">contacter nous</a>'
+                      })
                 });
         },
     });

@@ -6,7 +6,6 @@ exports.createPost = (message) => {
     const sql = `INSERT INTO post(user_id, title, content, image, time_post) VALUES(?,?,?,?,NOW())`;
     return new Promise((resolve, reject) => {
         try {
-            console.log('execution dbquery');
             db.query(sql, [message.userId, message.title, message.content, message.imageUrl], (error, result, fields) => {
 
                 if (result === undefined) {
@@ -14,37 +13,30 @@ exports.createPost = (message) => {
 
                 } else {
                     resolve(result);
-
-                    console.log('requete sql OK')
                 };
             });
         } catch (error) {
             reject(error);
-            console.log(error, 'erreur promesse requete sql');
         };
     });
 };
 
 //MODIFIER UN POST
 exports.update = (postObject) => {
-    console.log(postObject);
 
     const sql = 'UPDATE `post` SET  `title`=?,`content`=?,`image`=? WHERE `id`=? AND `user_id`=?';
     return new Promise((resolve, reject) => {
         try {
-            console.log('execution dbquery');
+
             db.query(sql, [postObject.title, postObject.content, postObject.imageUrl, postObject.postId, postObject.userId], (error, result, fields) => {
-                console.log(result);
                 if (result === undefined) {
                     reject(result);
                 } else {
                     resolve(result);
-                    console.log('requete sql OK')
                 };
             });
         } catch (error) {
             reject(error);
-            console.log(error, 'erreur promesse requete sql');
         };
     });
 };

@@ -35,7 +35,7 @@ const PanelAdmin = () => {
                 setNbPosts(response.data.length);
             })
             .catch(error => {
-                console.log(error);
+                return null;
             })
     }
     //requete pour recuperer les utilisateur
@@ -48,10 +48,9 @@ const PanelAdmin = () => {
                 setNbUsers(response.data.length);
             })
             .catch(error => {
-                console.log(error);
+                return null;
             })
     }
-    console.log(users);
     return (
 
         <div className={classes.PanelAdmin}>

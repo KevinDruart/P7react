@@ -15,7 +15,6 @@ const DeleteAccount = (props) => {
       //SUPPRIMER LE COMPTE
       const handleDeleteMyAccount = (e) => {
         e.preventDefault();
-        console.log("supprimer mon compte");
         if (props.userId === userId) {
             Swal.fire({
                 title: 'êtes vous sur de vouloir nous quitter?',
@@ -33,7 +32,6 @@ const DeleteAccount = (props) => {
                             headers: { Authorization: `Bearer ${props.token}` },
                         })
                             .then(response => {
-                                alert("Votre compte a bien etait supprimer, vous allez etre redirigé.");
                                 localStorage.removeItem('authId');
                                 localStorage.removeItem('authToken');
                                 localStorage.removeItem('admin');
@@ -41,9 +39,21 @@ const DeleteAccount = (props) => {
                                 setUserId(null);
                                 setIsAdmin(false);
                                 history.push('/');
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'Votre compte a bien été supprimer',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                  })
                             })
                             .catch((error) => {
-                                console.log('erreur suppresion du compte');
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: "Une erreur s'est produite lors de la suppression de votre compte",
+                                    footer: 'Essayer a nouveau, si cela persiste <a href="">contacter nous</a>'
+                                  })
                             });
                     }
                 })

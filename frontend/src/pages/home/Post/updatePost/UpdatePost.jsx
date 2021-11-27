@@ -48,12 +48,14 @@ const UpdatePost = (props) => {
                 content: values.updatePostContent
             })
 
+            //si aucune image 
             if (image.length === 0) {
                 data = {
                     title: values.updatePostTitle,
                     content: values.updatePostContent
                 };
             }
+            //si une image
             else {
                 data = new FormData();
                 data.append('image', image[0]);
@@ -69,12 +71,10 @@ const UpdatePost = (props) => {
             }).then((result) => {
                 //modification confirmer
                 if (result.isConfirmed) {
-                    console.log('modification confirmé')
                     axios.put("http://localhost:3000/api/messages/" + props.postId, data, {
                         headers: { Authorization: `Bearer ${props.token}` },
                     })
                         .then(response => {
-                            console.log(response);
                             setImage('');
                             values.updatePostContent = '';
                             values.updatePostTitle = '';
@@ -89,12 +89,16 @@ const UpdatePost = (props) => {
                             })
                         })
                         .catch((error) => {
-                            console.log('erreur ajout post');
+                            Swal.fire({
+                                icon: 'Une erreur ',
+                                title: "Une erreur s'est produite",
+                                text: "Oups.. Votre poste n'a pas pu être publier!",
+                                footer: 'Essayer a nouveau, si cela persiste <a href="">Contacter nous</a>'
+                            })
                         });
                 }
                 //modification annuler
                 else if (result.isDenied) {
-                    console.log('modification annulé');
                     setImage('');
                     values.updatePostContent = '';
                     values.updatePostTitle = '';
@@ -103,6 +107,14 @@ const UpdatePost = (props) => {
                     Swal.fire('Aucun changement sauvegardé', '', 'info')
                 }
             })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'Une erreur ',
+                        title: "Une erreur s'est produite",
+                        text: "Oups.. Votre poste n'a pas pu être publier!",
+                        footer: 'Essayer a nouveau, si cela persiste <a href="">Contacter nous</a>'
+                    })
+                })
         },
     });
 
