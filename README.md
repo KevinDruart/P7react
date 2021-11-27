@@ -32,9 +32,34 @@
 
 ### installation
 
-* 
+**BACKEND
+* Prérequis Vous aurez besoin d'avoir Node et npm installés localement sur votre machine.
 
-* 
+* Cloner ce projet depuis GitHub.
+
+* À partir du dossier du dossier backend, exécutez npm install.
+
+* Une fois installer modifier le nom du fichier modele.env en .env .
+
+* Modifier le .env :
+```
+DB_URL="string de connexion à mongoDB sous la forme suivante ==> mongodb+srv://USERNAME:USERPASSWORD@CLUSTERNAME.vblzk.mongodb.net/DATABASENAME?retryWrites=true&w=majority"
+TOKEN="clé de chiffrement aléatoire"
+COOKIESECRET="clé de chiffrement aléatoire"
+```
+
+
+
+* Pour démarrer le serveur, executez les commandes suivantes :
+                        
+| BACKEND                  | FRONTEND           |
+|:------------------------:|:------------------:|
+| nodemon server           | npm start          |
+
+Veillez a bien démarrer le BACKEND avant le FRONTEND .
+
+
+**FRONTEND 
 
 * 
 
