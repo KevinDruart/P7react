@@ -17,10 +17,10 @@
 
 ***Le but est de creer le frontend et le backend***
 
-* Authentifier un utilisateur et maintenir sa session
-* Personnaliser le contenu envoyé à un client web
-* Gérer un stockage de données à l'aide de SQL
-* Implémenter un stockage de données sécurisé en utilisant SQL
+- Authentifier un utilisateur et maintenir sa session
+- Personnaliser le contenu envoyé à un client web
+- Gérer un stockage de données à l'aide de SQL
+- Implémenter un stockage de données sécurisé en utilisant SQL
 
 
 ### Contenus de ce repository et installation
@@ -35,9 +35,10 @@
 **BACKEND
 * Prérequis Vous aurez besoin d'avoir Node et npm installés localement sur votre machine.
 
-* Cloner ce projet depuis GitHub.
-
-* À partir du dossier du dossier backend, exécutez npm install.
+```sh
+cd backend
+npm i
+```
 
 * Une fois installer modifier le nom du fichier modele.env en .env .
 
@@ -54,21 +55,29 @@ TOKEN="clé de chiffrement aléatoire"
 ```
 
 
-
-* Pour démarrer le serveur, executez les commandes suivantes :
-                        
-| BACKEND                  | FRONTEND           |
-|:------------------------:|:------------------:|
-| nodemon server           | npm start          |
-
-Veillez a bien démarrer le BACKEND avant le FRONTEND .
-
-
 **FRONTEND 
+* Prérequis Vous aurez besoin d'avoir Node et npm installés localement sur votre machine.
 
-* 
+```sh
+cd frontend
+npm i
+```
 
-* 
+> Un readme propre au frontend et disponible dans le dossier frontend.
+
+### Pour démarrer les serveurs
+#### BACKEND
+```sh
+cd backend
+nodemon server
+```   
+#### FRONTEND                   
+```sh
+cd frontend
+npm start or yarn start
+```  
+
+Veillez a bien démarrer le BACKEND avant le FRONTEND et veillez a démarrer la BDD avant le BACKEND.
 
 ***
 
