@@ -15,7 +15,6 @@ const BlockComments = (props) => {
     const [nbComment, setNbComment] = useState([]);
     const [seeComment, setSeeComment] = useState(false);
 
-    console.log(props);
 
     useEffect(() => {
         getComments();
@@ -32,14 +31,13 @@ const BlockComments = (props) => {
                 setNbComment(response.data.length);
             })
             .catch(error => {
-                console.log(error);
+                return null;
             })
     }
 
     //fonction voir les commentaires
     const handleClickSeeComment = (e) => {
         e.preventDefault();
-        console.log(seeComment);
         if (seeComment === true) {
             setSeeComment(false);
         }

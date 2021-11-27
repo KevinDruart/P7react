@@ -2,6 +2,9 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { useFormik } from 'formik';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+
+//import des classes css
 import classes from '../StylesForm/form.module.css';
 
 const validate = values => {
@@ -11,13 +14,13 @@ const validate = values => {
     if (!values.firstName) {
         errors.firstName = 'Nom requis';
     } else if (!/^[a-zA-ZéèçîïÉÈÎÏ]+([-'\s][a-zA-ZéèçîïÉÈÎÏ]+)?$/i.test(values.firstName)) {
-        errors.firstName ="Le prénom ne peut pas contenir de caractere numerique et ou speciaux";
+        errors.firstName = "Le prénom ne peut pas contenir de caractere numerique et ou speciaux";
     }
 
     if (!values.lastName) {
         errors.lastName = 'Prenom requis';
     } else if (!/^[a-zA-ZéèçîïÉÈÎÏ]+([-'\s][a-zA-ZéèçîïÉÈÎÏ]+)?$/i.test(values.lastName)) {
-        errors.lastName ="Le nom ne peut pas contenir de caractere numerique et ou speciaux";
+        errors.lastName = "Le nom ne peut pas contenir de caractere numerique et ou speciaux";
     }
 
     if (!values.email) {
@@ -54,13 +57,23 @@ const SignupForm = () => {
             })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response);
-                        console.log('inscription reussi');
                         history.push('/login');
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'Inscription reussi',
+                            showConfirmButton: false,
+                            timer: 1500
+                        })
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: "Une erreur s'est produite",
+                        footer: 'Essayer a nouveau, si cela persiste <a href="">contacter nous</a>'
+                    })
                 });
         },
     });

@@ -1,12 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+
 import LoginContext from '../../contextes/LoginContext';
+
+//import des elements react-bootstrap
 import Tab from 'react-bootstrap/Tab';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
+
+//import des components
 import Post from '../home/Post/Post';
 import Account from './account/Account';
+
+//import des classes css
 import classes from './profil.module.css';
 
 
@@ -31,7 +39,7 @@ const Profile = () => {
                 setPosts(response.data);
             })
             .catch(error => {
-                console.log(error);
+                return null;
             })
     }
 
@@ -41,14 +49,15 @@ const Profile = () => {
                 headers: { Authorization: `Bearer ${token}`},
             })
             .then((response) => {
-                console.log(response.data[0]);
                 setUser(response.data[0]);
             })
             .catch((err) => {
-                console.log(err);
-                alert(
-                    "Une erreur est survenue, veuillez réessayer plus tard. Si le problème persiste, contactez l'administrateur du site"
-                );
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: "Une erreur s'est produite",
+                    footer: 'Essayer a nouveau, si cela persiste <a href="">contacter nous</a>'
+                  })
             });
     };
 

@@ -32,7 +32,7 @@ const Home = (props) => {
                 setPosts(response.data);
             })
             .catch(error => {
-                console.log(error);
+                return null;
             })
     }
 

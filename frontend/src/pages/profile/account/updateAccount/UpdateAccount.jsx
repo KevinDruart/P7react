@@ -59,18 +59,28 @@ const UpdateAccount = (props) => {
                 headers: { Authorization: `Bearer ${props.authToken}` },
             })
                 .then((response) => {
-                    console.log(response.data);
                     handleClose();
-                    alert('Vos informations on bien eté mise a jour.')
                     history.push('/profile');
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Vos informations on bien eté mise a jour.',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: "Une erreur s'est produite lors de la modification",
+                        footer: 'Essayer a nouveau, si cela persiste <a href="">contacter nous</a>'
+                    })
                 });
         },
     });
 
-  
+
     return (
         <>
             <Button onClick={handleShow} title="modifier mes informations">

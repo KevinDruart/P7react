@@ -55,12 +55,17 @@ const Posts = (props) => {
                                     postImg={props.post.image}
                                     postUserId={props.post.userId}
                                     userId={userId}
-                                    admin={isAdmin} />
+                                    admin={isAdmin}
+                                    token={props.token}
+                                />
                                 <DeletePost
                                     postId={props.post.id}
                                     postUserId={props.post.userId}
                                     userId={userId}
-                                    admin={isAdmin} />
+                                    admin={isAdmin}
+                                    token={props.token}
+                                />
+
                             </ButtonGroup>
                         </div>
                     }

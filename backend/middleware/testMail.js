@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
     //contact95@groupomania.fr
     //jean-françois@groupomania.fr
     let regexMail = /^[\w-ç\.]+@groupomania\.fr$/;
-    //console.log(req.body.email);
+
     //on test l'adresse email
     if (!regexMail.test(req.body.email)) {
         return res.status(400).json({

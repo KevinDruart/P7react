@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import { useFormik } from 'formik';
 import axios from 'axios';
 import classes from '../StylesForm/form.module.css';
+import Swal from 'sweetalert2';
 
 import LoginContext from '../../contextes/LoginContext';
 
@@ -37,21 +38,25 @@ const LoginForm = () => {
         validate,
 
         onSubmit: values => {
-            console.log(values.email + values.password);
             axios.post('http://localhost:3000/api/auth/login', {
                 email: values.email,
                 password: values.password
             })
                 .then(function (response) {
                     if (response.status === 200) {
-                        console.log(response);
-                        console.log('connexion reussi');
                         if (response.data) {
                             localStorage.setItem("authToken", response.data.token);
                             localStorage.setItem("authId", response.data.userId);
                             setIsAuthenticated(true);
                             setUserId(response.data.userId);
                             history.replace('/home');
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Vous êtes connecter',
+                                showConfirmButton: false,
+                                timer: 1500
+                              })
                             if (response.data.roles === 'admin') {
                                 setIsAdmin(true);
                                 localStorage.setItem("admin", true);
@@ -64,7 +69,12 @@ const LoginForm = () => {
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    Swal.fire({
+                        icon: 'Une erreur ',
+                        title: "Une erreur s'est produite",
+                        text: "Oups.. Connexion impossible!",
+                        footer: 'Essayer a nouveau, si cela persiste <a href="">Contacter nous</a>'
+                    })
                 });
         },
     });

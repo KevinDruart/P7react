@@ -59,14 +59,10 @@ exports.getAllPostByIdMember = (req, res, next) => {
 
 /*------------------------------------UPDATE POST------------------------------------- */
 exports.updatePost = (req, res, next) => {
-  console.log('demande update')
-  console.log(req.body)
-  let postId = req.params.id;
-  //console.log(postId);
+  const postId = req.params.id;
 
   postModel.find(postId)
     .then(post => {
-      console.log('il y a bien un post avec cet id');
       let postObject = req.file ?
         { ...JSON.parse(req.body.post), imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` }
         : { ...req.body };
@@ -74,17 +70,13 @@ exports.updatePost = (req, res, next) => {
       postObject = { ...postObject, userId: req.jwtToken.userId, postId };
 
       if (post.user_id === postObject.userId) {
-        console.log('userId === postUserId, je lance update');
         postModel.update(postObject)
           //on a une promesse
           .then(response => {
-            console.log(postObject);
-            console.log('update effectué');
             return res.status(201).json({ message: 'post modifié' });
           })
           //on a une erreur
           .catch(error => {
-            console.log('erreur update');
             return res.status(400).json({ error: "le post ne peut pas etre modifier" });
           });
       }
@@ -93,7 +85,7 @@ exports.updatePost = (req, res, next) => {
       }
     })
     .catch(error => {
-      console.log('erreur post introuvable');
+      return res.status(404).json({ error: "le post est introuvable" });
     });
 }
 
@@ -101,17 +93,25 @@ exports.updatePost = (req, res, next) => {
 exports.deletePost = (req, res, next) => {
   const postId = req.params.id;
 
-  postModel.deletePostsById(postId)
-    //on a notre promesse
+  postModel.find(postId)
     .then(post => {
-      return res.status(200).json({ message: 'post supprimer' });
+      postModel.deletePostsById(post.id)
+        //on a notre promesse
+        .then(post => {
+          return res.status(200).json({ message: 'post supprimer' });
+        })
+        //erreur promesse
+        .catch(error => {
+          return res.status(401).json({
+            message: error
+          });
+        });
     })
-    //erreur promesse
     .catch(error => {
-      return res.status(401).json({
-        message: error
-      });
-    });
+      return res.status(404).json({ message: "le post est introuvable" });
+    })
+
+
 
 
 };

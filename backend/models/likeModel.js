@@ -5,27 +5,23 @@ exports.createNewLike = (like, UId) => {
     const sql = 'INSERT INTO `likes`( `user_id`, `post_id`, `like`) VALUES(?,?,?)';
     return new Promise((resolve, reject) => {
         try {
-            console.log('execution dbquery');
             db.query(sql, [UId, like.postId, like.iLike], (error, result, fields) => {
                 if (result === undefined) {
                     reject(result);
-                    console.log('erreur requete')
                 } 
                 else {
                     resolve(result);
-                    console.log('requete sql like OK')
                 };
             });
         } catch (error) {
             reject(error);
-            console.log(error, 'erreur promesse requete sql like');
+            return res.status(400).json({message:'erreur dans la requete SQL'})
         };
     });
 }
 
 //FIND LIKE SUR LE POST
 exports.findOneLike = (like) => {
-    console.log(like);
     const sql = 'SELECT * FROM likes WHERE post_id=? AND user_id=?';
     return new Promise((resolve, reject) => {
         try {
@@ -44,7 +40,6 @@ exports.findOneLike = (like) => {
 
 //VOIR SI LE MEMBRE A LIKER CE POST
 exports.findCountLike = (like) => {
-    console.log(like);
     const sql = 'SELECT count(*) AS nb FROM likes WHERE post_id=? AND user_id=?';
     return new Promise((resolve, reject) => {
         try {
@@ -81,7 +76,7 @@ exports.updateLike = (likeUser) => {
 
 //VOIR SI LE MEMBRE A LIKER CE POST
 exports.findCountNbLike = (like) => {
-    console.log(like);
+
     const sql = 'SELECT count(*) AS nb FROM likes WHERE post_id=? AND like=1';
     return new Promise((resolve, reject) => {
         try {
@@ -119,8 +114,6 @@ exports.iLikedOrDisliked = (postId, userId) => {
     const sql = 'SELECT user_id, post_id, likes.like FROM likes WHERE post_id=? and user_id = ?';
     return new Promise((resolve, reject) => {
         try {
-            console.log(postId);
-            console.log(userId);
             db.query(sql, [postId, userId], (error, result, fields) => {
                 if (result === undefined || result === "") {
                     reject("aucun like sur ce post");
