@@ -27,8 +27,12 @@
 
 * Ce repo contient les 2 dossiers `frontend` et `backend`.
 
+### 1-Cloner le repository:
 
-### 1-Installation des serveurs et app
+* Lien du repository: (https://github.com/KevinDruart/P7react.git)
+
+
+### 2-Installation des serveurs et app
 
 #### BACKEND
 > Prérequis: vous aurez besoin d'avoir Node et npm installés localement sur votre machine.
@@ -62,7 +66,7 @@ npm i
 
 > Un readme propre au frontend est disponible dans le dossier frontend.
 
-### 2-Pour démarrer les serveurs
+### 3-Pour démarrer les serveurs
 #### BACKEND
 ```sh
 cd backend
