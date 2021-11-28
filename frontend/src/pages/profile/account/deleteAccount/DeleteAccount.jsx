@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 
 
 const DeleteAccount = (props) => {
-    const { userId, setUserId, setIsAdmin, setIsAuthenticated } = useContext(LoginContext);
+    const { userId, setUserId, isAdmin, setIsAdmin, setIsAuthenticated } = useContext(LoginContext);
     const history = useHistory();
 
       //SUPPRIMER LE COMPTE
@@ -28,7 +28,7 @@ const DeleteAccount = (props) => {
             })
                 .then((result) => {
                     if (result.isConfirmed) {
-                        axios.delete("http://localhost:3000/api/auth/" + props.userId, {
+                        axios.delete("http://localhost:3000/api/auth/" + props.userId, isAdmin, {
                             headers: { Authorization: `Bearer ${props.token}` },
                         })
                             .then(response => {

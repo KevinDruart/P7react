@@ -9,8 +9,8 @@ const NavBar = () => {
 
   return (
 
-    <nav class={["navbar navbar-expand-md navbar-light", classes.navbar].join(' ')}>
-      <div class="container-fluid">
+    <nav className={["navbar navbar-expand-md navbar-light", classes.navbar].join(' ')}>
+      <div className="container-fluid">
         <LinkContainer exact to="/" className={["d-flex align-items-center mb-lg-0 text-dark text-decoration-none", classes.linkLogo].join(' ')}>
           <Navbar.Brand>
             <div className={classes.imageLogo}>
@@ -19,12 +19,12 @@ const NavBar = () => {
             <h1 className={classes.name}>Groupomania</h1>
           </Navbar.Brand>
         </LinkContainer>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav me-auto mb-2 mb-md-0">
-            <li class="nav-item">
+        <div className="collapse navbar-collapse" id="navbarCollapse">
+          <ul className="navbar-nav me-auto mb-2 mb-md-0">
+            <li className="nav-item">
               <LinkContainer exact to="signup" className="d-flex flex-column align-items-center">
                 <Nav.Link className={classes.link}>
                   <i className="fas fa-user-plus"></i>
@@ -32,7 +32,7 @@ const NavBar = () => {
                 </Nav.Link>
               </LinkContainer>
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
               <LinkContainer exact to="login" className="d-flex flex-column align-items-center">
                 <Nav.Link className={classes.link}>
                   <i className="fas fa-sign-in-alt"></i>

@@ -145,6 +145,8 @@ exports.getAllUser = (req, res, next) => {
 
 /*------------------------------------UPDATE USER------------------------------------- */
 exports.modifyUser = (req, res, next) => {
+console.log(req.body);
+
   const emailMask2Options = {
     //caractere de masquage
     maskWith: "*",
@@ -155,34 +157,39 @@ exports.modifyUser = (req, res, next) => {
     maskAtTheRate: false
   };
   //on récupére le reste des données dans le body et params
-  let userId = req.params.id;
+  const userId = req.params.id;
   //nom
   let name = req.body.name;
   //prénom
   let firstname = req.body.firstname;
-
   //email
   let email = req.body.email;
+  //admin
+  const isAdmin = req.body.isAdmin;
 
   //masquage email 
   let emailMasked = maskData.maskEmail2(req.body.email, emailMask2Options);
   userModel.isExistId(userId)
     .then(resultat => {
       if (resultat.nb === 1) {
-        userModel.update(name, firstname, email, emailMasked, userId)
-          .then(resultat => {
-            return res.status(200).json({
-              message: resultat
+        //verification
+        if (userId === req.jwtToken.userId || isAdmin === true) {
+          userModel.update(name, firstname, email, emailMasked, userId)
+            .then(resultat => {
+              return res.status(200).json({ message: resultat });
+            })
+            .catch(error => {
+              return res.status(400).json({
+                message: error
+              });
             });
-          })
-          .catch(error => {
-            return res.status(400).json({
-              message: error
-            });
-          });
+        }
+        else {
+          return res.status(401).json({ message: "Vous ne pouvez pas modifier l'utilisateur, vous n'avez pas les droits" });
+        }
       }
       else {
-        return res.status(400).json({message: "utilisateur introuvable"});
+        return res.status(400).json({ message: "utilisateur introuvable" });
       }
     })
     .catch(error => {
@@ -196,18 +203,26 @@ exports.modifyUser = (req, res, next) => {
 /*------------------------------------DELETE USER------------------------------------- */
 exports.deleteUser = (req, res, next) => {
 
-  let userId = req.params.id;
+  const userId = req.params.id;
+  const isAdmin = req.body.isAdmin;
 
   userModel.isExistId(userId)
     //on a notre promesse
     .then((response) => {
-      userModel.deleteOne(userId)
-        .then((result) => {
-          return res.status(200).json({ message: 'utilisateur supprimer' })
-        })
-        .catch((error) => {
-          return res.status(400).json({ message: "impossible de supprimer" });
-        })
+      //verification 
+      if (userId === req.jwtToken.userId || isAdmin === true) {
+        userModel.deleteOne(userId)
+          .then((result) => {
+            return res.status(200).json({ message: 'utilisateur supprimer' })
+          })
+          .catch((error) => {
+            return res.status(400).json({ message: "impossible de supprimer" });
+          })
+      }
+      else {
+        return res.status(401).json({ message: "Vous n'êtes pas cet utilisateur et vous n'avez pas les autorisation pour supprimer" });
+      }
+
     })
     //erreur promesse
     .catch(error => {

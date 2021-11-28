@@ -38,16 +38,36 @@ exports.getAllComment = (postId) => {
     });
 };
 
-//RECHERCHER UN COMMENTAIRE
+//RECUPERER UN COMMENTAIRE 
 exports.getOneById = (commentId) => {
-    const sql = 'SELECT COUNT(*) as nb FROM `comment` WHERE id = ?';
+    const sql = 'SELECT * FROM `comment` WHERE id = ?';
     return new Promise((resolve, reject) => {
         try {
             db.query(sql, [commentId], (error, result, fields) => {
                 if (result === undefined || result === "") {
                     reject('Id introuvable !');
                 } else {
-                    resolve(result[0]);
+                    resolve(result);
+                };
+            });
+        } catch (error) {
+            reject(error);
+        };
+    });
+};
+
+//MODIFIER UN POST
+exports.updateOne = (updateComments) => {
+
+    const sql = 'UPDATE `comment` SET `comment`=? WHERE id=?';
+    return new Promise((resolve, reject) => {
+        try {
+
+            db.query(sql, [updateComments.comment, updateComments.id], (error, result, fields) => {
+                if (result === undefined) {
+                    reject(result);
+                } else {
+                    resolve(result);
                 };
             });
         } catch (error) {

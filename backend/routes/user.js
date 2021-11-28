@@ -9,6 +9,8 @@ const verifyMail = require('../middleware/testMail');
 //Control Password
 const verifyPassword = require('../middleware/verify-password');
 
+const auth = require('../middleware/auth');
+
 //LIMIT REQUEST
 const requestLimit = rateLimit({
     // 1 heure
@@ -25,15 +27,15 @@ router.post('/signup', verifyMail, verifyPassword, userCtrl.signup);
 router.post('/login', verifyMail, verifyPassword, requestLimit, userCtrl.login); 
 
 //READ ONE
-router.get('/:id', userCtrl.getUser);
+router.get('/:id', auth, userCtrl.getUser);
 
 //READ ALL
-router.get('/admin/users', userCtrl.getAllUser);
+router.get('/admin/users', auth, userCtrl.getAllUser);
 
 //UPDATE
-router.put('/:id', userCtrl.modifyUser);
+router.put('/:id', auth, userCtrl.modifyUser);
 
 //DELETE
-router.delete('/:id', userCtrl.deleteUser);
+router.delete('/:id', auth, userCtrl.deleteUser);
 
 module.exports = router;

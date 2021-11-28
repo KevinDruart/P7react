@@ -7,7 +7,7 @@ const Error404 = () => {
         <div className={classes.erreur404}>
             <Header />
 
-            <img src="./images/erreur404.png" alt="erreur page introuvable"/>
+            <img className={classes.img} src="./images/erreur404.png" alt="erreur page introuvable"/>
         </div>
     );
 };
