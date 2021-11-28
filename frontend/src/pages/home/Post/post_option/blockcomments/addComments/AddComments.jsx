@@ -34,8 +34,7 @@ const AddComments = (props) => {
                     showConfirmButton: false,
                     timer: 1500
                 })
-                //history.replace("/home");
-                window.location.reload();
+                history.push("/home");
             })
             .catch(error => {
                 Swal.fire({

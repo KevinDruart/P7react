@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { useHistory } from "react-router";
 import Swal from "sweetalert2";
 import classes from "../post.module.css";
+
+import LoginContext from '../../../../contextes/LoginContext';
 
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -14,6 +16,7 @@ const UpdatePost = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [image, setImage] = useState([]);
+    const { isAdmin } = useContext(LoginContext);
 
     const history = useHistory();
 
@@ -45,14 +48,16 @@ const UpdatePost = (props) => {
 
             const message = JSON.stringify({
                 title: values.updatePostTitle,
-                content: values.updatePostContent
+                content: values.updatePostContent,
+                isAdmin: isAdmin
             })
 
             //si aucune image 
             if (image.length === 0) {
                 data = {
                     title: values.updatePostTitle,
-                    content: values.updatePostContent
+                    content: values.updatePostContent,
+                    isAdmin: isAdmin
                 };
             }
             //si une image
@@ -61,60 +66,28 @@ const UpdatePost = (props) => {
                 data.append('image', image[0]);
                 data.append('post', message);
             }
-            //message confirmation de modification
-            Swal.fire({
-                title: 'Voulez vous vraiment effectuer ces changements?',
-                showDenyButton: true,
-                showCancelButton: true,
-                confirmButtonText: 'enregistré',
-                denyButtonText: `Ne pas enregistré`,
-            }).then((result) => {
-                //modification confirmer
-                if (result.isConfirmed) {
-                    axios.put("http://localhost:3000/api/messages/" + props.postId, data, {
-                        headers: { Authorization: `Bearer ${props.token}` },
-                    })
-                        .then(response => {
-                            setImage('');
-                            values.updatePostContent = '';
-                            values.updatePostTitle = '';
-                            handleClose();
-                            //message
-                            Swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: 'Le post a bien été modifié',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-                        })
-                        .catch((error) => {
-                            Swal.fire({
-                                icon: 'Une erreur ',
-                                title: "Une erreur s'est produite",
-                                text: "Oups.. Votre poste n'a pas pu être publier!",
-                                footer: 'Essayer a nouveau, si cela persiste <a href="">Contacter nous</a>'
-                            })
-                        });
-                }
-                //modification annuler
-                else if (result.isDenied) {
+
+            axios.put("http://localhost:3000/api/messages/" + props.postId, data, {
+                headers: { Authorization: `Bearer ${props.token}` },
+            })
+                .then(response => {
                     setImage('');
                     values.updatePostContent = '';
                     values.updatePostTitle = '';
                     handleClose();
                     //message
-                    Swal.fire('Aucun changement sauvegardé', '', 'info')
-                }
-            })
-                .catch(error => {
                     Swal.fire({
-                        icon: 'Une erreur ',
-                        title: "Une erreur s'est produite",
-                        text: "Oups.. Votre poste n'a pas pu être publier!",
-                        footer: 'Essayer a nouveau, si cela persiste <a href="">Contacter nous</a>'
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Le post a bien été modifié',
+                        showConfirmButton: false,
+                        timer: 1500
                     })
+                    window.location.reload();
                 })
+                .catch((error) => {
+                    alert("une erreur s'est produite");
+                });
         },
     });
 

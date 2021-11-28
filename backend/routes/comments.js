@@ -7,7 +7,7 @@ const commentsCtrl = require('../controllers/comments');
 router.post('/post/:id', auth, commentsCtrl.create);
 
 //READ
-router.get('/post/:id',  commentsCtrl.getAll);
+router.get('/post/:id', auth,  commentsCtrl.getAll);
 
 //UPDATE
 router.put('/:id', auth, commentsCtrl.update);

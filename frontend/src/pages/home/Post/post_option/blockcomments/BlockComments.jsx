@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+
+import LoginContext from '../../../../../contextes/LoginContext';
 
 import Moment from 'react-moment';
 import classes from './blockComments.module.css';
@@ -14,6 +16,9 @@ const BlockComments = (props) => {
     const [comments, setComments] = useState([]);
     const [nbComment, setNbComment] = useState([]);
     const [seeComment, setSeeComment] = useState(false);
+
+    const { userId, isAdmin } = useContext(LoginContext);
+    const [isCanEditDelete] = useState(parseInt(userId) === props.userId || isAdmin === true);
 
 
     useEffect(() => {
@@ -68,19 +73,21 @@ const BlockComments = (props) => {
                                 <div className="card" >
                                     <div className={["card-header", classes.blockquote].join(' ')}>
                                         <div>{comment.name} {comment.firstname}</div>
-                                        <ButtonGroup>
-                                            <UpdateComment
-                                                commentId={comment.id}
-                                                userIdComment={comment.commentUserId}
-                                                token={props.token}
-                                                message={comment.comment}
-                                            />
-                                            <DeleteComment
-                                                commentId={comment.id}
-                                                userIdComment={comment.commentUserId}
-                                                token={props.token}
-                                            />
-                                        </ButtonGroup>
+                                        { isCanEditDelete && <ButtonGroup>
+                                            
+                                                <UpdateComment
+                                                    commentId={comment.id}
+                                                    userIdComment={comment.commentUserId}
+                                                    token={props.token}
+                                                    message={comment.comment}
+                                                />
+                                                <DeleteComment
+                                                    commentId={comment.id}
+                                                    userIdComment={comment.commentUserId}
+                                                    token={props.token}
+                                                />
+                                            </ButtonGroup>
+                                        }
                                     </div>
                                     <div className="card-body">
                                         <blockquote className="blockquote mb-0">

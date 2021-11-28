@@ -45,6 +45,15 @@ const LoginForm = () => {
                 .then(function (response) {
                     if (response.status === 200) {
                         if (response.data) {
+                            console.log(response.data.roles);
+                            if (response.data.roles === 'admin') {
+                                setIsAdmin(true);
+                                localStorage.setItem("admin", true);
+                            }
+                            else {
+                                localStorage.setItem("admin", false);
+                                setIsAdmin(false);
+                            }
                             localStorage.setItem("authToken", response.data.token);
                             localStorage.setItem("authId", response.data.userId);
                             setIsAuthenticated(true);
@@ -56,15 +65,7 @@ const LoginForm = () => {
                                 title: 'Vous êtes connecter',
                                 showConfirmButton: false,
                                 timer: 1500
-                              })
-                            if (response.data.roles === 'admin') {
-                                setIsAdmin(true);
-                                localStorage.setItem("admin", true);
-                            }
-                            else {
-                                localStorage.setItem("admin", false);
-                                setIsAdmin(false);
-                            }
+                            })
                         }
                     }
                 })

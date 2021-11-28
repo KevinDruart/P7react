@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import Swal from "sweetalert2";
 
+import LoginContext from '../../../../contextes/LoginContext';
 
 //Import elements react bootstrap
 import Button from 'react-bootstrap/Button';
@@ -35,6 +36,8 @@ const validate = values => {
 
 const UpdateAccount = (props) => {
 
+    const { isAdmin } = useContext(LoginContext);
+
     const history = useHistory();
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -54,8 +57,9 @@ const UpdateAccount = (props) => {
             axios.put("http://localhost:3000/api/auth/" + props.authId, {
                 firstname: values.firstName,
                 name: values.lastName,
-                email: values.email
-            }, {
+                email: values.email,
+                isAdmin
+            },  {
                 headers: { Authorization: `Bearer ${props.authToken}` },
             })
                 .then((response) => {

@@ -1,58 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import axios from 'axios';
 import { useHistory } from "react-router";
-import Swal from "sweetalert2";
 import classes from "../post.module.css";
 
+import LoginContext from '../../../../contextes/LoginContext';
 
 import Button from 'react-bootstrap/Button';
 
 const DeletePost = (props) => {
+    const { isAdmin } = useContext(LoginContext);
     const history = useHistory();
 
-    const postId = props.postId;
-    const token = props.token;
-
     //click supprimer
-    const handleClickDelete = (e) => {
-        e.preventDefault();
-        Swal.fire({
-            title: 'êtes vous sur?',
-            text: "Une fois supprimer le post ne sera definitivement plus disponible.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            cancelButtonText: 'Annuler',
-            confirmButtonText: 'Oui, supprimer ce post!'
+    const handleClickDelete = () => {
+        axios.delete("http://localhost:3000/api/messages/" + props.postId, isAdmin, {
+            headers: { Authorization: `Bearer ${props.token}` },
         })
-            .then((result) => {
-                if (result.isConfirmed) {
-                    axios.delete("http://localhost:3000/api/messages/" + postId, {
-                        headers: { Authorization: `Bearer ${token}` },
-                    })
-                        .then(response => {
-                            if (response.status === 200) {
-                                Swal.fire(
-                                    'Post Supprimé!',
-                                    'Le post a bien eté supprimer.',
-                                    'success'
-                                )
-                                history.replace("/home");
-                            }
-                        })
-                        .catch((error) => {
-                            Swal.fire({
-                                icon: 'Une erreur ',
-                                title: "Une erreur s'est produite",
-                                text: "Oups.. Votre poste n'a pas pu être supprimer!",
-                                footer: 'Essayer a nouveau, si cela persiste <a href="">Contacter nous</a>'
-                            })
-                        });
-                }
+            .then(response => {
+                console.log(response);
+                console.log('suppression valider');
+                // history.push('/home');
+                window.location.reload();
             })
-
+            .catch((error) => {
+                console.log('erreur suppression');
+            });
     }
 
     return (

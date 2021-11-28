@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from "react-router";
 import axios from 'axios';
 import Swal from "sweetalert2";
 
+import LoginContext from '../../../../../../contextes/LoginContext';
+ 
 //import des elements bootstrap
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -13,6 +15,7 @@ const UpdateComment = (props) => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const { isAdmin } = useContext(LoginContext);
     const history = useHistory();
 
     console.log(props.commentId);
@@ -26,16 +29,18 @@ const UpdateComment = (props) => {
 
     //requete pour envoyer le nouveau commentaire
     const sendComments = () => {
-        const comment = {
-            commentId: props.commentId,
-            userId: props.userId,
-            comment: text
+        const data = {
+            id: props.commentId,
+            comment: text,
+            isAdmin:isAdmin
         }
         console.log(props.commentId);
-        axios.put("http://localhost:3000/api/comments/" + props.commentId, comment, {
+        axios.put("http://localhost:3000/api/comments/" + props.commentId, data, {
             headers: { Authorization: `Bearer ${props.token}` },
         })
             .then((response) => {
+                setText('');
+                handleClose();
                 Swal.fire({
                     position: 'top-end',
                     icon: 'success',
@@ -43,7 +48,7 @@ const UpdateComment = (props) => {
                     showConfirmButton: false,
                     timer: 1500
                 })
-                //history.replace("/home");
+                // history.push("/home");
                 window.location.reload();
             })
             .catch(error => {
