@@ -36,7 +36,7 @@ const validate = values => {
 
 const UpdateAccount = (props) => {
 
-    const { isAdmin } = useContext(LoginContext);
+    const { token } = useContext(LoginContext);
 
     const history = useHistory();
     const [show, setShow] = useState(false);
@@ -58,9 +58,8 @@ const UpdateAccount = (props) => {
                 firstname: values.firstName,
                 name: values.lastName,
                 email: values.email,
-                isAdmin
             },  {
-                headers: { Authorization: `Bearer ${props.authToken}` },
+                headers: { Authorization: `Bearer ${token}` },
             })
                 .then((response) => {
                     handleClose();

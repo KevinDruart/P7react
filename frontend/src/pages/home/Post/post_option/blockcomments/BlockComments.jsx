@@ -16,7 +16,11 @@ const BlockComments = (props) => {
     const [nbComment, setNbComment] = useState([]);
     const [seeComment, setSeeComment] = useState(false);
     const { userId, isAdmin, token } = useContext(LoginContext);
-    const [isCanEditDelete] = useState(parseInt(userId) === props.userId || isAdmin === true);
+    console.log(isAdmin);
+    
+    const postUserId = comments[0];
+
+    const [isCanEditDelete] = useState(comments.userId ===  parseInt(userId) || isAdmin === true);
 
 
     useEffect(() => {
@@ -104,8 +108,6 @@ const BlockComments = (props) => {
             <div className="bottom" >
                 <AddComments
                     postId={props.postId}
-                    userId={props.userId}
-                    token={props.token}
                 />
             </div>
 
