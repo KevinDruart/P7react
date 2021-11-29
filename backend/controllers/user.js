@@ -132,7 +132,7 @@ exports.getUser = (req, res, next) => {
 exports.getAllUser = (req, res, next) => {
   userModel.findOneById(req.jwtToken.userId)
     .then(user => {
-      if (user.roles === "admin") {
+      if (user[0].roles === "admin") {
         userModel.findAll()
           //on a notre promesse
           .then(user => {
@@ -186,7 +186,7 @@ exports.modifyUser = (req, res, next) => {
         userModel.findOneById(req.jwtToken.userId)
           .then(user => {
             //verification
-            if (userId === user[0].id || user[0].roles === "admin") {
+            if (parseInt(userId) === user[0].id || user[0].roles === "admin") {
               userModel.update(name, firstname, email, emailMasked, userId)
                 .then(resultat => {
                   return res.status(200).json({ message: resultat });
@@ -229,7 +229,7 @@ exports.deleteUser = (req, res, next) => {
         //on a notre promesse
         .then((response) => {
           //verification 
-          if (userId === req.jwtToken.userId || user[0].roles === "admin") {
+          if (parseInt(userId) === req.jwtToken.userId || user[0].roles === "admin") {
             userModel.deleteOne(userId)
               .then((result) => {
                 return res.status(200).json({ message: 'utilisateur supprimer' })

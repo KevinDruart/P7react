@@ -5,7 +5,7 @@ const userModel = require('../models/userModel');
 //AJOUTER UN COMMENTAIRE
 exports.create = (req, res, next) => {
 
-    let userId = req.body.userId;
+    let userId = req.jwtToken.userId;
     const comment = {
         userId: req.body.userId,
         postId: req.params.id,

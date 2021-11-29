@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from "react-router";
 import axios from 'axios';
 import Swal from "sweetalert2";
+
+import LoginContext from '../../../../../../contextes/LoginContext';
+
 import classes from '../blockComments.module.css';
 
 const AddComments = (props) => {
     const history = useHistory();
+    const { token } = useContext(LoginContext);
 
     const [text, setText] = useState([]);
 
@@ -20,11 +24,10 @@ const AddComments = (props) => {
     const sendComments = () => {
         const comment = {
             postId: props.postId,
-            userId: props.userId,
             comment: text
         }
         axios.post("http://localhost:3000/api/comments/post/" + props.postId, comment, {
-            headers: { Authorization: `Bearer ${props.token}` },
+            headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => {
                 Swal.fire({
