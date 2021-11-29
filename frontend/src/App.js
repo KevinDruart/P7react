@@ -20,15 +20,15 @@ import PrivateRoute from './components/Route/privateRoute/PrivateRoute';
 
 const App = () => {
 
-
   const haveToken = localStorage.getItem("authToken") !== null;
   const localUserId = localStorage.getItem("authId");
   const roleAdmin = localStorage.getItem("admin");
+  const authToken = localStorage.getItem("authToken")
 
   const [isAuthenticated, setIsAuthenticated] = useState(haveToken);
   const [userId, setUserId] = useState(localUserId);
   const [isAdmin, setIsAdmin] = useState(roleAdmin);
-
+  const [token, setToken] = useState(authToken);
 
   const contextValue = {
     isAuthenticated,
@@ -36,7 +36,9 @@ const App = () => {
     userId,
     setUserId,
     isAdmin,
-    setIsAdmin
+    setIsAdmin,
+    token,
+    setToken,
   }
 
   return (

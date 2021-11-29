@@ -26,7 +26,7 @@ const validate = values => {
 
 const LoginForm = () => {
 
-    const { setIsAuthenticated, setUserId, setIsAdmin } = useContext(LoginContext);
+    const { setIsAuthenticated, setUserId, setIsAdmin, setToken } = useContext(LoginContext);
 
     const history = useHistory();
 
@@ -46,7 +46,7 @@ const LoginForm = () => {
                     if (response.status === 200) {
                         if (response.data) {
                             console.log(response.data.roles);
-                            if (response.data.roles === 'admin') {
+                            if (response.data.roles === "admin") {
                                 setIsAdmin(true);
                                 localStorage.setItem("admin", true);
                             }
@@ -58,6 +58,7 @@ const LoginForm = () => {
                             localStorage.setItem("authId", response.data.userId);
                             setIsAuthenticated(true);
                             setUserId(response.data.userId);
+                            setToken(response.data.token);
                             history.replace('/home');
                             Swal.fire({
                                 position: 'top-end',

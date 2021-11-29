@@ -1,23 +1,21 @@
 import React, { useState, useEffect, useContext } from 'react';
-
-import LoginContext from '../../../../../contextes/LoginContext';
-
 import Moment from 'react-moment';
 import classes from './blockComments.module.css';
 import axios from 'axios';
+
+import LoginContext from '../../../../../contextes/LoginContext';
+
 import AddComments from './addComments/AddComments';
 import UpdateComment from './updateComment/UpdateComment';
 import DeleteComment from './deleteComment/DeleteComment';
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 
-
 const BlockComments = (props) => {
     const [comments, setComments] = useState([]);
     const [nbComment, setNbComment] = useState([]);
     const [seeComment, setSeeComment] = useState(false);
-
-    const { userId, isAdmin } = useContext(LoginContext);
+    const { userId, isAdmin, token } = useContext(LoginContext);
     const [isCanEditDelete] = useState(parseInt(userId) === props.userId || isAdmin === true);
 
 
@@ -29,7 +27,7 @@ const BlockComments = (props) => {
     const getComments = () => {
 
         axios.get("http://localhost:3000/api/comments/post/" + props.postId, {
-            headers: { Authorization: `Bearer ${props.token}` },
+            headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => {
                 setComments(response.data);
@@ -73,18 +71,16 @@ const BlockComments = (props) => {
                                 <div className="card" >
                                     <div className={["card-header", classes.blockquote].join(' ')}>
                                         <div>{comment.name} {comment.firstname}</div>
-                                        { isCanEditDelete && <ButtonGroup>
-                                            
+                                        {
+                                            isCanEditDelete === true && <ButtonGroup>
                                                 <UpdateComment
                                                     commentId={comment.id}
                                                     userIdComment={comment.commentUserId}
-                                                    token={props.token}
                                                     message={comment.comment}
                                                 />
                                                 <DeleteComment
                                                     commentId={comment.id}
                                                     userIdComment={comment.commentUserId}
-                                                    token={props.token}
                                                 />
                                             </ButtonGroup>
                                         }

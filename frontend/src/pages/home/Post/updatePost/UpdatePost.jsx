@@ -16,7 +16,8 @@ const UpdatePost = (props) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [image, setImage] = useState([]);
-    const { isAdmin } = useContext(LoginContext);
+
+    const { token } = useContext(LoginContext);
 
     const history = useHistory();
 
@@ -49,7 +50,6 @@ const UpdatePost = (props) => {
             const message = JSON.stringify({
                 title: values.updatePostTitle,
                 content: values.updatePostContent,
-                isAdmin: isAdmin
             })
 
             //si aucune image 
@@ -57,7 +57,6 @@ const UpdatePost = (props) => {
                 data = {
                     title: values.updatePostTitle,
                     content: values.updatePostContent,
-                    isAdmin: isAdmin
                 };
             }
             //si une image
@@ -68,7 +67,7 @@ const UpdatePost = (props) => {
             }
 
             axios.put("http://localhost:3000/api/messages/" + props.postId, data, {
-                headers: { Authorization: `Bearer ${props.token}` },
+                headers: { Authorization: `Bearer ${token}` },
             })
                 .then(response => {
                     setImage('');

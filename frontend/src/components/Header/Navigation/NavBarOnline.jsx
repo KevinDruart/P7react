@@ -54,7 +54,7 @@ const NavBarOnline = () => {
                         </Nav.Link>
                     </LinkContainer>
 
-                    {isAdmin && <AdminBtn />}
+                    {isAdmin === true && <AdminBtn />}
 
                     <LinkContainer exact to="/" onClick={handleLogout} className="d-flex flex-column align-items-center">
                         <Nav.Link className={classes.link}>

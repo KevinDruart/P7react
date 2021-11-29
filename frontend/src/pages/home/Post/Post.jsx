@@ -18,7 +18,7 @@ import classes from './post.module.css';
 const Posts = (props) => {
 
     const { userId, isAdmin } = useContext(LoginContext);
-    const [isCanEditDelete] = useState(parseInt(userId) === props.post.userId || isAdmin);
+    const [isCanEditDelete] = useState(parseInt(userId) === props.post.userId || isAdmin === true);
 
     //Gestion de la date 
     const datePost = new Date(props.post.time_post);
@@ -46,7 +46,7 @@ const Posts = (props) => {
                         </div>
                     </div>
                     {
-                        isCanEditDelete && <div className={classes.right}>
+                        isCanEditDelete === true && <div className={classes.right}>
                             <ButtonGroup vertical>
                                 <UpdatePost
                                     postId={props.post.id}
@@ -54,16 +54,11 @@ const Posts = (props) => {
                                     postContent={props.post.content}
                                     postImg={props.post.image}
                                     postUserId={props.post.userId}
-                                    userId={userId}
-                                    admin={isAdmin}
-                                    token={props.token}
+
                                 />
                                 <DeletePost
                                     postId={props.post.id}
                                     postUserId={props.post.userId}
-                                    userId={userId}
-                                    admin={isAdmin}
-                                    token={props.token}
                                 />
 
                             </ButtonGroup>
