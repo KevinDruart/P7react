@@ -74,7 +74,7 @@ exports.create = (name, firstName, emailMasked, email, hash) => {
 
 //TROUVER UN MEMBRE AVEC SON ID
 exports.findOneById = (id) => {
-    const sql = 'SELECT name, firstname, emailMasked, dateSignup FROM user WHERE id = ?';
+    const sql = 'SELECT id, name, firstname, emailMasked, dateSignup, roles FROM user WHERE id = ?';
     return new Promise((resolve, reject) => {
         try {
             db.query(sql, [id], (error, result, fields) => {

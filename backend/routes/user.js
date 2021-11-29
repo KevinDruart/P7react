@@ -16,7 +16,7 @@ const requestLimit = rateLimit({
     // 1 heure
     windowMs: 60 * 60 * 1000, 
     // Blocage aprés 3 requetes
-    max: 3, 
+    max: 10, 
     message:(JSON.stringify("Trop de tentative de connexion, compte bloquer pendant 1 heure"))
   });
 

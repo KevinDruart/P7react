@@ -1,21 +1,24 @@
 import React, { useState, useContext } from 'react';
-
 import axios from 'axios';
 import { useHistory } from "react-router";
-import classes from "../post.module.css";
 
 import LoginContext from '../../../../contextes/LoginContext';
 
 import Button from 'react-bootstrap/Button';
 
+import classes from "../post.module.css";
+
+
 const DeletePost = (props) => {
-    const { isAdmin } = useContext(LoginContext);
+
+    const { token } = useContext(LoginContext);
+
     const history = useHistory();
 
     //click supprimer
     const handleClickDelete = () => {
-        axios.delete("http://localhost:3000/api/messages/" + props.postId, isAdmin, {
-            headers: { Authorization: `Bearer ${props.token}` },
+        axios.delete("http://localhost:3000/api/messages/" + props.postId, {
+            headers: { Authorization: `Bearer ${token}` },
         })
             .then(response => {
                 console.log(response);

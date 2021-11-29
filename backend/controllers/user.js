@@ -130,22 +130,33 @@ exports.getUser = (req, res, next) => {
 };
 
 exports.getAllUser = (req, res, next) => {
-  userModel.findAll()
-    //on a notre promesse
+  userModel.findOneById(req.jwtToken.userId)
     .then(user => {
-      return res.status(200).json(user);
+      if (user.roles === "admin") {
+        userModel.findAll()
+          //on a notre promesse
+          .then(user => {
+            return res.status(200).json(user);
+          })
+          //erreur promesse
+          .catch(error => {
+            return res.status(401).json({
+              message: error
+            });
+          });
+      }
+      else {
+        return res.status(401).json({ message: "vous n'avez pas les droits" })
+      }
     })
-    //erreur promesse
     .catch(error => {
-      return res.status(401).json({
-        message: error
-      });
-    });
+      return res.status(400).json({ message: "utilisateur introuvable" })
+    })
+
 };
 
 /*------------------------------------UPDATE USER------------------------------------- */
 exports.modifyUser = (req, res, next) => {
-console.log(req.body);
 
   const emailMask2Options = {
     //caractere de masquage
@@ -172,21 +183,28 @@ console.log(req.body);
   userModel.isExistId(userId)
     .then(resultat => {
       if (resultat.nb === 1) {
-        //verification
-        if (userId === req.jwtToken.userId || isAdmin === true) {
-          userModel.update(name, firstname, email, emailMasked, userId)
-            .then(resultat => {
-              return res.status(200).json({ message: resultat });
-            })
-            .catch(error => {
-              return res.status(400).json({
-                message: error
-              });
-            });
-        }
-        else {
-          return res.status(401).json({ message: "Vous ne pouvez pas modifier l'utilisateur, vous n'avez pas les droits" });
-        }
+        userModel.findOneById(req.jwtToken.userId)
+          .then(user => {
+            //verification
+            if (userId === user[0].id || user[0].roles === "admin") {
+              userModel.update(name, firstname, email, emailMasked, userId)
+                .then(resultat => {
+                  return res.status(200).json({ message: resultat });
+                })
+                .catch(error => {
+                  return res.status(400).json({
+                    message: error
+                  });
+                });
+            }
+            else {
+              return res.status(401).json({ message: "Vous ne pouvez pas modifier l'utilisateur, vous n'avez pas les droits" });
+            }
+          })
+          .catch(error => {
+            return res.status(400).json({ message: "utilisateur introuvable" })
+          })
+
       }
       else {
         return res.status(400).json({ message: "utilisateur introuvable" });
@@ -204,32 +222,38 @@ console.log(req.body);
 exports.deleteUser = (req, res, next) => {
 
   const userId = req.params.id;
-  const isAdmin = req.body.isAdmin;
 
-  userModel.isExistId(userId)
-    //on a notre promesse
-    .then((response) => {
-      //verification 
-      if (userId === req.jwtToken.userId || isAdmin === true) {
-        userModel.deleteOne(userId)
-          .then((result) => {
-            return res.status(200).json({ message: 'utilisateur supprimer' })
-          })
-          .catch((error) => {
-            return res.status(400).json({ message: "impossible de supprimer" });
-          })
-      }
-      else {
-        return res.status(401).json({ message: "Vous n'êtes pas cet utilisateur et vous n'avez pas les autorisation pour supprimer" });
-      }
-
+  userModel.findOneById(req.jwtToken.userId)
+    .then(user => {
+      userModel.isExistId(userId)
+        //on a notre promesse
+        .then((response) => {
+          //verification 
+          if (userId === req.jwtToken.userId || user[0].roles === "admin") {
+            userModel.deleteOne(userId)
+              .then((result) => {
+                return res.status(200).json({ message: 'utilisateur supprimer' })
+              })
+              .catch((error) => {
+                return res.status(400).json({ message: "impossible de supprimer" });
+              })
+          }
+          else {
+            return res.status(401).json({ message: "Vous n'êtes pas cet utilisateur et vous n'avez pas les autorisation pour supprimer" });
+          }
+        })
+        //erreur promesse
+        .catch(error => {
+          return res.status(401).json({
+            message: error
+          });
+        });
     })
-    //erreur promesse
     .catch(error => {
-      return res.status(401).json({
-        message: error
-      });
-    });
+      return res.status(400).json({ message: "utilisateur introuvable" })
+    })
+
+
 
 
 };

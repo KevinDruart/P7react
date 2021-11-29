@@ -3,6 +3,7 @@ const fs = require('fs');
 
 //modele post
 const postModel = require('../models/postModel.js');
+const userModel = require('../models/userModel');
 
 /*------------------------------CREATE POST------------------------------------- */
 exports.addPost = (req, res, next) => {
@@ -61,73 +62,75 @@ exports.getAllPostByIdMember = (req, res, next) => {
 exports.updatePost = (req, res, next) => {
   console.log(req.body);
   const postId = req.params.id;
-  const isAdmin = req.body.isAdmin;
+  userModel.findOneById(req.jwtToken.userId)
+    .then(user => {
+      postModel.find(postId)
+        .then(post => {
+          console.log('je suis ici');
+          console.log(post);
+          let postObject = req.file ?
+            { ...JSON.parse(req.body.post), imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` }
+            : { ...req.body };
 
-  postModel.find(postId)
-    .then(post => {
-      console.log('je suis ici');
-      console.log(post);
-      let postObject = req.file ?
-        { ...JSON.parse(req.body.post), imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` }
-        : { ...req.body };
+          postObject = { ...postObject, userId: req.jwtToken.userId, postId };
 
-      postObject = { ...postObject, userId: req.jwtToken.userId, postId };
 
-      if (post.user_id === postObject.userId || isAdmin === true) {
-        postModel.update(postObject)
-          //on a une promesse
-          .then(response => {
-            return res.status(201).json({ message: 'post modifié' });
-          })
-          //on a une erreur
-          .catch(error => {
-            return res.status(400).json({ error: "le post ne peut pas etre modifier" });
-          });
-      }
-      else {
-        return res.status(401).json({message:"vous n'avez pas les droits de modifier ce post"});
-      }
+          if (post.user_id === user[0].id || user[0].roles === "admin") {
+            postModel.update(postObject)
+              //on a une promesse
+              .then(response => {
+                return res.status(201).json({ message: 'post modifié' });
+              })
+              //on a une erreur
+              .catch(error => {
+                return res.status(400).json({ error: "le post ne peut pas etre modifier" });
+              });
+          }
+          else {
+            return res.status(401).json({ message: "vous n'avez pas les droits de modifier ce post" });
+          }
+        })
+        .catch(error => {
+          return res.status(404).json({ error: "le post est introuvable" });
+        });
     })
     .catch(error => {
-      return res.status(404).json({ error: "le post est introuvable" });
-    });
+      return res.status(400).json({ message: "utilisateur introuvable" })
+    })
+
+
 }
 
 /*------------------------------------DELETE POST------------------------------------- */
 exports.deletePost = (req, res, next) => {
-  console.log(req.body);
   const postId = req.params.id;
-  const isAdmin = req.body.isAdmin;
 
-  console.log(isAdmin);
-  
-  postModel.find(postId)
-    .then(post => {
-      console.log(post)
-      console.log(post.user_id);
-      console.log(req.jwtToken.userId);
-      if (post.user_id === req.jwtToken.userId || isAdmin === true) {
-        postModel.deletePostsById(post.id)
-          //on a notre promesse
-          .then(reponse => {
-            return res.status(200).json({ message: 'post supprimer' });
-          })
-          //erreur promesse
-          .catch(error => {
-            return res.status(401).json({ message: error });
-          });
-      }
-      else {
-        return res.status(401).json({ message: "Vous n'êtes pas propriétaire du post et n'avez pas les autorisations de le modifier" });
-      }
-
+  userModel.findOneById(req.jwtToken.userId)
+    .then(user => {
+      postModel.find(postId)
+        .then(post => {
+          if (post.user_id === user[0].id || user[0].roles === "admin") {
+            
+            postModel.deletePostsById(post.id)
+              //on a notre promesse
+              .then(reponse => {
+                return res.status(200).json({ message: 'post supprimer' });
+              })
+              //erreur promesse
+              .catch(error => {
+                return res.status(401).json({ message: error });
+              });
+          }
+          else {
+            return res.status(401).json({ message: "Vous n'êtes pas propriétaire du post et n'avez pas les autorisations de le modifier" });
+          }
+        })
+        .catch(error => {
+          return res.status(404).json({ message: "le post est introuvable" });
+        })
     })
     .catch(error => {
-      return res.status(404).json({ message: "le post est introuvable" });
+      return res.status(400).json({ message: "utilisateur introuvable" })
     })
-
-
-
-
 };
 

@@ -7,4 +7,6 @@ export default React.createContext({
     setUserId: value => {},
     isAdmin:false,
     setIsAdmin: value => {},
+    token: null,
+    setToken: value => {},
 });

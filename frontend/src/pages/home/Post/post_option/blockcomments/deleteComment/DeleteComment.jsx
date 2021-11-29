@@ -8,8 +8,7 @@ import LoginContext from '../../../../../../contextes/LoginContext';
 
 const DeleteComment = (props) => {
     const history = useHistory();
-
-    const { isAdmin } = useContext(LoginContext);
+    const { token } = useContext(LoginContext);
 
     const handleDelete = () => {
         Swal.fire({
@@ -24,8 +23,8 @@ const DeleteComment = (props) => {
         })
             .then((result) => {
                 if (result.isConfirmed) {
-                    axios.delete("http://localhost:3000/api/comments/" + props.commentId, isAdmin, {
-                        headers: { Authorization: `Bearer ${props.token}` },
+                    axios.delete("http://localhost:3000/api/comments/" + props.commentId, {
+                        headers: { Authorization: `Bearer ${token}` },
                     })
                         .then(response => {
                             if (response.status === 200) {

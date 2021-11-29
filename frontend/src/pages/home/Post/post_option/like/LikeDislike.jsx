@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from "react-router";
 import axios from 'axios';
 import Swal from 'sweetalert2';
+
+import LoginContext from '../../../../../contextes/LoginContext';
 
 //import des elements react-bootstrap
 import ButtonGroup from "react-bootstrap/ButtonGroup";
@@ -13,6 +15,7 @@ const LikeDislike = (props) => {
     const [disliked, setDisliked] = useState([]);
     const [userLikeIt, setUserLikeIt] = useState(0);
     const [userDislikeIt, setUserDislikeIt] = useState(0);
+    const { token } = useContext(LoginContext);
 
     const history = useHistory();
 
@@ -24,7 +27,6 @@ const LikeDislike = (props) => {
     //click like
     const handleClickLike = (e) => {
         e.preventDefault();
-        // setLikes(1);
         sendLike(userLikeIt === 1 ? 0 : 1);
         if (userLikeIt === 1) {
             setLiked(liked - 1)
@@ -43,8 +45,6 @@ const LikeDislike = (props) => {
     //click dislike
     const handleClickDislike = (e) => {
         e.preventDefault();
-        // setLikes(-1);
-        // sendLike();
         sendLike(userDislikeIt === 1 ? 0 : -1);
         if (userDislikeIt === 1) {
             setDisliked(disliked - 1)
@@ -68,7 +68,7 @@ const LikeDislike = (props) => {
         };
 
         axios.post("http://localhost:3000/api/likes/" + props.postId, like, {
-            headers: { Authorization: `Bearer ${props.token}` },
+            headers: { Authorization: `Bearer ${token}` },
         })
             .then((response) => {
                 Swal.fire({
